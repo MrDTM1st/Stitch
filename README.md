@@ -97,11 +97,11 @@ works everywhere. The block is clearly delimited and commented.
 - **Three garments** — hoodie (hood, drawstrings, kangaroo pocket), t-shirt (crew
   neck), polo (folded collar, placket, buttons, cuffs), built as real 3D meshes.
 - **PBR fabric** — cloth sheen + a procedural woven normal map, soft studio
-  lighting, environment reflections (procedural `RoomEnvironment`), and a soft
-  contact shadow.
+  lighting, environment reflections (procedural `RoomEnvironment`), and a real
+  shadow-mapped soft shadow grounding the garment.
 - **Drag to rotate** — OrbitControls; gentle auto-rotate when idle.
-- **Upload your design** — projected onto the chest as a curved "print" that wraps
-  the body.
+- **Upload your design** — projected onto the chest as a real `DecalGeometry`
+  print that conforms to (wraps) the garment surface.
 - **Resize** the design with a slider; **click the garment** to reposition the print.
 - **6 fabric colours** (white, teal, navy, charcoal, gold, burgundy) + instant
   garment switching.
@@ -169,6 +169,7 @@ in `localStorage` and defaults to `Calm` when the OS requests reduced motion.
 | File | Purpose |
 |---|---|
 | `index.html` | The entire website — markup, styles, page logic, and the inline 3D studio |
+| `assets/OIP.webp` | The real brand logo image (used big in the hero and showcase) |
 | `assets/favicon.svg` | Site favicon (stitch mark) |
 | `README.md` | This file |
 | `tests/smoke.mjs` | Offline Playwright smoke test of the page and 3D studio |
@@ -176,9 +177,12 @@ in `localStorage` and defaults to `Calm` when the OS requests reduced motion.
 | `.htmlvalidate.json` | HTML linter configuration |
 | `.github/workflows/deploy.yml` | Auto-deploys the site to GitHub Pages on push to `main` |
 | `.claude/hooks/session-start.sh` | Installs dev tools in Claude Code web sessions |
+| `railpack.json` | Railway static-file deploy provider |
 
-The logo, hero patch, and the six brand patches are **inline SVG** (crisp,
-themeable, no extra requests, and they pick up the page's web fonts).
+The **real logo image** (`assets/OIP.webp`) is featured on the white embroidered
+patches in the hero and showcase. A faithful **inline SVG** re-creation of the same
+mark handles the nav and footer, where it stays crisp at small sizes and flips to a
+light "MILTON KEYNES" on the dark footer. The six brand patches are inline SVG too.
 
 ---
 

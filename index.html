@@ -128,12 +128,11 @@ input[type=range]:focus-visible::-moz-range-thumb{box-shadow:0 0 0 3px rgba(46,1
   box-shadow:0 1px 0 rgba(16,40,47,.07), 0 10px 30px -22px rgba(10,63,84,.5);
   padding-block:.6rem;
 }
-.brand{display:flex;align-items:center;gap:.7rem}
-.brand .logo{width:42px;height:42px;flex:none}
-.brand-text{display:flex;flex-direction:column;line-height:1}
-.brand-text b{font-family:var(--script);font-size:1.5rem;font-weight:400;color:var(--deep);letter-spacing:.01em}
-.nav.frost .brand-text b, .brand-text b{color:var(--deep)}
-.brand-text span{font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin-top:2px}
+.brand{display:flex;align-items:center}
+.brand-logo{height:46px;width:auto;flex:none;display:block}
+@media (max-width:520px){ .brand-logo{height:38px} }
+/* Dark panels: wordmark subtext flips to white */
+.showcase,.contact{--logo-ink:#fff}
 .nav-links{display:flex;align-items:center;gap:2rem}
 .nav-links a.link{font-weight:500;font-size:.95rem;color:var(--ink);position:relative;padding:.2rem 0;transition:color .25s}
 .nav-links a.link::after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;background:var(--teal);transition:width .3s var(--ease)}
@@ -192,16 +191,23 @@ body.nav-open{overflow:hidden}
 /* Hero patch (faux-3D embroidered logo) */
 .hero-stage{position:relative;display:grid;place-items:center;min-height:min(60vh,480px);perspective:1100px}
 .patch3d{
-  position:relative;width:min(78%,360px);aspect-ratio:1;transform-style:preserve-3d;
+  position:relative;width:min(94%,440px);aspect-ratio:1.55/1;transform-style:preserve-3d;
   animation:float 7s ease-in-out infinite;transition:transform .18s ease-out;
-  filter:drop-shadow(0 40px 55px rgba(7,46,61,.32));
+  filter:drop-shadow(0 40px 55px rgba(7,46,61,.30));
 }
 @keyframes float{0%,100%{transform:translateY(-8px)}50%{transform:translateY(12px)}}
-.patch3d .layer{position:absolute;inset:0}
+.patch-card{
+  position:absolute;inset:0;border-radius:26px;display:grid;place-items:center;
+  padding:clamp(1rem,5%,2.2rem);
+  background:#fff;
+  box-shadow:inset 0 0 0 3px rgba(255,255,255,.75), inset 0 0 0 4px rgba(46,167,213,.14);
+}
+.patch-card::before{content:"";position:absolute;inset:11px;border-radius:18px;border:2.5px dashed rgba(46,167,213,.32);pointer-events:none;z-index:1}
+.patch-logo{width:100%;height:auto;position:relative;object-fit:contain;display:block}
 .patch3d .sheen{
-  position:absolute;inset:0;border-radius:50%;mix-blend-mode:screen;pointer-events:none;
-  background:radial-gradient(circle at var(--mx,35%) var(--my,30%), rgba(255,255,255,.75), rgba(255,255,255,0) 42%);
-  opacity:.7;transition:background .1s linear;
+  position:absolute;inset:0;border-radius:26px;mix-blend-mode:screen;pointer-events:none;
+  background:radial-gradient(circle at var(--mx,35%) var(--my,28%), rgba(255,255,255,.7), rgba(255,255,255,0) 44%);
+  opacity:.65;transition:background .1s linear;
 }
 .hero-flourish{position:absolute;top:5.5rem;right:clamp(1rem,4vw,3rem);width:clamp(120px,16vw,190px);opacity:.9;pointer-events:none}
 .hero-flourish path,.hero-flourish line{stroke-dasharray:400;stroke-dashoffset:400;animation:draw-underline 2.2s var(--ease) 1s forwards}
@@ -224,7 +230,7 @@ body.nav-open{overflow:hidden}
   .hero-copy .lead{margin-inline:auto}
   .hero-actions,.hero-trust{justify-content:center}
   .hero-stage{order:-1;min-height:auto;margin-bottom:1rem}
-  .patch3d{width:min(62%,260px)}
+  .patch3d{width:min(86%,360px)}
   .hero-flourish{display:none}
 }
 
@@ -277,7 +283,13 @@ section{position:relative}
 .showcase h2{color:#fff}
 .showcase p{color:rgba(255,255,255,.72);margin-top:1rem}
 .showcase .float-stage{position:relative;min-height:320px;display:grid;place-items:center}
-.showcase .float-logo{width:min(58%,240px);filter:drop-shadow(0 24px 40px rgba(0,0,0,.4));animation:float 8s ease-in-out infinite}
+.showcase .float-logo{
+  width:min(76%,330px);aspect-ratio:1.55/1;border-radius:24px;--logo-ink:#16282F;
+  background:#fff;padding:clamp(1rem,5%,1.7rem);
+  display:grid;place-items:center;animation:float 8s ease-in-out infinite;
+  box-shadow:0 34px 64px -22px rgba(0,0,0,.6), inset 0 0 0 4px rgba(46,167,213,.14);
+}
+.showcase .float-logo svg,.showcase .float-logo img{width:100%;height:auto;display:block}
 .showcase .mini-patch{position:absolute;width:88px;animation:float 6s ease-in-out infinite;filter:drop-shadow(0 14px 22px rgba(0,0,0,.4))}
 .showcase .mini-patch.a{top:8%;left:4%;animation-delay:-1s}
 .showcase .mini-patch.b{bottom:6%;right:2%;width:104px;animation-delay:-3s}
@@ -417,6 +429,7 @@ input[type=range]:disabled{opacity:.4}
 .contact{background:linear-gradient(160deg,var(--deep),var(--deep-2));color:#fff}
 .contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,5vw,4rem);align-items:start}
 @media (max-width:820px){.contact-grid{grid-template-columns:1fr}}
+.footer-logo{height:62px;width:auto;display:block;margin-bottom:1.5rem}
 .contact h2{color:#fff}
 .contact .lead{color:rgba(255,255,255,.75)}
 .contact-actions{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:1.8rem}
@@ -473,24 +486,36 @@ input[type=range]:disabled{opacity:.4}
 </head>
 <body>
 
+<!-- ===== Brand logo (reusable). Recreated as vector from the Stitch MK mark:
+     teal oval, running-stitch "stitch" wordmark, threaded needle, MILTON KEYNES.
+     --logo-ink controls the wordmark subtext colour (dark on light, white on dark). -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <linearGradient id="smk-steel" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#c4c9d0"/><stop offset=".38" stop-color="#f4f6f9"/>
+    <stop offset=".6" stop-color="#a7adb6"/><stop offset="1" stop-color="#787e87"/>
+  </linearGradient>
+  <symbol id="smk-logo" viewBox="0 0 400 226">
+    <ellipse cx="200" cy="106" rx="188" ry="97" fill="none" stroke="#33A6DA" stroke-width="10.5"/>
+    <g fill="none" stroke="#33A6DA" stroke-width="8.5" stroke-linecap="round" stroke-dasharray="0.4 12.5">
+      <path d="M112 92 q-10 -12 -26 -8 q-17 5 -12 18 q4 10 22 12 q19 3 14 17 q-5 13 -28 8"/>
+      <path d="M132 66 L132 130 q0 12 13 10"/><path d="M116 96 L156 96"/>
+      <path d="M182 100 L182 140"/>
+      <path d="M232 66 L232 130 q0 12 13 10"/><path d="M216 96 L256 96"/>
+      <path d="M312 106 q-16 -12 -31 2 q-13 15 2 27 q15 11 30 -2"/>
+      <path d="M330 62 L330 140 M330 106 q13 -13 27 -3 q7 6 7 19 L371 140"/>
+    </g>
+    <circle cx="182" cy="84" r="4.6" fill="#33A6DA"/>
+    <path d="M200 40 q46 -4 50 30 q3 27 -24 31 q-22 3 -19 -16" fill="none" stroke="#2EA7D5" stroke-width="3.4" stroke-linecap="round"/>
+    <path d="M200 36 L205 150 Q200 165 195 150 Z" fill="url(#smk-steel)" stroke="#82878f" stroke-width="0.6"/>
+    <ellipse cx="200" cy="56" rx="2.3" ry="8" fill="#0A3F54"/>
+    <text x="200" y="200" text-anchor="middle" font-family="'Hanken Grotesque',Arial,sans-serif" font-size="27" font-weight="500" letter-spacing="7" fill="var(--logo-ink,#16282F)">MILTON KEYNES</text>
+  </symbol>
+</defs></svg>
+
 <!-- ======================= NAV ======================= -->
 <nav class="nav" id="nav">
   <a class="brand" href="#top" aria-label="Stitch Milton Keynes home">
-    <svg class="logo" viewBox="0 0 64 64" role="img" aria-hidden="true">
-      <defs>
-        <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#2EA7D5"/><stop offset="1" stop-color="#1A88B0"/>
-        </linearGradient>
-      </defs>
-      <circle cx="32" cy="32" r="30" fill="url(#lg)"/>
-      <circle cx="32" cy="32" r="30" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="4 4" opacity=".7"/>
-      <!-- needle -->
-      <path d="M20 44 L44 20" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
-      <circle cx="44" cy="20" r="3.4" fill="none" stroke="#fff" stroke-width="2.4"/>
-      <!-- thread -->
-      <path d="M20 44 q-6 4 -2 10 q5 6 12 2 q6 -4 1 -9" fill="none" stroke="#F6F3EC" stroke-width="2.4" stroke-linecap="round"/>
-    </svg>
-    <span class="brand-text"><b>Stitch</b><span>Milton Keynes</span></span>
+    <svg class="brand-logo" viewBox="0 0 400 226" aria-hidden="true"><use href="#smk-logo"/></svg>
   </a>
 
   <div class="nav-links" id="navLinks">
@@ -550,42 +575,9 @@ input[type=range]:disabled{opacity:.4}
 
     <div class="hero-stage reveal in" data-delay="2">
       <div class="patch3d" id="heroPatch">
-        <svg class="layer" viewBox="0 0 300 300" role="img" aria-label="Embroidered Stitch Milton Keynes patch">
-          <defs>
-            <radialGradient id="patchBg" cx="42%" cy="36%" r="70%">
-              <stop offset="0" stop-color="#3BB6E2"/><stop offset=".6" stop-color="#2EA7D5"/><stop offset="1" stop-color="#1A88B0"/>
-            </radialGradient>
-            <linearGradient id="merrow" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#F6F3EC"/><stop offset="1" stop-color="#D6D1DC"/>
-            </linearGradient>
-            <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="1.1"/>
-            </filter>
-          </defs>
-          <!-- merrow border: satin overlock edge built from radial dashes -->
-          <circle cx="150" cy="150" r="140" fill="url(#merrow)"/>
-          <circle cx="150" cy="150" r="140" fill="none" stroke="#C9C3D2" stroke-width="18" stroke-dasharray="5 4" opacity=".8"/>
-          <circle cx="150" cy="150" r="126" fill="url(#patchBg)"/>
-          <!-- inner satin ring -->
-          <circle cx="150" cy="150" r="126" fill="none" stroke="#1A88B0" stroke-width="2" stroke-dasharray="3 3" opacity=".5"/>
-          <circle cx="150" cy="150" r="104" fill="none" stroke="#F6F3EC" stroke-width="3" stroke-dasharray="6 6" opacity=".85"/>
-          <!-- needle + thread emblem -->
-          <g filter="url(#soft)">
-            <path d="M105 195 L195 105" stroke="#F6F3EC" stroke-width="9" stroke-linecap="round"/>
-            <path d="M105 195 L195 105" stroke="#EAE6EF" stroke-width="3" stroke-linecap="round" opacity=".7"/>
-            <circle cx="195" cy="105" r="10" fill="none" stroke="#F6F3EC" stroke-width="7"/>
-            <path d="M105 195 q-16 10 -6 26 q12 16 30 6 q16 -10 4 -24" fill="none" stroke="#C79A3B" stroke-width="7" stroke-linecap="round"/>
-          </g>
-          <!-- text arcs -->
-          <text fill="#F6F3EC" font-family="Newsreader, serif" font-size="26" font-weight="600" letter-spacing="2">
-            <textPath href="#topArc" startOffset="50%" text-anchor="middle">STITCH</textPath>
-          </text>
-          <path id="topArc" d="M60 150 A90 90 0 0 1 240 150" fill="none"/>
-          <path id="botArc" d="M64 158 A88 88 0 0 0 236 158" fill="none"/>
-          <text fill="#F6F3EC" font-family="Hanken Grotesque, sans-serif" font-size="14" font-weight="700" letter-spacing="3">
-            <textPath href="#botArc" startOffset="50%" text-anchor="middle">MILTON KEYNES</textPath>
-          </text>
-        </svg>
+        <div class="patch-card">
+          <img class="patch-logo" src="assets/OIP.webp" width="1896" height="1108" alt="Stitch Milton Keynes logo" />
+        </div>
         <div class="sheen" id="heroSheen"></div>
       </div>
     </div>
@@ -652,14 +644,7 @@ input[type=range]:disabled{opacity:.4}
         <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#C79A3B"/><circle cx="50" cy="50" r="46" fill="none" stroke="#fff" stroke-width="6" stroke-dasharray="4 4"/><path d="M35 62 L65 38" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg>
       </span>
       <span class="float-logo">
-        <svg viewBox="0 0 240 240" role="img" aria-label="Stitch logo mark">
-          <circle cx="120" cy="120" r="112" fill="#2EA7D5"/>
-          <circle cx="120" cy="120" r="112" fill="none" stroke="#fff" stroke-width="4" stroke-dasharray="6 6" opacity=".8"/>
-          <circle cx="120" cy="120" r="90" fill="none" stroke="#F6F3EC" stroke-width="3" stroke-dasharray="7 7" opacity=".7"/>
-          <path d="M80 160 L160 80" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
-          <circle cx="160" cy="80" r="10" fill="none" stroke="#fff" stroke-width="7"/>
-          <path d="M80 160 q-16 10 -6 26 q12 16 30 6 q16 -10 4 -24" fill="none" stroke="#C79A3B" stroke-width="7" stroke-linecap="round"/>
-        </svg>
+        <img src="assets/OIP.webp" width="1896" height="1108" loading="lazy" alt="Stitch Milton Keynes logo" />
       </span>
       <span class="mini-patch b">
         <svg viewBox="0 0 100 100"><rect x="8" y="8" width="84" height="84" rx="18" fill="#6E2233"/><rect x="8" y="8" width="84" height="84" rx="18" fill="none" stroke="#fff" stroke-width="6" stroke-dasharray="4 4"/><path d="M32 68 Q50 30 68 68" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg>
@@ -862,6 +847,7 @@ input[type=range]:disabled{opacity:.4}
   <div class="wrap">
     <div class="contact-grid">
       <div class="reveal">
+        <svg class="footer-logo" viewBox="0 0 400 226" role="img" aria-label="Stitch Milton Keynes logo"><use href="#smk-logo"/></svg>
         <span class="eyebrow" style="color:#8fd4ee">Say hello</span>
         <h2>Let us make something<br>you will love to wear</h2>
         <p class="lead" style="margin-top:1.2rem">Tell us about your project and we will get straight back to you. Visitors are welcome by appointment.</p>
@@ -1112,13 +1098,16 @@ input[type=range]:disabled{opacity:.4}
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import { DecalGeometry } from "three/addons/geometries/DecalGeometry.js";
 
 /* ---------------------------------------------------------------- state */
 const STORE_KEY = "smkStudio3d_v1";
 const COLORS = { white:0xF4F4F1, teal:0x2EA7D5, navy:0x16305A, charcoal:0x2B2F33, gold:0xC79A3B, burgundy:0x6E2233 };
 const GARMENTS = ["hoodie","tee","polo"];
 
-function defaults(){ return { garment:"hoodie", color:"white", size:1, print:null, printPos:{ angle:0, y:0.16 } }; }
+// state.decal = null (default chest projection) or { p:[x,y,z], n:[x,y,z] }
+function defaults(){ return { garment:"hoodie", color:"white", size:1, print:null, decal:null }; }
+function num3(a){ return Array.isArray(a) && a.length === 3 && a.every(n => typeof n === "number"); }
 function loadState(){
   try{
     const s = JSON.parse(localStorage.getItem(STORE_KEY));
@@ -1129,7 +1118,7 @@ function loadState(){
         color:   COLORS[s.color] !== undefined ? s.color : d.color,
         size:    typeof s.size === "number" ? Math.min(1.8, Math.max(0.5, s.size)) : d.size,
         print:   typeof s.print === "string" ? s.print : null,
-        printPos:(s.printPos && typeof s.printPos.angle === "number") ? s.printPos : d.printPos
+        decal:   (s.decal && num3(s.decal.p) && num3(s.decal.n)) ? s.decal : null
       };
     }
   }catch(e){}
@@ -1164,127 +1153,127 @@ function boot(){
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.0;
+  renderer.toneMappingExposure = 1.02;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   sizeRenderer();
   stageEl.appendChild(renderer.domElement);
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(34, aspect(), 0.1, 100);
-  camera.position.set(0, 0.25, 6.3);
+  const camera = new THREE.PerspectiveCamera(33, aspect(), 0.1, 100);
+  camera.position.set(0, 0.2, 6.1);
 
   // Procedural studio environment for soft PBR reflections
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
   pmrem.dispose(); // the generated env texture is independent of the generator
 
-  // Lighting — kept gentle so the environment map does most of the work and
-  // dark fabric colours stay saturated instead of blowing out to white.
-  const hemi = new THREE.HemisphereLight(0xffffff, 0x9aa7b0, 0.28); scene.add(hemi);
-  const key = new THREE.DirectionalLight(0xffffff, 1.05); key.position.set(3, 5, 4); scene.add(key);
-  const fill = new THREE.DirectionalLight(0xd9ecff, 0.32); fill.position.set(-4, 1.5, 2); scene.add(fill);
-  const rim = new THREE.DirectionalLight(0xffffff, 0.5); rim.position.set(0, 2, -5); scene.add(rim);
+  // Lighting — gentle so dark fabrics stay saturated; the key light casts a soft shadow.
+  const hemi = new THREE.HemisphereLight(0xffffff, 0x8f9aa4, 0.30); scene.add(hemi);
+  const key = new THREE.DirectionalLight(0xffffff, 1.15); key.position.set(3.5, 6, 4.5);
+  key.castShadow = true;
+  key.shadow.mapSize.set(1024, 1024);
+  key.shadow.camera.near = 1; key.shadow.camera.far = 20;
+  key.shadow.camera.left = -3.5; key.shadow.camera.right = 3.5;
+  key.shadow.camera.top = 3.5; key.shadow.camera.bottom = -3.5;
+  key.shadow.bias = -0.0006; key.shadow.radius = 8;
+  scene.add(key);
+  const fill = new THREE.DirectionalLight(0xdceeff, 0.35); fill.position.set(-4, 1.5, 2); scene.add(fill);
+  const rim  = new THREE.DirectionalLight(0xffffff, 0.55); rim.position.set(-1, 2.5, -5); scene.add(rim);
+
+  // Soft ground shadow catcher (real shadow map, grounds the garment)
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.ShadowMaterial({ color:0x0a2833, opacity:0.24 }));
+  ground.rotation.x = -Math.PI/2; ground.position.y = -1.72; ground.receiveShadow = true; scene.add(ground);
 
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
-  controls.dampingFactor = 0.08;
-  controls.enablePan = false;
-  controls.minDistance = 4.4;
-  controls.maxDistance = 9;
-  controls.minPolarAngle = 0.55;
-  controls.maxPolarAngle = 2.15;
-  controls.target.set(0, 0.05, 0);
+  controls.enableDamping = true; controls.dampingFactor = 0.08; controls.enablePan = false;
+  controls.minDistance = 4.2; controls.maxDistance = 9;
+  controls.minPolarAngle = 0.6; controls.maxPolarAngle = 2.05;
+  controls.target.set(0, 0.02, 0);
   controls.autoRotate = document.documentElement.getAttribute("data-motion") !== "calm";
-  controls.autoRotateSpeed = 0.85;
+  controls.autoRotateSpeed = 0.8;
 
-  // Shared assets
-  const weaveNormal = makeWeaveNormal();
-  // Shared trims (created once, reused across garments). Flagged so disposeObject
-  // never frees them when a garment group is torn down on switch.
+  // Shared assets (created once, reused across garment rebuilds; flagged so
+  // disposeObject never frees them when a garment group is torn down).
+  const fabricNormal = makeFabricNormal();
   const cordMat = new THREE.MeshPhysicalMaterial({ color:0xece9f1, roughness:0.7, sheen:0.5 });
   const darkTrimMat = new THREE.MeshStandardMaterial({ color:0x20262b, roughness:0.6, metalness:0.1 });
   cordMat.userData.keep = true;
   darkTrimMat.userData.keep = true;
 
-  // Contact shadow
-  const shadow = makeContactShadow();
-  shadow.position.y = -1.72;
-  scene.add(shadow);
+  // Logo print: a real projected decal that conforms to the garment surface.
+  const decalMat = new THREE.MeshPhysicalMaterial({
+    map:null, transparent:true, roughness:0.6, metalness:0.0, sheen:0.25, envMapIntensity:0.35,
+    polygonOffset:true, polygonOffsetFactor:-6, polygonOffsetUnits:-6, depthTest:true, depthWrite:false
+  });
+  decalMat.userData.keep = true;
 
-  // Garment + print
+  // Garment + logo runtime state
   let garment = null;
   let bodyMeshes = [];
   let fabricMats = [];
-  const printTex = { value:null };
-  let printMesh = buildPrintMesh();
-  printMesh.visible = false;
+  let logoTex = null;
+  let decalMesh = null;
+  const decalHelper = new THREE.Object3D();
+  const ray = new THREE.Raycaster();
+  const ndc = new THREE.Vector2();
 
   buildGarment(state.garment);
-
-  // Restore persisted print
-  if(state.print){ loadPrintFromDataURL(state.print); }
+  if(state.print){ loadLogo(state.print); }
 
   /* ---------- garment construction ---------- */
   function fabricMaterial(){
     const m = new THREE.MeshPhysicalMaterial({
       color: new THREE.Color(COLORS[state.color]),
-      roughness: 0.86, metalness: 0.0,
-      sheen: 0.6, sheenRoughness: 0.85, sheenColor: new THREE.Color(0xffffff),
-      normalMap: weaveNormal, normalScale: new THREE.Vector2(0.3, 0.3),
-      envMapIntensity: 0.85
+      roughness: 0.9, metalness: 0.0,
+      sheen: 0.5, sheenRoughness: 0.9, sheenColor: new THREE.Color(0xffffff),
+      normalMap: fabricNormal, normalScale: new THREE.Vector2(0.38, 0.38),
+      envMapIntensity: 0.75
     });
     fabricMats.push(m);
     return m;
   }
-  function addFabric(group, geo, isBody){
-    const mesh = new THREE.Mesh(geo, fabricMaterial());
-    group.add(mesh);
-    if(isBody) bodyMeshes.push(mesh);
-    return mesh;
+  function mesh(group, geo, mat, isBody){
+    const mm = new THREE.Mesh(geo, mat);
+    mm.castShadow = true; mm.receiveShadow = !!isBody;
+    group.add(mm);
+    if(isBody) bodyMeshes.push(mm);
+    return mm;
   }
+  function addFabric(group, geo, isBody){ return mesh(group, geo, fabricMaterial(), isBody); }
 
   function torsoGeometry(){
-    // profile from hem (bottom) up to the collar hole, revolved around Y
+    // profile from a rounded hem up to the collar hole, revolved around Y
     const pts = [
-      new THREE.Vector2(1.02, -1.55),
-      new THREE.Vector2(0.98, -1.05),
-      new THREE.Vector2(0.94, -0.45),
-      new THREE.Vector2(1.02,  0.30),
-      new THREE.Vector2(1.14,  0.92),
-      new THREE.Vector2(1.02,  1.12),
-      new THREE.Vector2(0.72,  1.20),
-      new THREE.Vector2(0.44,  1.24)
+      new THREE.Vector2(0.90, -1.66), new THREE.Vector2(1.00, -1.55),
+      new THREE.Vector2(0.99, -1.00), new THREE.Vector2(0.96, -0.40),
+      new THREE.Vector2(1.02,  0.28), new THREE.Vector2(1.12,  0.80),
+      new THREE.Vector2(1.18,  1.00), new THREE.Vector2(1.04,  1.14),
+      new THREE.Vector2(0.72,  1.20), new THREE.Vector2(0.44,  1.26)
     ];
-    const geo = new THREE.LatheGeometry(pts, 48);
-    geo.scale(1, 1, 0.62); // flatten front-to-back into a torso oval
+    const geo = new THREE.LatheGeometry(pts, 72);
+    geo.scale(1, 1, 0.6); // flatten front-to-back into a torso oval
     geo.computeVertexNormals();
     return geo;
   }
 
-  function sleeve(group, side, opts){
-    const { len, rTop, rBot, cuff } = opts;
+  function sleeve(group, side, len, rTop, rBot){
     const g = new THREE.Group();
-    const geo = new THREE.CylinderGeometry(rTop, rBot, len, 24, 1, false);
-    const m = addFabric(g, geo, false);
-    m.position.y = -len/2;
-    if(cuff){
-      const cg = new THREE.TorusGeometry(rBot, 0.055, 10, 24);
-      const cm = new THREE.Mesh(cg, fabricMaterial());
-      cm.position.y = -len; cm.rotation.x = Math.PI/2;
-      g.add(cm);
-    } else {
-      const cap = addFabric(g, new THREE.SphereGeometry(rBot, 18, 14, 0, Math.PI*2, 0, Math.PI/2), false);
-      cap.position.y = -len; cap.rotation.x = Math.PI;
-    }
-    g.position.set(side * 1.02, 0.72, 0);
-    g.rotation.z = side * 0.62;           // angle down and out
-    g.scale.z = 0.9;
+    const arm = addFabric(g, new THREE.CylinderGeometry(rTop, rBot, len, 28, 1, false), false);
+    arm.position.y = -len/2;
+    const cuff = mesh(g, new THREE.TorusGeometry(rBot*0.98, rBot*0.17, 10, 26), fabricMaterial(), false);
+    cuff.position.y = -len; cuff.rotation.x = Math.PI/2;   // ribbed cuff
+    g.position.set(side * 0.98, 0.66, 0);
+    g.rotation.z = side * 0.55;   // angle down and out
+    g.scale.z = 0.92;
     group.add(g);
     return g;
   }
 
   function buildGarment(type){
-    if(garment){ garment.remove(printMesh); scene.remove(garment); disposeObject(garment); }
+    if(garment){ scene.remove(garment); disposeObject(garment); }
+    decalMesh = null;
     bodyMeshes = []; fabricMats = [];
     garment = new THREE.Group();
 
@@ -1292,99 +1281,94 @@ function boot(){
     addFabric(garment, torsoGeometry(), true);
 
     if(type === "hoodie"){
-      sleeve(garment, -1, { len:1.85, rTop:0.34, rBot:0.24, cuff:false });
-      sleeve(garment,  1, { len:1.85, rTop:0.34, rBot:0.24, cuff:false });
+      sleeve(garment, -1, 1.78, 0.34, 0.24);
+      sleeve(garment,  1, 1.78, 0.34, 0.24);
       // hood (bunched dome behind the neck)
-      const hoodGeo = new THREE.SphereGeometry(0.62, 28, 20, 0, Math.PI*2, 0, Math.PI*0.62);
+      const hoodGeo = new THREE.SphereGeometry(0.62, 32, 22, 0, Math.PI*2, 0, Math.PI*0.62);
       hoodGeo.scale(1, 0.9, 0.75);
       const hood = addFabric(garment, hoodGeo, false);
       hood.position.set(0, 1.02, -0.28); hood.rotation.x = -0.5;
-      // hood opening trim
-      const trim = new THREE.Mesh(new THREE.TorusGeometry(0.44, 0.05, 10, 30), fabricMaterial());
-      trim.position.set(0, 1.12, 0.02); trim.rotation.x = 1.15; garment.add(trim);
+      const trim = mesh(garment, new THREE.TorusGeometry(0.44, 0.05, 10, 30), fabricMaterial(), false);
+      trim.position.set(0, 1.12, 0.02); trim.rotation.x = 1.15;
+      // ribbed waistband
+      const hem = mesh(garment, new THREE.TorusGeometry(0.9, 0.09, 12, 60), fabricMaterial(), false);
+      hem.position.set(0, -1.58, 0); hem.rotation.x = Math.PI/2; hem.scale.z = 0.6;
       // kangaroo pocket
-      const pkt = new THREE.Mesh(roundedBox(1.25, 0.62, 0.12, 0.1), fabricMaterial());
-      pkt.position.set(0, -0.72, 0.60); pkt.scale.z = 0.9; garment.add(pkt);
+      const pkt = mesh(garment, roundedBox(1.25, 0.62, 0.12, 0.1), fabricMaterial(), false);
+      pkt.position.set(0, -0.72, 0.60); pkt.scale.z = 0.9;
       // drawstrings
       [-0.13, 0.13].forEach(function(x){
-        const cord = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.55, 8), cordMat);
-        cord.position.set(x, 0.82, 0.6); garment.add(cord);
-        const aglet = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.07, 8), darkTrimMat);
-        aglet.position.set(x, 0.53, 0.6); garment.add(aglet);
+        const cord = mesh(garment, new THREE.CylinderGeometry(0.018, 0.018, 0.55, 8), cordMat, false);
+        cord.position.set(x, 0.82, 0.6);
+        const aglet = mesh(garment, new THREE.CylinderGeometry(0.03, 0.03, 0.07, 8), darkTrimMat, false);
+        aglet.position.set(x, 0.53, 0.6);
       });
     } else if(type === "tee"){
-      sleeve(garment, -1, { len:0.7, rTop:0.4, rBot:0.42, cuff:false });
-      sleeve(garment,  1, { len:0.7, rTop:0.4, rBot:0.42, cuff:false });
-      // crew neck rib
-      const neck = new THREE.Mesh(new THREE.TorusGeometry(0.42, 0.06, 12, 32), fabricMaterial());
-      neck.position.set(0, 1.2, 0); neck.rotation.x = Math.PI/2; neck.scale.z = 0.62; garment.add(neck);
+      sleeve(garment, -1, 0.66, 0.40, 0.42);
+      sleeve(garment,  1, 0.66, 0.40, 0.42);
+      const neck = mesh(garment, new THREE.TorusGeometry(0.42, 0.06, 12, 32), fabricMaterial(), false);
+      neck.position.set(0, 1.2, 0); neck.rotation.x = Math.PI/2; neck.scale.z = 0.6;
     } else { // polo
-      sleeve(garment, -1, { len:0.78, rTop:0.4, rBot:0.4, cuff:true });
-      sleeve(garment,  1, { len:0.78, rTop:0.4, rBot:0.4, cuff:true });
-      // collar
-      const collar = new THREE.Mesh(new THREE.TorusGeometry(0.42, 0.075, 12, 32, Math.PI*1.25), fabricMaterial());
-      collar.position.set(0, 1.16, 0.02); collar.rotation.set(1.35, 0, Math.PI*0.375); collar.scale.z = 0.7; garment.add(collar);
-      // placket
+      sleeve(garment, -1, 0.74, 0.40, 0.40);
+      sleeve(garment,  1, 0.74, 0.40, 0.40);
+      const collar = mesh(garment, new THREE.TorusGeometry(0.42, 0.075, 12, 32, Math.PI*1.25), fabricMaterial(), false);
+      collar.position.set(0, 1.16, 0.02); collar.rotation.set(1.35, 0, Math.PI*0.375); collar.scale.z = 0.7;
       const plk = addFabric(garment, roundedBox(0.16, 0.62, 0.06, 0.03), false);
       plk.position.set(0, 0.86, 0.60); plk.scale.z = 0.9;
-      // buttons
       [1.0, 0.72].forEach(function(y){
-        const b = new THREE.Mesh(new THREE.SphereGeometry(0.035, 12, 10), cordMat);
-        b.position.set(0, y, 0.63); garment.add(b);
+        const b = mesh(garment, new THREE.SphereGeometry(0.035, 12, 10), cordMat, false);
+        b.position.set(0, y, 0.63);
       });
     }
 
-    garment.add(printMesh);
     applyColor();
-    applyPrintTransform();
     scene.add(garment);
+    garment.updateMatrixWorld(true);
+    rebuildDecal();
   }
 
-  /* ---------- print (curved chest patch) ---------- */
-  function buildPrintMesh(){
-    const mat = new THREE.MeshPhysicalMaterial({
-      transparent:true, roughness:0.62, metalness:0.0,
-      sheen:0.2, envMapIntensity:0.3,
-      polygonOffset:true, polygonOffsetFactor:-2, polygonOffsetUnits:-2,
-      depthWrite:false
-    });
-    const mesh = new THREE.Mesh(printGeometry(1), mat);
-    return mesh;
+  /* ---------- logo decal (projected, conforms to the surface) ---------- */
+  function defaultDecal(){
+    // raycast straight into the chest to find the exact surface point + normal
+    ray.set(new THREE.Vector3(0, 0.18, 5), new THREE.Vector3(0, 0, -1));
+    const hits = bodyMeshes.length ? ray.intersectObjects(bodyMeshes, false) : [];
+    if(hits.length){
+      const n = hits[0].face.normal.clone().transformDirection(hits[0].object.matrixWorld).normalize();
+      const p = hits[0].point;
+      return { p:[p.x, p.y, p.z], n:[n.x, n.y, n.z] };
+    }
+    return { p:[0, 0.18, 0.62], n:[0, 0, 1] };
   }
-  function printGeometry(size){
-    const R = 0.70;                                   // sits just proud of the chest
-    const arc = THREE.MathUtils.degToRad(40) * size;  // angular width
-    const img = printTex.value && printTex.value.image;
-    const aspect = (img && img.width && img.height) ? (img.width / img.height) : 1;
-    const worldW = R * arc;
-    const worldH = worldW / aspect;
-    return new THREE.CylinderGeometry(R, R, worldH, 40, 1, true, -arc/2, arc);
+  function rebuildDecal(){
+    if(decalMesh){ garment.remove(decalMesh); decalMesh.geometry.dispose(); decalMesh = null; }
+    if(!logoTex || !bodyMeshes.length) return;
+    const d = state.decal || defaultDecal();
+    const pos = new THREE.Vector3(d.p[0], d.p[1], d.p[2]);
+    const nrm = new THREE.Vector3(d.n[0], d.n[1], d.n[2]).normalize();
+    decalHelper.position.copy(pos);
+    decalHelper.lookAt(pos.clone().add(nrm));
+    const img = logoTex.image;
+    const aspect = (img && img.width && img.height) ? img.width / img.height : 1;
+    const w = 0.95 * state.size;
+    const size = new THREE.Vector3(w, w / aspect, 0.5);
+    decalMesh = new THREE.Mesh(new DecalGeometry(bodyMeshes[0], pos, decalHelper.rotation.clone(), size), decalMat);
+    decalMesh.castShadow = false; decalMesh.renderOrder = 2;
+    garment.add(decalMesh);
   }
-  function rebuildPrintGeometry(){
-    const old = printMesh.geometry;
-    printMesh.geometry = printGeometry(state.size);
-    old.dispose();
-  }
-  function applyPrintTransform(){
-    printMesh.rotation.y = state.printPos.angle;
-    printMesh.position.y = state.printPos.y;
-  }
-  function loadPrintFromDataURL(url){
+  function loadLogo(url){
     const img = new Image();
     img.onload = function(){
       const tex = new THREE.Texture(img);
       tex.colorSpace = THREE.SRGBColorSpace;
       tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
       tex.needsUpdate = true;
-      if(printTex.value) printTex.value.dispose();
-      printTex.value = tex;
-      printMesh.material.map = tex;
-      printMesh.material.needsUpdate = true;
-      rebuildPrintGeometry();
-      printMesh.visible = true;
+      if(logoTex) logoTex.dispose();
+      logoTex = tex;
+      decalMat.map = tex; decalMat.needsUpdate = true;
       sizeInput.disabled = false;
+      rebuildDecal();
     };
-    img.onerror = function(){ console.warn("[studio] could not load saved print"); };
+    img.onerror = function(){ setStatus("Sorry, that file could not be read. Please try another image."); };
     img.src = url;
   }
 
@@ -1394,9 +1378,7 @@ function boot(){
     fabricMats.forEach(function(m){ m.color.copy(c); });
   }
 
-  /* ---------- interaction: click to place ---------- */
-  const ray = new THREE.Raycaster();
-  const ndc = new THREE.Vector2();
+  /* ---------- interaction: click to place the logo ---------- */
   let down = null;
   renderer.domElement.addEventListener("pointerdown", function(e){ down = { x:e.clientX, y:e.clientY, t:performance.now() }; });
   renderer.domElement.addEventListener("pointerup", function(e){
@@ -1407,20 +1389,18 @@ function boot(){
     if(moved < 6 && quick) placeAt(e.clientX, e.clientY);
   });
   function placeAt(clientX, clientY){
-    if(!printMesh.visible) return;
+    if(!logoTex) return;
     const r = renderer.domElement.getBoundingClientRect();
     ndc.x = ((clientX - r.left) / r.width) * 2 - 1;
     ndc.y = -((clientY - r.top) / r.height) * 2 + 1;
     ray.setFromCamera(ndc, camera);
     const hits = ray.intersectObjects(bodyMeshes, false);
     if(!hits.length) return;
-    const p = garment.worldToLocal(hits[0].point.clone());
-    if(p.z <= 0) return;                              // front of the garment only
-    state.printPos = {
-      angle: THREE.MathUtils.clamp(Math.atan2(p.x, p.z), -0.6, 0.6),
-      y:     THREE.MathUtils.clamp(p.y, -0.45, 0.85)
-    };
-    applyPrintTransform();
+    const h = hits[0];
+    const n = h.face.normal.clone().transformDirection(h.object.matrixWorld).normalize();
+    if(n.z <= 0.1) return;                             // front-facing surfaces only
+    state.decal = { p:[h.point.x, h.point.y, h.point.z], n:[n.x, n.y, n.z] };
+    rebuildDecal();
     saveState();
   }
 
@@ -1446,7 +1426,7 @@ function boot(){
   sizeInput.disabled = !state.print;
   sizeInput.addEventListener("input", function(){
     state.size = parseFloat(sizeInput.value);
-    if(printMesh.visible) rebuildPrintGeometry();
+    if(logoTex) rebuildDecal();
     saveState();
   });
   uploadInput.addEventListener("change", function(e){
@@ -1459,8 +1439,8 @@ function boot(){
       // (which would otherwise fail silently and stop all later saves too).
       downscaleDataURL(reader.result, 640, function(smallUrl){
         state.print = smallUrl;
-        state.printPos = defaults().printPos;
-        loadPrintFromDataURL(state.print);
+        state.decal = null;                 // re-centre the new logo on the chest
+        loadLogo(state.print);
         if(!saveState()){
           setStatus("That image is large, so it shows now but may not be remembered after you close the tab.");
         }
@@ -1471,10 +1451,10 @@ function boot(){
     uploadInput.value = "";
   });
   clearBtn.addEventListener("click", function(){
-    state.print = null;
-    printMesh.visible = false;
-    if(printTex.value){ printTex.value.dispose(); printTex.value = null; }
-    printMesh.material.map = null; printMesh.material.needsUpdate = true;
+    state.print = null; state.decal = null;
+    if(logoTex){ logoTex.dispose(); logoTex = null; }
+    decalMat.map = null; decalMat.needsUpdate = true;
+    if(decalMesh){ garment.remove(decalMesh); decalMesh.geometry.dispose(); decalMesh = null; }
     sizeInput.disabled = true;
     saveState();
   });
@@ -1515,43 +1495,42 @@ function roundedBox(w, h, d, r){
   return geo;
 }
 
-function makeWeaveNormal(){
-  const s = 128, c = document.createElement("canvas"); c.width = c.height = s;
+// Procedural fabric normal map: a fine weave plus soft large-scale folds,
+// derived from a height field so the folds read as real cloth under lighting.
+function makeFabricNormal(){
+  const s = 256;
+  const c = document.createElement("canvas"); c.width = c.height = s;
   const ctx = c.getContext("2d");
-  const img = ctx.createImageData(s, s);
-  const freq = Math.PI * 2 * 12;
+  const H = new Float32Array(s * s);
   for(let y=0;y<s;y++){
     for(let x=0;x<s;x++){
-      const nx = Math.sin(x/s*freq) * Math.cos(y/s*freq*0.5) * 0.5;
-      const ny = Math.sin(y/s*freq) * Math.cos(x/s*freq*0.5) * 0.5;
+      const u = x/s, v = y/s;
+      const weave = (Math.sin(u*Math.PI*2*44) + Math.sin(v*Math.PI*2*44)) * 0.03;
+      const fold  = Math.sin(u*Math.PI*2*3 + Math.cos(v*Math.PI*2*2)*1.6) * 0.10
+                  + Math.sin(v*Math.PI*2*2.3 + Math.sin(u*Math.PI*2*1.5)*1.2) * 0.08;
+      H[y*s+x] = weave + fold;
+    }
+  }
+  const img = ctx.createImageData(s, s);
+  const st = 2.2;
+  for(let y=0;y<s;y++){
+    for(let x=0;x<s;x++){
+      const hl = H[y*s + ((x-1+s)%s)], hr = H[y*s + ((x+1)%s)];
+      const hu = H[((y-1+s)%s)*s + x], hd = H[((y+1)%s)*s + x];
+      let nx = (hl-hr)*st, ny = (hu-hd)*st, nz = 1;
+      const inv = 1 / Math.hypot(nx, ny, nz); nx*=inv; ny*=inv; nz*=inv;
       const i = (y*s+x)*4;
-      img.data[i]   = 128 + nx*70;
-      img.data[i+1] = 128 + ny*70;
-      img.data[i+2] = 255;
+      img.data[i]   = Math.round((nx*0.5+0.5)*255);
+      img.data[i+1] = Math.round((ny*0.5+0.5)*255);
+      img.data[i+2] = Math.round((nz*0.5+0.5)*255);
       img.data[i+3] = 255;
     }
   }
   ctx.putImageData(img, 0, 0);
   const t = new THREE.CanvasTexture(c);
   t.wrapS = t.wrapT = THREE.RepeatWrapping;
-  t.repeat.set(7, 7);
+  t.repeat.set(3, 3);
   return t;
-}
-
-function makeContactShadow(){
-  const s = 256, c = document.createElement("canvas"); c.width = c.height = s;
-  const ctx = c.getContext("2d");
-  const g = ctx.createRadialGradient(s/2, s/2, 0, s/2, s/2, s/2);
-  g.addColorStop(0, "rgba(10,40,50,0.42)");
-  g.addColorStop(0.55, "rgba(10,40,50,0.18)");
-  g.addColorStop(1, "rgba(10,40,50,0)");
-  ctx.fillStyle = g; ctx.fillRect(0, 0, s, s);
-  const tex = new THREE.CanvasTexture(c);
-  const mat = new THREE.MeshBasicMaterial({ map:tex, transparent:true, depthWrite:false });
-  const mesh = new THREE.Mesh(new THREE.PlaneGeometry(3.6, 3.6), mat);
-  mesh.rotation.x = -Math.PI/2;
-  mesh.scale.set(1, 0.7, 1);
-  return mesh;
 }
 
 function setStatus(msg){
