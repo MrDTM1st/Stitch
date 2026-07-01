@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en-GB" data-motion="lively">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Stitch Milton Keynes · Custom Embroidery &amp; Printed Workwear</title>
+<meta name="description" content="Family run custom embroidery and printed workwear in Milton Keynes. No minimum order, bring your own garments, UK wide delivery. Design your garment in 3D." />
+<meta name="theme-color" content="#0A3F54" />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Stitch Milton Keynes · Custom Embroidery &amp; Printed Workwear" />
+<meta property="og:description" content="Family run embroidery and printed workwear in Milton Keynes. No minimum order, bring your own garments, UK wide delivery." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesque:wght@300;400;500;600;700&family=Kaushan+Script&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   Stitch Milton Keynes — self-contained landing page
+   Design tokens are pulled straight from the brand logo.
+   ============================================================ */
+:root{
+  --teal:#2EA7D5;
+  --teal-dark:#1A88B0;
+  --teal-btn:#127BA0;        /* white text passes WCAG AA (4.8:1) */
+  --teal-btn-hover:#0C6A8C;
+  --teal-accent:#156A8A;     /* teal text on light bg passes AA (6:1) */
+  --deep:#0A3F54;
+  --deep-2:#072E3D;
+  --twill:#ECE9F1;
+  --twill-2:#D6D1DC;
+  --ink:#16282F;
+  --ink-soft:#5A6970;
+  --gold:#C79A3B;
+  --burgundy:#6E2233;
+  --navy:#16305A;
+  --paper:#FBFAFC;
+  --cream:#F6F3EC;
+  --white:#FFFFFF;
+
+  --maxw:1180px;
+  --gap:clamp(1rem, 3vw, 2rem);
+  --radius:18px;
+  --shadow-sm:0 2px 10px rgba(10,63,84,.06);
+  --shadow-md:0 18px 50px -20px rgba(10,63,84,.35);
+  --shadow-lg:0 40px 90px -30px rgba(7,46,61,.55);
+
+  --serif:"Newsreader", Georgia, "Times New Roman", serif;
+  --sans:"Hanken Grotesque", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --script:"Kaushan Script", "Newsreader", cursive;
+
+  --ease:cubic-bezier(.16,.84,.44,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+
+body{
+  margin:0;
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--paper);
+  line-height:1.6;
+  font-weight:400;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.08;margin:0;letter-spacing:-.01em}
+h1{font-size:clamp(2.5rem,6.2vw,5rem)}
+h2{font-size:clamp(2rem,4.4vw,3.4rem)}
+h3{font-size:clamp(1.2rem,2vw,1.5rem)}
+p{margin:0}
+a{color:inherit;text-decoration:none}
+img,svg{display:block;max-width:100%}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+::selection{background:var(--teal);color:#fff}
+
+/* Visible keyboard focus (WCAG 2.4.7). Mouse clicks don't trigger :focus-visible. */
+:focus-visible{outline:2px solid var(--teal-accent);outline-offset:3px;border-radius:6px}
+.contact :focus-visible,.showcase :focus-visible,.promise :focus-visible{outline-color:#8fd4ee}
+input[type=range]:focus-visible{outline:none}
+input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 3px rgba(46,167,213,.55)}
+input[type=range]:focus-visible::-moz-range-thumb{box-shadow:0 0 0 3px rgba(46,167,213,.55)}
+
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(1.1rem,4vw,2.5rem)}
+.eyebrow{
+  font-size:.78rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--teal-accent);display:inline-flex;align-items:center;gap:.6rem;
+}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--teal);opacity:.7}
+.script{font-family:var(--script);font-weight:400;color:var(--teal-dark)}
+.lead{font-size:clamp(1.05rem,1.6vw,1.24rem);color:var(--ink-soft);max-width:56ch}
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:.55rem;
+  padding:.85rem 1.5rem;border-radius:999px;font-weight:600;font-size:.98rem;
+  transition:transform .3s var(--ease), box-shadow .3s var(--ease), background .3s var(--ease), color .3s var(--ease);
+  will-change:transform;
+}
+.btn svg{width:18px;height:18px}
+.btn-primary{background:var(--teal-btn);color:#fff;box-shadow:0 12px 26px -12px rgba(18,123,160,.85)}
+.btn-primary:hover{background:var(--teal-btn-hover);transform:translateY(-2px);box-shadow:0 18px 34px -12px rgba(12,106,140,.9)}
+.btn-ghost{border:1.5px solid rgba(16,40,47,.18);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--teal);color:var(--teal-dark);transform:translateY(-2px)}
+.btn-light{background:#fff;color:var(--deep)}
+.btn-light:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.btn-outline-light{border:1.5px solid rgba(255,255,255,.4);color:#fff}
+.btn-outline-light:hover{border-color:#fff;background:rgba(255,255,255,.08);transform:translateY(-2px)}
+
+/* ---------- Nav ---------- */
+.nav{
+  position:fixed;inset:0 0 auto 0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.85rem clamp(1.1rem,4vw,2.5rem);
+  transition:background .4s var(--ease), box-shadow .4s var(--ease), backdrop-filter .4s var(--ease), padding .4s var(--ease);
+}
+.nav.frost{
+  background:rgba(251,250,252,.82);
+  backdrop-filter:blur(14px) saturate(1.3);
+  -webkit-backdrop-filter:blur(14px) saturate(1.3);
+  box-shadow:0 1px 0 rgba(16,40,47,.07), 0 10px 30px -22px rgba(10,63,84,.5);
+  padding-block:.6rem;
+}
+.brand{display:flex;align-items:center;gap:.7rem}
+.brand .logo{width:42px;height:42px;flex:none}
+.brand-text{display:flex;flex-direction:column;line-height:1}
+.brand-text b{font-family:var(--script);font-size:1.5rem;font-weight:400;color:var(--deep);letter-spacing:.01em}
+.nav.frost .brand-text b, .brand-text b{color:var(--deep)}
+.brand-text span{font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin-top:2px}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-links a.link{font-weight:500;font-size:.95rem;color:var(--ink);position:relative;padding:.2rem 0;transition:color .25s}
+.nav-links a.link::after{content:"";position:absolute;left:0;bottom:-2px;height:2px;width:0;background:var(--teal);transition:width .3s var(--ease)}
+.nav-links a.link:hover{color:var(--teal-accent)}
+.nav-links a.link:hover::after{width:100%}
+.nav-cta{padding:.6rem 1.15rem;font-size:.9rem}
+.nav-toggle{display:none;width:44px;height:44px;border-radius:12px;align-items:center;justify-content:center}
+.nav-toggle svg{width:24px;height:24px;stroke:var(--ink)}
+
+@media (max-width:860px){
+  .nav-links{
+    position:fixed;inset:0 0 0 auto;width:min(78vw,320px);z-index:49;
+    flex-direction:column;justify-content:center;gap:1.6rem;
+    background:rgba(251,250,252,.98);backdrop-filter:blur(18px);
+    box-shadow:var(--shadow-lg);
+    transform:translateX(100%);transition:transform .45s var(--ease);
+    padding:2rem;
+  }
+  .nav-links.open{transform:translateX(0)}
+  .nav-links a.link{font-size:1.15rem}
+  .nav-toggle{display:inline-flex}
+}
+
+/* Mobile menu scrim + scroll lock (dismiss by tapping outside or pressing Escape) */
+.nav-scrim{position:fixed;inset:0;z-index:45;background:rgba(7,46,61,.45);opacity:0;visibility:hidden;transition:opacity .35s var(--ease)}
+.nav-scrim.show{opacity:1;visibility:visible}
+body.nav-open{overflow:hidden}
+
+/* ---------- Hero ---------- */
+.hero{
+  position:relative;min-height:100svh;display:flex;align-items:center;
+  padding:7rem 0 4rem;overflow:hidden;
+  background:
+    radial-gradient(120% 90% at 85% -10%, rgba(46,167,213,.16), transparent 55%),
+    radial-gradient(90% 80% at 8% 110%, rgba(10,63,84,.08), transparent 60%),
+    linear-gradient(180deg,var(--paper), #fff 60%, var(--cream));
+}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(2rem,5vw,4.5rem);align-items:center;width:100%}
+.hero h1{margin:.9rem 0 0}
+.hero .accent-word{position:relative;white-space:nowrap;color:var(--deep)}
+.hero .accent-word .draw{
+  position:absolute;left:-2%;right:-2%;bottom:-.14em;width:104%;height:.42em;overflow:visible;pointer-events:none;
+}
+.hero .accent-word .draw path{
+  fill:none;stroke:var(--teal);stroke-width:6;stroke-linecap:round;
+  stroke-dasharray:var(--len,520);stroke-dashoffset:var(--len,520);
+  animation:draw-underline 1.5s var(--ease) .7s forwards;
+}
+@keyframes draw-underline{to{stroke-dashoffset:0}}
+.hero-copy .lead{margin-top:1.5rem}
+.hero-actions{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:2rem}
+.hero-trust{display:flex;flex-wrap:wrap;gap:1.4rem;margin-top:2.4rem;color:var(--ink-soft);font-size:.9rem}
+.hero-trust span{display:inline-flex;align-items:center;gap:.5rem;font-weight:500}
+.hero-trust svg{width:18px;height:18px;color:var(--teal)}
+
+/* Hero patch (faux-3D embroidered logo) */
+.hero-stage{position:relative;display:grid;place-items:center;min-height:min(60vh,480px);perspective:1100px}
+.patch3d{
+  position:relative;width:min(78%,360px);aspect-ratio:1;transform-style:preserve-3d;
+  animation:float 7s ease-in-out infinite;transition:transform .18s ease-out;
+  filter:drop-shadow(0 40px 55px rgba(7,46,61,.32));
+}
+@keyframes float{0%,100%{transform:translateY(-8px)}50%{transform:translateY(12px)}}
+.patch3d .layer{position:absolute;inset:0}
+.patch3d .sheen{
+  position:absolute;inset:0;border-radius:50%;mix-blend-mode:screen;pointer-events:none;
+  background:radial-gradient(circle at var(--mx,35%) var(--my,30%), rgba(255,255,255,.75), rgba(255,255,255,0) 42%);
+  opacity:.7;transition:background .1s linear;
+}
+.hero-flourish{position:absolute;top:5.5rem;right:clamp(1rem,4vw,3rem);width:clamp(120px,16vw,190px);opacity:.9;pointer-events:none}
+.hero-flourish path,.hero-flourish line{stroke-dasharray:400;stroke-dashoffset:400;animation:draw-underline 2.2s var(--ease) 1s forwards}
+
+/* drifting ambient thread dots */
+.thread-dots{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.thread-dots i{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--teal);opacity:.18;animation:drift 14s linear infinite}
+.thread-dots i:nth-child(2){background:var(--gold);animation-duration:19s}
+.thread-dots i:nth-child(3){background:var(--teal-dark);animation-duration:22s}
+.thread-dots i:nth-child(4){background:var(--teal);animation-duration:17s}
+@keyframes drift{
+  0%{transform:translate(0,0) scale(1);opacity:0}
+  10%{opacity:.2}
+  90%{opacity:.2}
+  100%{transform:translate(40px,-120px) scale(1.4);opacity:0}
+}
+
+@media (max-width:860px){
+  .hero-grid{grid-template-columns:1fr;text-align:center}
+  .hero-copy .lead{margin-inline:auto}
+  .hero-actions,.hero-trust{justify-content:center}
+  .hero-stage{order:-1;min-height:auto;margin-bottom:1rem}
+  .patch3d{width:min(62%,260px)}
+  .hero-flourish{display:none}
+}
+
+/* ---------- Marquee ---------- */
+.marquee{background:var(--deep);color:#fff;overflow:hidden;padding:1rem 0;border-block:1px solid rgba(255,255,255,.08)}
+.marquee-track{display:flex;gap:0;width:max-content;animation:scroll-x 30s linear infinite}
+.marquee-track span{display:inline-flex;align-items:center;font-family:var(--serif);font-size:clamp(1.1rem,2.2vw,1.7rem);padding-inline:1.4rem;white-space:nowrap}
+.marquee-track span em{color:var(--teal);font-style:normal;padding-inline:1rem;font-size:1.1em}
+@keyframes scroll-x{to{transform:translateX(-50%)}}
+
+/* ---------- Section shell ---------- */
+section{position:relative}
+.section{padding:clamp(4rem,9vw,7.5rem) 0}
+.section-head{max-width:60ch;margin-bottom:clamp(2rem,5vw,3.4rem)}
+.section-head h2{margin-top:.7rem}
+.section-head p{margin-top:1rem}
+
+/* stitched divider */
+.stitch-divider{width:100%;height:26px;overflow:visible}
+.stitch-divider path{fill:none;stroke:var(--twill-2);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:9 11;stroke-dashoffset:600;transition:stroke-dashoffset 1.6s var(--ease)}
+.reveal.in .stitch-divider path, .stitch-divider.in path{stroke-dashoffset:0}
+[data-tweak-dividers="off"] .stitch-divider{display:none}
+
+/* ---------- Services ---------- */
+.services{background:linear-gradient(180deg,#fff, var(--paper))}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
+@media (max-width:960px){.cards{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.cards{grid-template-columns:1fr}}
+.card{
+  background:#fff;border:1px solid rgba(16,40,47,.08);border-radius:var(--radius);padding:1.7rem 1.5rem;
+  box-shadow:var(--shadow-sm);position:relative;overflow:hidden;
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s var(--ease);
+}
+.card::after{content:"";position:absolute;inset:auto 0 0 0;height:3px;background:linear-gradient(90deg,var(--teal),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md);border-color:rgba(46,167,213,.4)}
+.card:hover::after{transform:scaleX(1)}
+.card .ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:rgba(46,167,213,.12);color:var(--teal-dark);margin-bottom:1.1rem}
+.card .ic svg{width:26px;height:26px}
+.card h3{margin-bottom:.5rem}
+.card p{color:var(--ink-soft);font-size:.96rem}
+
+/* ---------- Showcase band ---------- */
+.showcase{
+  background:
+    radial-gradient(90% 120% at 100% 0%, rgba(46,167,213,.18), transparent 50%),
+    linear-gradient(160deg,var(--deep),var(--deep-2));
+  color:#fff;overflow:hidden;
+}
+.showcase .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center}
+.showcase h2{color:#fff}
+.showcase p{color:rgba(255,255,255,.72);margin-top:1rem}
+.showcase .float-stage{position:relative;min-height:320px;display:grid;place-items:center}
+.showcase .float-logo{width:min(58%,240px);filter:drop-shadow(0 24px 40px rgba(0,0,0,.4));animation:float 8s ease-in-out infinite}
+.showcase .mini-patch{position:absolute;width:88px;animation:float 6s ease-in-out infinite;filter:drop-shadow(0 14px 22px rgba(0,0,0,.4))}
+.showcase .mini-patch.a{top:8%;left:4%;animation-delay:-1s}
+.showcase .mini-patch.b{bottom:6%;right:2%;width:104px;animation-delay:-3s}
+@media (max-width:820px){.showcase .wrap{grid-template-columns:1fr;text-align:center}.showcase .mini-patch{display:none}}
+
+/* ---------- Brands ---------- */
+.brands{background:var(--cream)}
+.brand-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1.4rem;margin-top:1rem}
+@media (max-width:900px){.brand-grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:520px){.brand-grid{grid-template-columns:repeat(2,1fr)}}
+.flip{aspect-ratio:1;perspective:900px;cursor:pointer}
+.flip-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .9s var(--ease)}
+.flip:hover .flip-inner, .flip:focus-visible .flip-inner{transform:rotateY(180deg)}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:grid;place-items:center}
+.flip-face svg{width:100%;height:100%;filter:drop-shadow(0 14px 24px rgba(10,63,84,.22))}
+.flip-back{transform:rotateY(180deg)}
+.flip-back .disc{
+  width:100%;height:100%;border-radius:50%;display:grid;place-items:center;text-align:center;padding:1rem;
+  background:repeating-radial-gradient(circle, rgba(255,255,255,.5) 0 2px, transparent 2px 5px), linear-gradient(135deg,#fff,#eef1f4);
+  border:3px dashed rgba(46,167,213,.5);box-shadow:var(--shadow-sm);
+}
+.flip-back .disc small{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;line-height:1.4}
+.flip-back .disc b{display:block;font-family:var(--serif);font-size:1.05rem;color:var(--deep);margin-top:.3rem}
+.brands-note{margin-top:1.8rem;font-size:.82rem;color:var(--ink-soft);font-style:italic}
+
+/* ---------- Process ---------- */
+.process{background:#fff;overflow:hidden}
+.process-rail{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:1rem}
+.process .thread{position:absolute;top:34px;left:6%;right:6%;height:40px;overflow:visible;pointer-events:none;z-index:0}
+.process .thread path{fill:none;stroke:var(--teal);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:8 10;stroke-dashoffset:1400;transition:stroke-dashoffset 2.2s var(--ease)}
+.reveal.in .process .thread path, .process-rail.in .thread path{stroke-dashoffset:0}
+.step{position:relative;z-index:1;text-align:center;background:#fff}
+.step .num{
+  width:70px;height:70px;margin:0 auto 1.1rem;border-radius:50%;display:grid;place-items:center;
+  background:#fff;border:2px solid var(--teal);color:var(--teal-dark);
+  font-family:var(--serif);font-size:1.6rem;font-weight:600;box-shadow:0 10px 24px -12px rgba(46,167,213,.7);
+}
+.step h3{margin-bottom:.5rem}
+.step p{color:var(--ink-soft);font-size:.96rem;max-width:34ch;margin-inline:auto}
+@media (max-width:760px){.process-rail{grid-template-columns:1fr;gap:2.4rem}.process .thread{display:none}}
+
+/* ---------- Promise ---------- */
+.promise{
+  background:
+    radial-gradient(80% 120% at 0% 0%, rgba(199,154,59,.16), transparent 55%),
+    linear-gradient(160deg,var(--deep),var(--deep-2));
+  color:#fff;text-align:center;
+}
+.promise .wrap{max-width:820px}
+.promise h2{color:#fff;margin-top:.7rem}
+.promise p{color:rgba(255,255,255,.8);margin-top:1.2rem;font-size:clamp(1.05rem,1.7vw,1.28rem)}
+.promise .values{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem 2.2rem;margin-top:2rem}
+.promise .values span{display:inline-flex;align-items:center;gap:.55rem;font-weight:500;color:rgba(255,255,255,.92)}
+.promise .values svg{width:20px;height:20px;color:var(--teal)}
+
+/* ---------- Studio ---------- */
+.studio{background:linear-gradient(180deg,var(--cream),#fff)}
+.studio-shell{
+  display:grid;grid-template-columns:1.4fr .9fr;gap:1.5rem;margin-top:1.5rem;
+  background:#fff;border:1px solid rgba(16,40,47,.08);border-radius:24px;padding:1.2rem;box-shadow:var(--shadow-md);
+}
+@media (max-width:900px){.studio-shell{grid-template-columns:1fr}}
+.stage3d{
+  position:relative;border-radius:18px;overflow:hidden;min-height:clamp(360px,52vh,560px);
+  background:radial-gradient(120% 100% at 50% 0%, #f3f6f8, #e4e9ee 70%, #d8dee4);
+  cursor:grab;touch-action:none;
+}
+.stage3d:active{cursor:grabbing}
+.stage3d canvas{display:block;width:100%;height:100%}
+.stage-hint{position:absolute;left:14px;bottom:12px;font-size:.78rem;color:var(--ink-soft);background:rgba(255,255,255,.72);padding:.35rem .7rem;border-radius:999px;backdrop-filter:blur(6px);display:flex;align-items:center;gap:.4rem;pointer-events:none}
+.stage-hint svg{width:15px;height:15px}
+.studio-loader{position:absolute;inset:0;display:grid;place-items:center;background:rgba(244,247,249,.9);z-index:3;transition:opacity .5s}
+.studio-loader.hide{opacity:0;pointer-events:none}
+.spinner{width:44px;height:44px;border-radius:50%;border:3px solid rgba(46,167,213,.25);border-top-color:var(--teal);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.studio-fallback{position:absolute;inset:0;display:none;place-items:center;text-align:center;padding:2rem;background:rgba(244,247,249,.96);z-index:4}
+.studio-fallback.show{display:grid}
+.studio-fallback p{color:var(--ink-soft);max-width:34ch}
+
+/* studio controls */
+.controls{display:flex;flex-direction:column;gap:1.3rem}
+.ctl-group h4{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;margin:0 0 .7rem}
+.seg{display:flex;gap:.5rem;flex-wrap:wrap}
+.seg button{
+  flex:1;min-width:74px;padding:.6rem .4rem;border-radius:12px;border:1.5px solid rgba(16,40,47,.14);
+  font-weight:600;font-size:.9rem;color:var(--ink);background:#fff;transition:all .25s var(--ease);
+  display:flex;flex-direction:column;align-items:center;gap:.3rem;
+}
+.seg button svg{width:26px;height:26px;color:var(--ink-soft);transition:color .25s}
+.seg button:hover{border-color:var(--teal)}
+.seg button.active{border-color:var(--teal);background:rgba(46,167,213,.1);color:var(--teal-dark)}
+.seg button.active svg{color:var(--teal-dark)}
+.swatches{display:flex;gap:.6rem;flex-wrap:wrap}
+.sw{width:40px;height:40px;border-radius:50%;border:2px solid rgba(16,40,47,.12);position:relative;transition:transform .2s var(--ease)}
+.sw:hover{transform:scale(1.08)}
+.sw.active{box-shadow:0 0 0 2px #fff, 0 0 0 4px var(--teal)}
+.sw[data-c="white"]{background:#F4F4F1}
+.sw[data-c="teal"]{background:#2EA7D5}
+.sw[data-c="navy"]{background:#16305A}
+.sw[data-c="charcoal"]{background:#2B2F33}
+.sw[data-c="gold"]{background:#C79A3B}
+.sw[data-c="burgundy"]{background:#6E2233}
+.upload-row{display:flex;gap:.6rem;flex-wrap:wrap}
+.upload-btn{
+  flex:1;min-width:130px;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  padding:.75rem 1rem;border-radius:12px;background:var(--teal);color:#fff;font-weight:600;font-size:.92rem;
+  transition:background .25s, transform .25s;
+}
+.upload-btn{background:var(--teal-btn)}
+.upload-btn:hover{background:var(--teal-btn-hover);transform:translateY(-1px)}
+.upload-btn svg{width:18px;height:18px}
+.mini-btn{padding:.75rem 1rem;border-radius:12px;border:1.5px solid rgba(16,40,47,.14);font-weight:600;font-size:.9rem;color:var(--ink-soft);transition:all .25s}
+.mini-btn:hover{border-color:var(--burgundy);color:var(--burgundy)}
+.slider-row{display:flex;align-items:center;gap:.9rem}
+.slider-row label{font-size:.85rem;color:var(--ink-soft);white-space:nowrap;font-weight:500}
+input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:6px;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--twill-2));outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid var(--teal);box-shadow:var(--shadow-sm);cursor:pointer;transition:transform .15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.12)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid var(--teal);cursor:pointer}
+input[type=range]:disabled{opacity:.4}
+.ctl-note{font-size:.8rem;color:var(--ink-soft);line-height:1.5}
+.ctl-note b{color:var(--ink)}
+
+/* ---------- Reviews ---------- */
+.reviews{background:var(--paper)}
+.review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:1rem}
+@media (max-width:820px){.review-grid{grid-template-columns:1fr}}
+.review{background:#fff;border:1px solid rgba(16,40,47,.08);border-radius:var(--radius);padding:1.7rem;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:1rem}
+.review .stars{display:flex;gap:3px;color:var(--gold)}
+.review .stars svg{width:18px;height:18px}
+.review p{font-family:var(--serif);font-size:1.1rem;line-height:1.5;color:var(--ink)}
+.review .by{font-size:.85rem;color:var(--ink-soft);font-weight:500;margin-top:auto}
+.reviews-cta{margin-top:2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.reviews-note{font-size:.8rem;color:var(--ink-soft);font-style:italic}
+
+/* ---------- Contact / Footer ---------- */
+.contact{background:linear-gradient(160deg,var(--deep),var(--deep-2));color:#fff}
+.contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,5vw,4rem);align-items:start}
+@media (max-width:820px){.contact-grid{grid-template-columns:1fr}}
+.contact h2{color:#fff}
+.contact .lead{color:rgba(255,255,255,.75)}
+.contact-actions{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:1.8rem}
+.detail-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:1.6rem;backdrop-filter:blur(4px)}
+.detail{display:flex;gap:.9rem;padding:.85rem 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.detail:last-child{border-bottom:0}
+.detail .di{width:40px;height:40px;border-radius:10px;background:rgba(46,167,213,.2);display:grid;place-items:center;flex:none;color:var(--teal)}
+.detail .di svg{width:20px;height:20px}
+.detail b{display:block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:600;margin-bottom:2px}
+.detail a,.detail span{color:#fff;font-weight:500}
+.detail a:hover{color:var(--teal)}
+.socials{display:flex;gap:.7rem;margin-top:1.3rem}
+.socials a{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);transition:all .25s var(--ease)}
+.socials a:hover{background:var(--teal);transform:translateY(-3px)}
+.socials svg{width:20px;height:20px;color:#fff}
+.footer-bar{border-top:1px solid rgba(255,255,255,.1);margin-top:3rem;padding-top:1.6rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.85rem;color:rgba(255,255,255,.55)}
+.footer-bar a:hover{color:#fff}
+@media (max-width:640px){ .footer-bar{padding-bottom:3.4rem} } /* clear the fixed motion pill */
+
+/* ---------- Reveal animation ---------- */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease), transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.reveal[data-delay="1"]{transition-delay:.1s}
+.reveal[data-delay="2"]{transition-delay:.2s}
+.reveal[data-delay="3"]{transition-delay:.3s}
+.reveal[data-delay="4"]{transition-delay:.4s}
+
+/* ---------- Motion toggle pill ---------- */
+.motion-pill{
+  position:fixed;right:16px;bottom:16px;z-index:60;
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:rgba(255,255,255,.9);border:1px solid rgba(16,40,47,.12);
+  padding:.5rem .85rem;border-radius:999px;font-size:.82rem;font-weight:600;color:var(--ink);
+  box-shadow:var(--shadow-sm);backdrop-filter:blur(10px);transition:transform .25s, box-shadow .25s;
+}
+.motion-pill:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.motion-pill svg{width:16px;height:16px;color:var(--teal-dark)}
+
+/* ---------- Calm mode: pause ambient motion ---------- */
+[data-motion="calm"] .patch3d,
+[data-motion="calm"] .marquee-track,
+[data-motion="calm"] .thread-dots i,
+[data-motion="calm"] .float-logo,
+[data-motion="calm"] .mini-patch,
+[data-motion="calm"] .spinner{animation-play-state:paused !important}
+
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  .patch3d,.marquee-track,.thread-dots i,.float-logo,.mini-patch,.spinner{animation:none !important}
+  .hero .accent-word .draw path,.hero-flourish path,.hero-flourish line{stroke-dashoffset:0 !important;animation:none}
+  .stitch-divider path,.process .thread path{stroke-dashoffset:0 !important;transition:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ======================= NAV ======================= -->
+<nav class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="Stitch Milton Keynes home">
+    <svg class="logo" viewBox="0 0 64 64" role="img" aria-hidden="true">
+      <defs>
+        <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#2EA7D5"/><stop offset="1" stop-color="#1A88B0"/>
+        </linearGradient>
+      </defs>
+      <circle cx="32" cy="32" r="30" fill="url(#lg)"/>
+      <circle cx="32" cy="32" r="30" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="4 4" opacity=".7"/>
+      <!-- needle -->
+      <path d="M20 44 L44 20" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="44" cy="20" r="3.4" fill="none" stroke="#fff" stroke-width="2.4"/>
+      <!-- thread -->
+      <path d="M20 44 q-6 4 -2 10 q5 6 12 2 q6 -4 1 -9" fill="none" stroke="#F6F3EC" stroke-width="2.4" stroke-linecap="round"/>
+    </svg>
+    <span class="brand-text"><b>Stitch</b><span>Milton Keynes</span></span>
+  </a>
+
+  <div class="nav-links" id="navLinks">
+    <a class="link" href="#services">Services</a>
+    <a class="link" href="#brands">Work</a>
+    <a class="link" href="#process">How it works</a>
+    <a class="link" href="#studio">3D studio</a>
+    <a class="link" href="#contact">Contact</a>
+    <a class="btn btn-primary nav-cta" href="https://www.stitchmiltonkeynes.co.uk/" target="_blank" rel="noopener">Quote me</a>
+  </div>
+  <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+    <svg id="navToggleIcon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+  </button>
+</nav>
+<div class="nav-scrim" id="navScrim"></div>
+
+<!-- ======================= HERO ======================= -->
+<header class="hero" id="top">
+  <div class="thread-dots" aria-hidden="true">
+    <i style="left:12%;top:70%"></i><i style="left:70%;top:80%"></i><i style="left:40%;top:60%"></i><i style="left:88%;top:65%"></i>
+  </div>
+
+  <svg class="hero-flourish" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+    <line x1="30" y1="20" x2="150" y2="140" stroke="#2EA7D5" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="150" cy="140" r="5" fill="none" stroke="#2EA7D5" stroke-width="2.6"/>
+    <path d="M30 20 q-14 6 -8 20 q7 12 22 6 q12 -6 4 -16" stroke="#C79A3B" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M60 50 l8 8 M80 70 l8 8 M100 90 l8 8 M120 110 l8 8" stroke="#2EA7D5" stroke-width="2.4" stroke-linecap="round" opacity=".55"/>
+  </svg>
+
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow reveal in">Family run in Milton Keynes</span>
+      <h1 class="reveal in" data-delay="1">
+        Your brand,<br>beautifully
+        <span class="accent-word">stitched<svg class="draw" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 15 q40 -12 90 -6 q60 8 110 -2 q50 -8 92 4" style="--len:340"/></svg></span>.
+      </h1>
+      <p class="lead reveal in" data-delay="2">
+        Custom embroidery and printed workwear from a small family workshop.
+        No minimum order, bring your own garments, and we deliver right across the UK.
+      </p>
+      <div class="hero-actions reveal in" data-delay="3">
+        <a class="btn btn-primary" href="https://www.stitchmiltonkeynes.co.uk/" target="_blank" rel="noopener">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12h16M14 6l6 6-6 6"/></svg>
+          Get a quote
+        </a>
+        <a class="btn btn-ghost" href="#studio">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4.5v9L12 20l-8-4.5v-9L12 2z"/><path d="M12 11l8-4.5M12 11v9M12 11L4 6.5"/></svg>
+          Design yours in 3D
+        </a>
+      </div>
+      <div class="hero-trust reveal in" data-delay="4">
+        <span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> No minimum order</span>
+        <span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Bring your own garments</span>
+        <span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> UK wide delivery</span>
+      </div>
+    </div>
+
+    <div class="hero-stage reveal in" data-delay="2">
+      <div class="patch3d" id="heroPatch">
+        <svg class="layer" viewBox="0 0 300 300" role="img" aria-label="Embroidered Stitch Milton Keynes patch">
+          <defs>
+            <radialGradient id="patchBg" cx="42%" cy="36%" r="70%">
+              <stop offset="0" stop-color="#3BB6E2"/><stop offset=".6" stop-color="#2EA7D5"/><stop offset="1" stop-color="#1A88B0"/>
+            </radialGradient>
+            <linearGradient id="merrow" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#F6F3EC"/><stop offset="1" stop-color="#D6D1DC"/>
+            </linearGradient>
+            <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="1.1"/>
+            </filter>
+          </defs>
+          <!-- merrow border: satin overlock edge built from radial dashes -->
+          <circle cx="150" cy="150" r="140" fill="url(#merrow)"/>
+          <circle cx="150" cy="150" r="140" fill="none" stroke="#C9C3D2" stroke-width="18" stroke-dasharray="5 4" opacity=".8"/>
+          <circle cx="150" cy="150" r="126" fill="url(#patchBg)"/>
+          <!-- inner satin ring -->
+          <circle cx="150" cy="150" r="126" fill="none" stroke="#1A88B0" stroke-width="2" stroke-dasharray="3 3" opacity=".5"/>
+          <circle cx="150" cy="150" r="104" fill="none" stroke="#F6F3EC" stroke-width="3" stroke-dasharray="6 6" opacity=".85"/>
+          <!-- needle + thread emblem -->
+          <g filter="url(#soft)">
+            <path d="M105 195 L195 105" stroke="#F6F3EC" stroke-width="9" stroke-linecap="round"/>
+            <path d="M105 195 L195 105" stroke="#EAE6EF" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+            <circle cx="195" cy="105" r="10" fill="none" stroke="#F6F3EC" stroke-width="7"/>
+            <path d="M105 195 q-16 10 -6 26 q12 16 30 6 q16 -10 4 -24" fill="none" stroke="#C79A3B" stroke-width="7" stroke-linecap="round"/>
+          </g>
+          <!-- text arcs -->
+          <text fill="#F6F3EC" font-family="Newsreader, serif" font-size="26" font-weight="600" letter-spacing="2">
+            <textPath href="#topArc" startOffset="50%" text-anchor="middle">STITCH</textPath>
+          </text>
+          <path id="topArc" d="M60 150 A90 90 0 0 1 240 150" fill="none"/>
+          <path id="botArc" d="M64 158 A88 88 0 0 0 236 158" fill="none"/>
+          <text fill="#F6F3EC" font-family="Hanken Grotesque, sans-serif" font-size="14" font-weight="700" letter-spacing="3">
+            <textPath href="#botArc" startOffset="50%" text-anchor="middle">MILTON KEYNES</textPath>
+          </text>
+        </svg>
+        <div class="sheen" id="heroSheen"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ======================= MARQUEE ======================= -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Custom Embroidery <em>&#10022;</em> Printed Workwear <em>&#10022;</em> Personalised Gifts <em>&#10022;</em> Your Own Garments <em>&#10022;</em> No Minimum Order <em>&#10022;</em> UK Wide Delivery <em>&#10022;</em></span>
+    <span>Custom Embroidery <em>&#10022;</em> Printed Workwear <em>&#10022;</em> Personalised Gifts <em>&#10022;</em> Your Own Garments <em>&#10022;</em> No Minimum Order <em>&#10022;</em> UK Wide Delivery <em>&#10022;</em></span>
+  </div>
+</div>
+
+<!-- ======================= SERVICES ======================= -->
+<section class="section services" id="services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">What we do</span>
+      <h2>Craft for every kind of order</h2>
+      <p class="lead">From a single embroidered polo to a full team kit, everything is finished by hand with the same care.</p>
+    </div>
+    <div class="cards">
+      <article class="card reveal" data-delay="1">
+        <div class="ic"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 8l7-5 7 5M5 8v8l7 5 7-5V8"/></svg></div>
+        <h3>Custom Embroidery</h3>
+        <p>Logos, names and monograms stitched in rich, durable thread. Perfect for uniforms, teamwear and gifts.</p>
+      </article>
+      <article class="card reveal" data-delay="2">
+        <div class="ic"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l3 2h6l3-2 2 4-3 2v8H7v-8L4 8z"/></svg></div>
+        <h3>Printed Workwear</h3>
+        <p>Bold, hard wearing prints for hi-vis, tees and hoodies. Great for bigger runs and full colour designs.</p>
+      </article>
+      <article class="card reveal" data-delay="3">
+        <div class="ic"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 22V7M12 7S9 2 6.5 4.5 12 7 12 7zM12 7s3-5 5.5-2.5S12 7 12 7z"/></svg></div>
+        <h3>Personalised Gifts</h3>
+        <p>Robes, towels, baby wear and keepsakes, embroidered with the names and dates that matter most.</p>
+      </article>
+      <article class="card reveal" data-delay="4">
+        <div class="ic"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3l3 3 3-3 5 4-3 3v11H7V10L4 7z"/></svg></div>
+        <h3>Your Own Garments</h3>
+        <p>Already have a favourite jacket or a box of team shirts? Bring them in and we will finish them beautifully.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><svg class="stitch-divider reveal" viewBox="0 0 1200 26" preserveAspectRatio="none" aria-hidden="true"><path d="M0 13 H1200"/></svg></div>
+
+<!-- ======================= SHOWCASE ======================= -->
+<section class="section showcase">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow" style="color:#8fd4ee">The craft</span>
+      <h2>Every patch, a little<br>piece of craft</h2>
+      <p class="lead">We treat each order like it is going on our own backs. Neat stitches, clean edges, and colours that hold wash after wash.</p>
+      <div class="hero-actions" style="margin-top:1.8rem">
+        <a class="btn btn-light" href="https://www.stitchmiltonkeynes.co.uk/" target="_blank" rel="noopener">See the collection</a>
+        <a class="btn btn-outline-light" href="#studio">Try the 3D studio</a>
+      </div>
+    </div>
+    <div class="float-stage reveal" data-delay="2" aria-hidden="true">
+      <span class="mini-patch a">
+        <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#C79A3B"/><circle cx="50" cy="50" r="46" fill="none" stroke="#fff" stroke-width="6" stroke-dasharray="4 4"/><path d="M35 62 L65 38" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg>
+      </span>
+      <span class="float-logo">
+        <svg viewBox="0 0 240 240" role="img" aria-label="Stitch logo mark">
+          <circle cx="120" cy="120" r="112" fill="#2EA7D5"/>
+          <circle cx="120" cy="120" r="112" fill="none" stroke="#fff" stroke-width="4" stroke-dasharray="6 6" opacity=".8"/>
+          <circle cx="120" cy="120" r="90" fill="none" stroke="#F6F3EC" stroke-width="3" stroke-dasharray="7 7" opacity=".7"/>
+          <path d="M80 160 L160 80" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
+          <circle cx="160" cy="80" r="10" fill="none" stroke="#fff" stroke-width="7"/>
+          <path d="M80 160 q-16 10 -6 26 q12 16 30 6 q16 -10 4 -24" fill="none" stroke="#C79A3B" stroke-width="7" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="mini-patch b">
+        <svg viewBox="0 0 100 100"><rect x="8" y="8" width="84" height="84" rx="18" fill="#6E2233"/><rect x="8" y="8" width="84" height="84" rx="18" fill="none" stroke="#fff" stroke-width="6" stroke-dasharray="4 4"/><path d="M32 68 Q50 30 68 68" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg>
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= BRANDS ======================= -->
+<section class="section brands" id="brands">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">In good company</span>
+      <h2>The kind of work we love</h2>
+      <p class="lead">Local teams, trades and little businesses. Hover a patch to see it spin.</p>
+    </div>
+    <div class="brand-grid" id="brandGrid"><!-- patches injected by script --></div>
+    <p class="brands-note reveal">Example patches shown to illustrate our range. Swap in your own logo any time.</p>
+  </div>
+</section>
+
+<div class="wrap"><svg class="stitch-divider reveal" viewBox="0 0 1200 26" preserveAspectRatio="none" aria-hidden="true"><path d="M0 13 H1200"/></svg></div>
+
+<!-- ======================= PROCESS ======================= -->
+<section class="section process" id="process">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">How it works</span>
+      <h2>Three simple steps</h2>
+      <p class="lead">No jargon and no pressure. Just a friendly chat and a sample you are happy with.</p>
+    </div>
+    <div class="process-rail reveal">
+      <svg class="thread" viewBox="0 0 1000 40" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 20 q125 -22 250 0 q125 22 250 0 q125 -22 250 0 q125 22 250 0"/>
+      </svg>
+      <div class="step">
+        <div class="num">1</div>
+        <h3>Share your idea</h3>
+        <p>Send us your logo or artwork, or just tell us what you are picturing. We will help shape it.</p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h3>We stitch a sample</h3>
+        <p>You approve the colours, size and placement before we make the full run. No surprises.</p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h3>Delivered to your door</h3>
+        <p>Collect by appointment or have it sent anywhere in the UK, ready to wear.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= PROMISE ======================= -->
+<section class="section promise">
+  <div class="wrap reveal">
+    <span class="eyebrow" style="color:#8fd4ee;justify-content:center">Our promise</span>
+    <h2>With family in mind</h2>
+    <p>We are a small family team, so your order gets the same care we would give our own. Honest advice, fair prices, and work we are proud to put our name to.</p>
+    <div class="values">
+      <span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-9.5-9A5 5 0 0112 6a5 5 0 019.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg> Made with care</span>
+      <span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Honest pricing</span>
+      <span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6 4.3 2.3 7.3L12 16.7 5.7 21l2.3-7.3-6-4.3h7.6z"/></svg> Local and friendly</span>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= STUDIO ======================= -->
+<section class="section studio" id="studio">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Design studio</span>
+      <h2>See it before you stitch it</h2>
+      <p class="lead">Pick a garment, choose a colour, and drop your logo on the chest. Drag to spin it around. Your design is saved on this device.</p>
+    </div>
+
+    <div class="studio-shell reveal">
+      <div class="stage3d" id="stage3d">
+        <div class="studio-loader" id="studioLoader"><div class="spinner"></div></div>
+        <div class="studio-fallback" id="studioFallback">
+          <div>
+            <h3 style="margin-bottom:.6rem">3D preview needs WebGL</h3>
+            <p>Your browser could not start the 3D view. Try a recent version of Chrome, Edge, Safari or Firefox with hardware acceleration on.</p>
+          </div>
+        </div>
+        <div class="stage-hint" aria-hidden="true">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 2L9 5M12 2l3 3"/><path d="M5 12a7 7 0 0014 0"/></svg>
+          Drag to rotate · click to place your design
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="ctl-group">
+          <h4>Garment</h4>
+          <div class="seg" id="smk-garment-btns">
+            <button data-g="hoodie" class="active">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4l5 3 5-3 4 3-2 4v9H5v-9L3 7z"/><path d="M9 4c0 2 1.5 3 3 3s3-1 3-3"/></svg>
+              Hoodie
+            </button>
+            <button data-g="tee">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l4 3 4-3 5 4-2.5 3.5V20H5.5V11.5L3 8z"/></svg>
+              T-shirt
+            </button>
+            <button data-g="polo">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l4 4 4-4 5 4-2.5 3.5V20H5.5V11.5L3 8z"/><path d="M10 4l2 3 2-3M12 7v6"/></svg>
+              Polo
+            </button>
+          </div>
+        </div>
+
+        <div class="ctl-group">
+          <h4>Fabric colour</h4>
+          <div class="swatches" id="smk-color-btns">
+            <button class="sw active" data-c="white" title="White" aria-label="White"></button>
+            <button class="sw" data-c="teal" title="Teal" aria-label="Teal"></button>
+            <button class="sw" data-c="navy" title="Navy" aria-label="Navy"></button>
+            <button class="sw" data-c="charcoal" title="Charcoal" aria-label="Charcoal"></button>
+            <button class="sw" data-c="gold" title="Gold" aria-label="Gold"></button>
+            <button class="sw" data-c="burgundy" title="Burgundy" aria-label="Burgundy"></button>
+          </div>
+        </div>
+
+        <div class="ctl-group">
+          <h4>Your design</h4>
+          <div class="upload-row">
+            <label class="upload-btn">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M8 8l4-4 4 4"/><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+              Upload logo
+              <input type="file" id="smk-upload" accept="image/*" hidden />
+            </label>
+            <button class="mini-btn" id="smk-clear" type="button">Remove</button>
+          </div>
+          <div class="slider-row" style="margin-top:1rem">
+            <label for="smk-size">Size</label>
+            <input type="range" id="smk-size" min="0.5" max="1.8" step="0.02" value="1" disabled />
+          </div>
+          <p class="ctl-note" style="margin-top:.8rem"><b>Tip:</b> after uploading, click anywhere on the chest to move your print, then use the slider to resize.</p>
+          <p class="ctl-note" id="smk-status" role="status" aria-live="polite" style="display:none;margin-top:.6rem;color:var(--burgundy)"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap"><svg class="stitch-divider reveal" viewBox="0 0 1200 26" preserveAspectRatio="none" aria-hidden="true"><path d="M0 13 H1200"/></svg></div>
+
+<!-- ======================= REVIEWS ======================= -->
+<section class="section reviews" id="reviews">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Kind words</span>
+      <h2>What people say</h2>
+      <p class="lead">A flavour of the feedback we aim for on every order.</p>
+    </div>
+    <div class="review-grid">
+      <figure class="review reveal" data-delay="1">
+        <div class="stars" aria-label="5 out of 5 stars">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.6 1.5 6.7L12 17.3 6 20.8l1.5-6.7L2.4 9.5l6.8-.6z"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.6 1.5 6.7L12 17.3 6 20.8l1.5-6.7L2.4 9.5l6.8-.6z"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.6 1.5 6.7L12 17.3 6 20.8l1.5-6.7L2.4 9.5l6.8-.6z"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.6 1.5 6.7L12 17.3 6 20.8l1.5-6.7L2.4 9.5l6.8-.6z"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.6 1.5 6.7L12 17.3 6 20.8l1.5-6.7L2.4 9.5l6.8-.6z"/></svg>
+        </div>
+        <p>&ldquo;The embroidery on our team polos looked spotless and turned up ahead of schedule.&rdquo;</p>
+        <figcaption class="by">A local business</figcaption>
+      </figure>
+      <figure class="review reveal" data-delay="2">
+        <div class="stars" aria-label="5 out of 5 stars">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.6 1.5 6.7L12 17.3 6 20.8l1.5-6.7L2.4 9.5l6.8-.6z"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.6 1.5 6.7L12 17.3 6 20.8l1.5-6.7L2.4 9.5l6.8-.6z"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.6 1.5 6.7L12 17.3 6 20.8l1.5-6.7L2.4 9.5l6.8-.6z"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.6 1.5 6.7L12 17.3 6 20.8l1.5-6.7L2.4 9.5l6.8-.6z"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.6 1.5 6.7L12 17.3 6 20.8l1.5-6.7L2.4 9.5l6.8-.6z"/></svg>
+        </div>
+        <p>&ldquo;They sorted our workwear with no fuss and a really fair price. Lovely people to deal with.&rdquo;</p>
+        <figcaption class="by">Small trade team</figcaption>
+      </figure>
+      <figure class="review reveal" data-delay="3">
+        <div class="stars" aria-label="5 out of 5 stars">
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.6 1.5 6.7L12 17.3 6 20.8l1.5-6.7L2.4 9.5l6.8-.6z"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.6 1.5 6.7L12 17.3 6 20.8l1.5-6.7L2.4 9.5l6.8-.6z"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.6 1.5 6.7L12 17.3 6 20.8l1.5-6.7L2.4 9.5l6.8-.6z"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.6 1.5 6.7L12 17.3 6 20.8l1.5-6.7L2.4 9.5l6.8-.6z"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.6 1.5 6.7L12 17.3 6 20.8l1.5-6.7L2.4 9.5l6.8-.6z"/></svg>
+        </div>
+        <p>&ldquo;Brought in our own hoodies and they came back looking better than new.&rdquo;</p>
+        <figcaption class="by">A returning customer</figcaption>
+      </figure>
+    </div>
+    <div class="reviews-cta reveal">
+      <a class="btn btn-primary" href="https://www.stitchmiltonkeynes.co.uk/" target="_blank" rel="noopener">Read our reviews</a>
+      <span class="reviews-note">Quotes shown are illustrative placeholders. Real reviews live on our website.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= CONTACT / FOOTER ======================= -->
+<footer class="section contact" id="contact">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="reveal">
+        <span class="eyebrow" style="color:#8fd4ee">Say hello</span>
+        <h2>Let us make something<br>you will love to wear</h2>
+        <p class="lead" style="margin-top:1.2rem">Tell us about your project and we will get straight back to you. Visitors are welcome by appointment.</p>
+        <div class="contact-actions">
+          <a class="btn btn-primary" href="tel:+441525261250">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h4l2 5-3 2a12 12 0 006 6l2-3 5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 011-2z"/></svg>
+            Call 01525 261250
+          </a>
+          <a class="btn btn-outline-light" href="https://www.stitchmiltonkeynes.co.uk/" target="_blank" rel="noopener">Get a quote online</a>
+        </div>
+        <div class="socials">
+          <a href="https://www.facebook.com/stitchmiltonkeynes/" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 10-11.6 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5v1.8h2.6l-.4 2.9h-2.2v7A10 10 0 0022 12z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/_stitchmiltonkeynes/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/search/results/companies/?keywords=Stitch%20Milton%20Keynes" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 002.5 6a2.5 2.5 0 005 0 2.5 2.5 0 00-2.52-2.5zM3 8.5h4V21H3zM9.5 8.5h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4 0 4.88 2.6 4.88 6V21h-4v-5.5c0-1.3 0-3-1.9-3s-2.2 1.4-2.2 2.9V21h-4z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="detail-card reveal" data-delay="1">
+        <div class="detail">
+          <div class="di"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6-7-11a7 7 0 0114 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+          <div><b>Workshop</b><span>Unit 22 Galley Lane Farm, Galley Lane,<br>Milton Keynes, MK17 9AA</span></div>
+        </div>
+        <div class="detail">
+          <div class="di"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h4l2 5-3 2a12 12 0 006 6l2-3 5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 011-2z"/></svg></div>
+          <div><b>Call or text</b>
+            <a href="tel:+441525261250">01525 261250</a> &nbsp;·&nbsp; <a href="tel:+447793244379">07793 244379</a>
+          </div>
+        </div>
+        <div class="detail">
+          <div class="di"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <div><b>Opening hours</b><span>Monday to Friday, 9:30 to 17:00<br>Visitors by appointment</span></div>
+        </div>
+        <div class="detail">
+          <div class="di"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9 6 9-6M3 7v10h18V7L12 13z"/></svg></div>
+          <div><b>Online</b><a href="https://www.stitchmiltonkeynes.co.uk/" target="_blank" rel="noopener">stitchmiltonkeynes.co.uk</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bar">
+      <span>&copy; <span id="yr"></span> Stitch Milton Keynes. Family run, hand finished.</span>
+      <span>Custom embroidery &amp; printed workwear · Milton Keynes, UK</span>
+    </div>
+  </div>
+</footer>
+
+<button class="motion-pill" id="motionPill" aria-pressed="false" aria-label="Toggle ambient motion" title="Toggle ambient motion">
+  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
+  <span id="motionLabel">Lively</span>
+</button>
+
+<!-- ======================= PAGE SCRIPT ======================= -->
+<script>
+(function(){
+  "use strict";
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ----- year ----- */
+  document.getElementById("yr").textContent = new Date().getFullYear();
+
+  /* ----- nav frost on scroll ----- */
+  var nav = document.getElementById("nav");
+  function onScroll(){ nav.classList.toggle("frost", window.scrollY > 24); }
+  onScroll();
+  window.addEventListener("scroll", onScroll, {passive:true});
+
+  /* ----- mobile menu (scrim, scroll lock, Escape, outside-click) ----- */
+  var toggle = document.getElementById("navToggle");
+  var links = document.getElementById("navLinks");
+  var scrim = document.getElementById("navScrim");
+  var toggleIcon = document.getElementById("navToggleIcon");
+  var ICON_MENU = '<line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/>';
+  var ICON_CLOSE = '<line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/>';
+  function setMenu(open){
+    links.classList.toggle("open", open);
+    if(scrim) scrim.classList.toggle("show", open);
+    document.body.classList.toggle("nav-open", open);
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    if(toggleIcon) toggleIcon.innerHTML = open ? ICON_CLOSE : ICON_MENU;
+  }
+  toggle.addEventListener("click", function(){ setMenu(!links.classList.contains("open")); });
+  if(scrim) scrim.addEventListener("click", function(){ setMenu(false); });
+  links.addEventListener("click", function(e){ if(e.target.closest("a")) setMenu(false); });
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape" && links.classList.contains("open")) setMenu(false); });
+  window.addEventListener("resize", function(){ if(window.innerWidth > 860 && links.classList.contains("open")) setMenu(false); });
+
+  /* ----- reveal on scroll -----
+     IntersectionObserver drives reveals efficiently, but a throttled
+     scroll/resize "sweep" runs alongside it as a guaranteed safety net so
+     nothing ever stays hidden: fast or programmatic scrolling that outruns IO,
+     pages that are scaled or embedded so IO never fires, and browsers without
+     IO are all covered. Reduced motion reveals everything up front. Injected
+     content (the brand patches) is registered through the same path. */
+  var io = null;
+  var pending = [];
+  var ticking = false;
+  function show(el){ el.classList.add("in"); }
+  function sweep(){
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    for(var i = pending.length - 1; i >= 0; i--){
+      var el = pending[i];
+      if(el.classList.contains("in") || el.getBoundingClientRect().top < vh * 0.92){
+        show(el); pending.splice(i, 1);
+      }
+    }
+  }
+  function onScrollResize(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){ ticking = false; sweep(); });
+  }
+  function registerReveals(list){
+    if(reduceMotion){ Array.prototype.forEach.call(list, show); return; }
+    Array.prototype.forEach.call(list, function(el){
+      if(el.classList.contains("in")) return;
+      pending.push(el);
+      if(io) io.observe(el);
+    });
+    sweep();
+  }
+  if(!reduceMotion){
+    if("IntersectionObserver" in window){
+      io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting){ show(en.target); io.unobserve(en.target); } });
+      }, {threshold:0.12, rootMargin:"0px 0px -8% 0px"});
+    }
+    window.addEventListener("scroll", onScrollResize, {passive:true});
+    window.addEventListener("resize", onScrollResize);
+  }
+  registerReveals(document.querySelectorAll(".reveal"));
+
+  /* ----- hero patch: cursor parallax tilt + sheen ----- */
+  var patch = document.getElementById("heroPatch");
+  var sheen = document.getElementById("heroSheen");
+  var stage = patch && patch.parentElement;
+  if(patch && stage && !reduceMotion && matchMedia("(pointer:fine)").matches){
+    stage.addEventListener("pointermove", function(e){
+      var r = stage.getBoundingClientRect();
+      var px = (e.clientX - r.left)/r.width, py = (e.clientY - r.top)/r.height;
+      if(document.documentElement.getAttribute("data-motion") === "calm") return;
+      patch.style.transform = "rotateY(" + ((px-0.5)*22) + "deg) rotateX(" + ((0.5-py)*22) + "deg)";
+      sheen.style.setProperty("--mx", (px*100)+"%");
+      sheen.style.setProperty("--my", (py*100)+"%");
+    });
+    stage.addEventListener("pointerleave", function(){ patch.style.transform = ""; });
+  }
+
+  /* ----- brand patches (invented demos) ----- */
+  var brands = [
+    {name:"Northfield Joinery",  shape:"shield",  bg:"#1A88B0", ac:"#C79A3B", ic:"tools",  tag:"Est. Milton Keynes"},
+    {name:"Redway Rovers FC",    shape:"circle",  bg:"#16305A", ac:"#C79A3B", ic:"ball",   tag:"Sunday League"},
+    {name:"Willow &amp; Co Bakery",  shape:"rounded", bg:"#6E2233", ac:"#F6F3EC", ic:"wheat",  tag:"Fresh Daily"},
+    {name:"Grand Union Plumbing",shape:"hex",     bg:"#0A3F54", ac:"#2EA7D5", ic:"drop",   tag:"Trusted Trade"},
+    {name:"Ouzel Valley Farm",   shape:"circle",  bg:"#2B6B4F", ac:"#C79A3B", ic:"leaf",   tag:"Local Produce"},
+    {name:"Bletchley Boxing Club",shape:"shield", bg:"#2B2F33", ac:"#C0392B", ic:"glove",  tag:"Since 1998"}
+  ];
+  var icons = {
+    tools:'<path d="M40 60 L60 40" stroke="{ac}" stroke-width="6" stroke-linecap="round"/><circle cx="60" cy="40" r="6" fill="none" stroke="{ac}" stroke-width="4"/><path d="M38 42 l8 8 M42 38 l8 8" stroke="#fff" stroke-width="4" stroke-linecap="round"/>',
+    ball:'<circle cx="50" cy="50" r="16" fill="none" stroke="{ac}" stroke-width="4"/><path d="M50 34 l6 10 -6 8 -6 -8z" fill="{ac}"/><path d="M34 46 l10 4 M66 46 l-10 4" stroke="#fff" stroke-width="3" stroke-linecap="round"/>',
+    wheat:'<path d="M50 34 v32" stroke="{ac}" stroke-width="4" stroke-linecap="round"/><path d="M50 40 q8 -2 10 4 q-8 2 -10 -4z M50 48 q8 -2 10 4 q-8 2 -10 -4z M50 40 q-8 -2 -10 4 q8 2 10 -4z M50 48 q-8 -2 -10 4 q8 2 10 -4z" fill="{ac}"/>',
+    drop:'<path d="M50 32 q12 16 12 24 a12 12 0 01-24 0 q0 -8 12 -24z" fill="none" stroke="{ac}" stroke-width="4"/><path d="M46 52 a4 4 0 004 4" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>',
+    leaf:'<path d="M38 62 q0 -22 24 -24 q2 22 -24 24z" fill="none" stroke="{ac}" stroke-width="4"/><path d="M40 60 q10 -10 20 -20" stroke="{ac}" stroke-width="3" stroke-linecap="round"/>',
+    glove:'<path d="M40 46 q0 -8 6 -8 q6 0 6 8 v2 q4 -2 6 2 q2 4 -2 8 q-2 8 -10 8 q-8 0 -10 -8 q-2 -6 4 -10z" fill="none" stroke="{ac}" stroke-width="4"/>'
+  };
+  function shapePath(shape){
+    switch(shape){
+      case "shield": return '<path d="M50 6 L90 20 V52 Q90 82 50 96 Q10 82 10 52 V20 Z" {fill}/>';
+      case "rounded": return '<rect x="8" y="8" width="84" height="84" rx="20" {fill}/>';
+      case "hex": return '<path d="M50 6 L88 28 V72 L50 94 L12 72 V28 Z" {fill}/>';
+      default: return '<circle cx="50" cy="50" r="44" {fill}/>';
+    }
+  }
+  function patchSVG(b){
+    var outline = shapePath(b.shape);
+    var body = outline.replace("{fill}", 'fill="'+b.bg+'"');
+    var border = outline.replace("{fill}", 'fill="none" stroke="#F6F3EC" stroke-width="7" stroke-dasharray="4 4"');
+    var icon = (icons[b.ic]||"").replace(/\{ac\}/g, b.ac);
+    // The accessible name lives on the card wrapper (role=img); the SVG is decorative.
+    return '<svg viewBox="0 0 100 100" aria-hidden="true">'
+         + body + border
+         + '<g>'+icon+'</g>'
+         + '</svg>';
+  }
+  var grid = document.getElementById("brandGrid");
+  if(grid){
+    brands.forEach(function(b, i){
+      var wrap = document.createElement("div");
+      wrap.className = "flip reveal";
+      wrap.setAttribute("role","img");
+      wrap.setAttribute("tabindex","0");
+      wrap.setAttribute("data-delay", String((i%4)+1));
+      wrap.setAttribute("aria-label", "Example embroidered patch: " + b.name.replace(/&amp;/g,"and"));
+      wrap.innerHTML =
+        '<div class="flip-inner">'
+        + '<div class="flip-face">'+patchSVG(b)+'</div>'
+        + '<div class="flip-face flip-back" aria-hidden="true"><div class="disc"><small>'+b.tag+'</small><b>'+b.name+'</b><small style="margin-top:.4rem;color:var(--teal-accent)">Example only</small></div></div>'
+        + '</div>';
+      grid.appendChild(wrap);
+    });
+    // Patches are injected after the observer exists, so register them the same way.
+    registerReveals(grid.querySelectorAll(".reveal"));
+  }
+
+  /* ----- motion toggle ----- */
+  var pill = document.getElementById("motionPill");
+  var label = document.getElementById("motionLabel");
+  var html = document.documentElement;
+  var stored = null;
+  try{ stored = localStorage.getItem("smkMotion"); }catch(e){}
+  var mode = stored || (reduceMotion ? "calm" : "lively");
+  function applyMotion(m){
+    html.setAttribute("data-motion", m);
+    label.textContent = m === "calm" ? "Calm" : "Lively";
+    pill.setAttribute("aria-pressed", m === "calm" ? "true":"false");
+    try{ localStorage.setItem("smkMotion", m); }catch(e){}
+    window.dispatchEvent(new CustomEvent("smk-motion", {detail:m}));
+  }
+  applyMotion(mode);
+  pill.addEventListener("click", function(){
+    applyMotion(html.getAttribute("data-motion") === "calm" ? "lively" : "calm");
+  });
+})();
+</script>
+
+<!-- three.js import map (CDN, https, CORS-enabled: works from file:// and when hosted) -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+
+<!-- 3D garment customiser.
+     Kept inline (rather than a separate ./studio3d.js) so the whole page works
+     as a single file opened straight from disk: three.js is fetched from the CDN
+     over https (CORS enabled) which is allowed even from a file:// origin, whereas
+     a local module import would be blocked. Clearly sectioned for maintainability. -->
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+
+/* ---------------------------------------------------------------- state */
+const STORE_KEY = "smkStudio3d_v1";
+const COLORS = { white:0xF4F4F1, teal:0x2EA7D5, navy:0x16305A, charcoal:0x2B2F33, gold:0xC79A3B, burgundy:0x6E2233 };
+const GARMENTS = ["hoodie","tee","polo"];
+
+function defaults(){ return { garment:"hoodie", color:"white", size:1, print:null, printPos:{ angle:0, y:0.16 } }; }
+function loadState(){
+  try{
+    const s = JSON.parse(localStorage.getItem(STORE_KEY));
+    if(s && typeof s === "object"){
+      const d = defaults();
+      return {
+        garment: GARMENTS.includes(s.garment) ? s.garment : d.garment,
+        color:   COLORS[s.color] !== undefined ? s.color : d.color,
+        size:    typeof s.size === "number" ? Math.min(1.8, Math.max(0.5, s.size)) : d.size,
+        print:   typeof s.print === "string" ? s.print : null,
+        printPos:(s.printPos && typeof s.printPos.angle === "number") ? s.printPos : d.printPos
+      };
+    }
+  }catch(e){}
+  return defaults();
+}
+let state = loadState();
+function saveState(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); return true; }catch(e){ return false; } }
+
+/* ---------------------------------------------------------------- dom */
+const stageEl    = document.getElementById("stage3d");
+const loaderEl   = document.getElementById("studioLoader");
+const fallbackEl = document.getElementById("studioFallback");
+const sizeInput  = document.getElementById("smk-size");
+const uploadInput= document.getElementById("smk-upload");
+const clearBtn   = document.getElementById("smk-clear");
+const colorBtns  = document.getElementById("smk-color-btns");
+const garmentBtns= document.getElementById("smk-garment-btns");
+
+function showFallback(){ if(loaderEl) loaderEl.classList.add("hide"); if(fallbackEl) fallbackEl.classList.add("show"); }
+function webglSupported(){
+  try{ const c = document.createElement("canvas"); return !!(window.WebGLRenderingContext && (c.getContext("webgl2") || c.getContext("webgl"))); }
+  catch(e){ return false; }
+}
+
+if(!stageEl){ /* nothing to mount */ }
+else if(!webglSupported()){ showFallback(); }
+else { try{ boot(); }catch(err){ console.error("[studio] boot failed", err); showFallback(); } }
+
+/* ---------------------------------------------------------------- boot */
+function boot(){
+  const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true, powerPreference:"high-performance" });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.0;
+  sizeRenderer();
+  stageEl.appendChild(renderer.domElement);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(34, aspect(), 0.1, 100);
+  camera.position.set(0, 0.25, 6.3);
+
+  // Procedural studio environment for soft PBR reflections
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  pmrem.dispose(); // the generated env texture is independent of the generator
+
+  // Lighting — kept gentle so the environment map does most of the work and
+  // dark fabric colours stay saturated instead of blowing out to white.
+  const hemi = new THREE.HemisphereLight(0xffffff, 0x9aa7b0, 0.28); scene.add(hemi);
+  const key = new THREE.DirectionalLight(0xffffff, 1.05); key.position.set(3, 5, 4); scene.add(key);
+  const fill = new THREE.DirectionalLight(0xd9ecff, 0.32); fill.position.set(-4, 1.5, 2); scene.add(fill);
+  const rim = new THREE.DirectionalLight(0xffffff, 0.5); rim.position.set(0, 2, -5); scene.add(rim);
+
+  // Controls
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.08;
+  controls.enablePan = false;
+  controls.minDistance = 4.4;
+  controls.maxDistance = 9;
+  controls.minPolarAngle = 0.55;
+  controls.maxPolarAngle = 2.15;
+  controls.target.set(0, 0.05, 0);
+  controls.autoRotate = document.documentElement.getAttribute("data-motion") !== "calm";
+  controls.autoRotateSpeed = 0.85;
+
+  // Shared assets
+  const weaveNormal = makeWeaveNormal();
+  // Shared trims (created once, reused across garments). Flagged so disposeObject
+  // never frees them when a garment group is torn down on switch.
+  const cordMat = new THREE.MeshPhysicalMaterial({ color:0xece9f1, roughness:0.7, sheen:0.5 });
+  const darkTrimMat = new THREE.MeshStandardMaterial({ color:0x20262b, roughness:0.6, metalness:0.1 });
+  cordMat.userData.keep = true;
+  darkTrimMat.userData.keep = true;
+
+  // Contact shadow
+  const shadow = makeContactShadow();
+  shadow.position.y = -1.72;
+  scene.add(shadow);
+
+  // Garment + print
+  let garment = null;
+  let bodyMeshes = [];
+  let fabricMats = [];
+  const printTex = { value:null };
+  let printMesh = buildPrintMesh();
+  printMesh.visible = false;
+
+  buildGarment(state.garment);
+
+  // Restore persisted print
+  if(state.print){ loadPrintFromDataURL(state.print); }
+
+  /* ---------- garment construction ---------- */
+  function fabricMaterial(){
+    const m = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color(COLORS[state.color]),
+      roughness: 0.86, metalness: 0.0,
+      sheen: 0.6, sheenRoughness: 0.85, sheenColor: new THREE.Color(0xffffff),
+      normalMap: weaveNormal, normalScale: new THREE.Vector2(0.3, 0.3),
+      envMapIntensity: 0.85
+    });
+    fabricMats.push(m);
+    return m;
+  }
+  function addFabric(group, geo, isBody){
+    const mesh = new THREE.Mesh(geo, fabricMaterial());
+    group.add(mesh);
+    if(isBody) bodyMeshes.push(mesh);
+    return mesh;
+  }
+
+  function torsoGeometry(){
+    // profile from hem (bottom) up to the collar hole, revolved around Y
+    const pts = [
+      new THREE.Vector2(1.02, -1.55),
+      new THREE.Vector2(0.98, -1.05),
+      new THREE.Vector2(0.94, -0.45),
+      new THREE.Vector2(1.02,  0.30),
+      new THREE.Vector2(1.14,  0.92),
+      new THREE.Vector2(1.02,  1.12),
+      new THREE.Vector2(0.72,  1.20),
+      new THREE.Vector2(0.44,  1.24)
+    ];
+    const geo = new THREE.LatheGeometry(pts, 48);
+    geo.scale(1, 1, 0.62); // flatten front-to-back into a torso oval
+    geo.computeVertexNormals();
+    return geo;
+  }
+
+  function sleeve(group, side, opts){
+    const { len, rTop, rBot, cuff } = opts;
+    const g = new THREE.Group();
+    const geo = new THREE.CylinderGeometry(rTop, rBot, len, 24, 1, false);
+    const m = addFabric(g, geo, false);
+    m.position.y = -len/2;
+    if(cuff){
+      const cg = new THREE.TorusGeometry(rBot, 0.055, 10, 24);
+      const cm = new THREE.Mesh(cg, fabricMaterial());
+      cm.position.y = -len; cm.rotation.x = Math.PI/2;
+      g.add(cm);
+    } else {
+      const cap = addFabric(g, new THREE.SphereGeometry(rBot, 18, 14, 0, Math.PI*2, 0, Math.PI/2), false);
+      cap.position.y = -len; cap.rotation.x = Math.PI;
+    }
+    g.position.set(side * 1.02, 0.72, 0);
+    g.rotation.z = side * 0.62;           // angle down and out
+    g.scale.z = 0.9;
+    group.add(g);
+    return g;
+  }
+
+  function buildGarment(type){
+    if(garment){ garment.remove(printMesh); scene.remove(garment); disposeObject(garment); }
+    bodyMeshes = []; fabricMats = [];
+    garment = new THREE.Group();
+
+    // Body
+    addFabric(garment, torsoGeometry(), true);
+
+    if(type === "hoodie"){
+      sleeve(garment, -1, { len:1.85, rTop:0.34, rBot:0.24, cuff:false });
+      sleeve(garment,  1, { len:1.85, rTop:0.34, rBot:0.24, cuff:false });
+      // hood (bunched dome behind the neck)
+      const hoodGeo = new THREE.SphereGeometry(0.62, 28, 20, 0, Math.PI*2, 0, Math.PI*0.62);
+      hoodGeo.scale(1, 0.9, 0.75);
+      const hood = addFabric(garment, hoodGeo, false);
+      hood.position.set(0, 1.02, -0.28); hood.rotation.x = -0.5;
+      // hood opening trim
+      const trim = new THREE.Mesh(new THREE.TorusGeometry(0.44, 0.05, 10, 30), fabricMaterial());
+      trim.position.set(0, 1.12, 0.02); trim.rotation.x = 1.15; garment.add(trim);
+      // kangaroo pocket
+      const pkt = new THREE.Mesh(roundedBox(1.25, 0.62, 0.12, 0.1), fabricMaterial());
+      pkt.position.set(0, -0.72, 0.60); pkt.scale.z = 0.9; garment.add(pkt);
+      // drawstrings
+      [-0.13, 0.13].forEach(function(x){
+        const cord = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.55, 8), cordMat);
+        cord.position.set(x, 0.82, 0.6); garment.add(cord);
+        const aglet = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.07, 8), darkTrimMat);
+        aglet.position.set(x, 0.53, 0.6); garment.add(aglet);
+      });
+    } else if(type === "tee"){
+      sleeve(garment, -1, { len:0.7, rTop:0.4, rBot:0.42, cuff:false });
+      sleeve(garment,  1, { len:0.7, rTop:0.4, rBot:0.42, cuff:false });
+      // crew neck rib
+      const neck = new THREE.Mesh(new THREE.TorusGeometry(0.42, 0.06, 12, 32), fabricMaterial());
+      neck.position.set(0, 1.2, 0); neck.rotation.x = Math.PI/2; neck.scale.z = 0.62; garment.add(neck);
+    } else { // polo
+      sleeve(garment, -1, { len:0.78, rTop:0.4, rBot:0.4, cuff:true });
+      sleeve(garment,  1, { len:0.78, rTop:0.4, rBot:0.4, cuff:true });
+      // collar
+      const collar = new THREE.Mesh(new THREE.TorusGeometry(0.42, 0.075, 12, 32, Math.PI*1.25), fabricMaterial());
+      collar.position.set(0, 1.16, 0.02); collar.rotation.set(1.35, 0, Math.PI*0.375); collar.scale.z = 0.7; garment.add(collar);
+      // placket
+      const plk = addFabric(garment, roundedBox(0.16, 0.62, 0.06, 0.03), false);
+      plk.position.set(0, 0.86, 0.60); plk.scale.z = 0.9;
+      // buttons
+      [1.0, 0.72].forEach(function(y){
+        const b = new THREE.Mesh(new THREE.SphereGeometry(0.035, 12, 10), cordMat);
+        b.position.set(0, y, 0.63); garment.add(b);
+      });
+    }
+
+    garment.add(printMesh);
+    applyColor();
+    applyPrintTransform();
+    scene.add(garment);
+  }
+
+  /* ---------- print (curved chest patch) ---------- */
+  function buildPrintMesh(){
+    const mat = new THREE.MeshPhysicalMaterial({
+      transparent:true, roughness:0.62, metalness:0.0,
+      sheen:0.2, envMapIntensity:0.3,
+      polygonOffset:true, polygonOffsetFactor:-2, polygonOffsetUnits:-2,
+      depthWrite:false
+    });
+    const mesh = new THREE.Mesh(printGeometry(1), mat);
+    return mesh;
+  }
+  function printGeometry(size){
+    const R = 0.70;                                   // sits just proud of the chest
+    const arc = THREE.MathUtils.degToRad(40) * size;  // angular width
+    const img = printTex.value && printTex.value.image;
+    const aspect = (img && img.width && img.height) ? (img.width / img.height) : 1;
+    const worldW = R * arc;
+    const worldH = worldW / aspect;
+    return new THREE.CylinderGeometry(R, R, worldH, 40, 1, true, -arc/2, arc);
+  }
+  function rebuildPrintGeometry(){
+    const old = printMesh.geometry;
+    printMesh.geometry = printGeometry(state.size);
+    old.dispose();
+  }
+  function applyPrintTransform(){
+    printMesh.rotation.y = state.printPos.angle;
+    printMesh.position.y = state.printPos.y;
+  }
+  function loadPrintFromDataURL(url){
+    const img = new Image();
+    img.onload = function(){
+      const tex = new THREE.Texture(img);
+      tex.colorSpace = THREE.SRGBColorSpace;
+      tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      tex.needsUpdate = true;
+      if(printTex.value) printTex.value.dispose();
+      printTex.value = tex;
+      printMesh.material.map = tex;
+      printMesh.material.needsUpdate = true;
+      rebuildPrintGeometry();
+      printMesh.visible = true;
+      sizeInput.disabled = false;
+    };
+    img.onerror = function(){ console.warn("[studio] could not load saved print"); };
+    img.src = url;
+  }
+
+  /* ---------- appearance ---------- */
+  function applyColor(){
+    const c = new THREE.Color(COLORS[state.color]);
+    fabricMats.forEach(function(m){ m.color.copy(c); });
+  }
+
+  /* ---------- interaction: click to place ---------- */
+  const ray = new THREE.Raycaster();
+  const ndc = new THREE.Vector2();
+  let down = null;
+  renderer.domElement.addEventListener("pointerdown", function(e){ down = { x:e.clientX, y:e.clientY, t:performance.now() }; });
+  renderer.domElement.addEventListener("pointerup", function(e){
+    if(!down) return;
+    const moved = Math.hypot(e.clientX - down.x, e.clientY - down.y);
+    const quick = performance.now() - down.t < 350;
+    down = null;
+    if(moved < 6 && quick) placeAt(e.clientX, e.clientY);
+  });
+  function placeAt(clientX, clientY){
+    if(!printMesh.visible) return;
+    const r = renderer.domElement.getBoundingClientRect();
+    ndc.x = ((clientX - r.left) / r.width) * 2 - 1;
+    ndc.y = -((clientY - r.top) / r.height) * 2 + 1;
+    ray.setFromCamera(ndc, camera);
+    const hits = ray.intersectObjects(bodyMeshes, false);
+    if(!hits.length) return;
+    const p = garment.worldToLocal(hits[0].point.clone());
+    if(p.z <= 0) return;                              // front of the garment only
+    state.printPos = {
+      angle: THREE.MathUtils.clamp(Math.atan2(p.x, p.z), -0.6, 0.6),
+      y:     THREE.MathUtils.clamp(p.y, -0.45, 0.85)
+    };
+    applyPrintTransform();
+    saveState();
+  }
+
+  /* ---------- UI wiring ---------- */
+  garmentBtns.querySelectorAll("button").forEach(function(btn){
+    btn.classList.toggle("active", btn.dataset.g === state.garment);
+    btn.addEventListener("click", function(){
+      state.garment = btn.dataset.g;
+      garmentBtns.querySelectorAll("button").forEach(function(b){ b.classList.toggle("active", b === btn); });
+      buildGarment(state.garment);
+      saveState();
+    });
+  });
+  colorBtns.querySelectorAll("button").forEach(function(btn){
+    btn.classList.toggle("active", btn.dataset.c === state.color);
+    btn.addEventListener("click", function(){
+      state.color = btn.dataset.c;
+      colorBtns.querySelectorAll("button").forEach(function(b){ b.classList.toggle("active", b === btn); });
+      applyColor(); saveState();
+    });
+  });
+  sizeInput.value = state.size;
+  sizeInput.disabled = !state.print;
+  sizeInput.addEventListener("input", function(){
+    state.size = parseFloat(sizeInput.value);
+    if(printMesh.visible) rebuildPrintGeometry();
+    saveState();
+  });
+  uploadInput.addEventListener("change", function(e){
+    const file = e.target.files && e.target.files[0];
+    if(!file) return;
+    setStatus("");
+    const reader = new FileReader();
+    reader.onload = function(){
+      // Bound the stored image so a large photo cannot blow the localStorage quota
+      // (which would otherwise fail silently and stop all later saves too).
+      downscaleDataURL(reader.result, 640, function(smallUrl){
+        state.print = smallUrl;
+        state.printPos = defaults().printPos;
+        loadPrintFromDataURL(state.print);
+        if(!saveState()){
+          setStatus("That image is large, so it shows now but may not be remembered after you close the tab.");
+        }
+      });
+    };
+    reader.onerror = function(){ setStatus("Sorry, that file could not be read. Please try another image."); };
+    reader.readAsDataURL(file);
+    uploadInput.value = "";
+  });
+  clearBtn.addEventListener("click", function(){
+    state.print = null;
+    printMesh.visible = false;
+    if(printTex.value){ printTex.value.dispose(); printTex.value = null; }
+    printMesh.material.map = null; printMesh.material.needsUpdate = true;
+    sizeInput.disabled = true;
+    saveState();
+  });
+
+  // Motion toggle from the page pill
+  window.addEventListener("smk-motion", function(e){ controls.autoRotate = e.detail !== "calm"; });
+
+  /* ---------- resize + render loop ---------- */
+  function aspect(){ const r = stageEl.getBoundingClientRect(); return Math.max(0.2, r.width / Math.max(1, r.height)); }
+  function sizeRenderer(){ const r = stageEl.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); }
+  const ro = new ResizeObserver(function(){ sizeRenderer(); camera.aspect = aspect(); camera.updateProjectionMatrix(); });
+  ro.observe(stageEl);
+
+  let firstFrame = true;
+  renderer.setAnimationLoop(function(){
+    controls.update();
+    renderer.render(scene, camera);
+    if(firstFrame){ firstFrame = false; if(loaderEl) loaderEl.classList.add("hide"); }
+  });
+}
+
+/* ---------------------------------------------------------------- helpers */
+function roundedBox(w, h, d, r){
+  // Approximate rounded box via a scaled, subdivided box (cheap, looks soft)
+  const geo = new THREE.BoxGeometry(w, h, d, 6, 6, 2);
+  const pos = geo.attributes.position;
+  const v = new THREE.Vector3();
+  const hx = w/2 - r, hy = h/2 - r, hz = d/2 - r;
+  for(let i=0;i<pos.count;i++){
+    v.fromBufferAttribute(pos, i);
+    const cx = THREE.MathUtils.clamp(v.x, -hx, hx);
+    const cy = THREE.MathUtils.clamp(v.y, -hy, hy);
+    const cz = THREE.MathUtils.clamp(v.z, -hz, hz);
+    const dir = new THREE.Vector3(v.x-cx, v.y-cy, v.z-cz);
+    if(dir.length() > 0){ dir.setLength(r); pos.setXYZ(i, cx+dir.x, cy+dir.y, cz+dir.z); }
+  }
+  geo.computeVertexNormals();
+  return geo;
+}
+
+function makeWeaveNormal(){
+  const s = 128, c = document.createElement("canvas"); c.width = c.height = s;
+  const ctx = c.getContext("2d");
+  const img = ctx.createImageData(s, s);
+  const freq = Math.PI * 2 * 12;
+  for(let y=0;y<s;y++){
+    for(let x=0;x<s;x++){
+      const nx = Math.sin(x/s*freq) * Math.cos(y/s*freq*0.5) * 0.5;
+      const ny = Math.sin(y/s*freq) * Math.cos(x/s*freq*0.5) * 0.5;
+      const i = (y*s+x)*4;
+      img.data[i]   = 128 + nx*70;
+      img.data[i+1] = 128 + ny*70;
+      img.data[i+2] = 255;
+      img.data[i+3] = 255;
+    }
+  }
+  ctx.putImageData(img, 0, 0);
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.repeat.set(7, 7);
+  return t;
+}
+
+function makeContactShadow(){
+  const s = 256, c = document.createElement("canvas"); c.width = c.height = s;
+  const ctx = c.getContext("2d");
+  const g = ctx.createRadialGradient(s/2, s/2, 0, s/2, s/2, s/2);
+  g.addColorStop(0, "rgba(10,40,50,0.42)");
+  g.addColorStop(0.55, "rgba(10,40,50,0.18)");
+  g.addColorStop(1, "rgba(10,40,50,0)");
+  ctx.fillStyle = g; ctx.fillRect(0, 0, s, s);
+  const tex = new THREE.CanvasTexture(c);
+  const mat = new THREE.MeshBasicMaterial({ map:tex, transparent:true, depthWrite:false });
+  const mesh = new THREE.Mesh(new THREE.PlaneGeometry(3.6, 3.6), mat);
+  mesh.rotation.x = -Math.PI/2;
+  mesh.scale.set(1, 0.7, 1);
+  return mesh;
+}
+
+function setStatus(msg){
+  const s = document.getElementById("smk-status");
+  if(!s) return;
+  s.textContent = msg || "";
+  s.style.display = msg ? "block" : "none";
+}
+
+// Redraw an uploaded image at a bounded size so its base64 form stays well under
+// the localStorage quota. Passes the original through if it is already small enough.
+function downscaleDataURL(url, maxDim, cb){
+  const img = new Image();
+  img.onload = function(){
+    const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+    if(scale >= 1){ cb(url); return; }
+    const w = Math.max(1, Math.round(img.width * scale));
+    const h = Math.max(1, Math.round(img.height * scale));
+    const c = document.createElement("canvas"); c.width = w; c.height = h;
+    c.getContext("2d").drawImage(img, 0, 0, w, h);
+    try{ cb(c.toDataURL("image/png")); }catch(e){ cb(url); }
+  };
+  img.onerror = function(){ cb(url); };
+  img.src = url;
+}
+
+function disposeObject(obj){
+  obj.traverse(function(o){
+    if(o.geometry) o.geometry.dispose();
+    if(o.material){
+      const mats = Array.isArray(o.material) ? o.material : [o.material];
+      // Skip shared materials (cords, trims) so garment switches don't free them.
+      mats.forEach(function(m){ if(m && m.dispose && !(m.userData && m.userData.keep)) m.dispose(); });
+    }
+  });
+}
+</script>
+
+</body>
+</html>
