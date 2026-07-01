@@ -171,6 +171,11 @@ in `localStorage` and defaults to `Calm` when the OS requests reduced motion.
 | `index.html` | The entire website — markup, styles, page logic, and the inline 3D studio |
 | `assets/favicon.svg` | Site favicon (stitch mark) |
 | `README.md` | This file |
+| `tests/smoke.mjs` | Offline Playwright smoke test of the page and 3D studio |
+| `package.json` | `lint` / `test` / `serve` scripts and dev dependencies |
+| `.htmlvalidate.json` | HTML linter configuration |
+| `.github/workflows/deploy.yml` | Auto-deploys the site to GitHub Pages on push to `main` |
+| `.claude/hooks/session-start.sh` | Installs dev tools in Claude Code web sessions |
 
 The logo, hero patch, and the six brand patches are **inline SVG** (crisp,
 themeable, no extra requests, and they pick up the page's web fonts).
@@ -209,11 +214,28 @@ the exact URLs are confirmed.
 
 ---
 
+## Development
+
+No build step. A few conveniences are wired up:
+
+```bash
+npm install       # dev tools (HTML linter, Playwright, three.js for the test)
+npm run lint      # validate index.html with html-validate
+npm test          # offline smoke test: loads the page + 3D studio in headless Chromium
+npm run serve     # preview at http://localhost:8000
+```
+
+The smoke test serves three.js from the local install, so it runs fully offline and
+checks that the page loads without errors, the studio renders (or shows its WebGL
+fallback), and the brand patches and reveals appear.
+
 ## Deploying
 
-Any static host works. For **GitHub Pages**: enable Pages for this repo/branch and
-it will serve `index.html` at the site root. The studio's three.js import map uses
-absolute HTTPS CDN URLs, so it works identically whether opened locally or hosted.
+Any static host works. A **GitHub Pages** workflow (`.github/workflows/deploy.yml`)
+publishes the site on every push to `main`. To turn it on once:
+**Settings → Pages → Build and deployment → Source: GitHub Actions.** The studio's
+three.js import map uses absolute HTTPS CDN URLs, so it works identically whether the
+file is opened locally or served from Pages.
 
 ---
 

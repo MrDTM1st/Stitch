@@ -1,0 +1,16 @@
+{
+  "name": "stitch-milton-keynes-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Stitch Milton Keynes animated single-page site with a three.js 3D garment customiser",
+  "scripts": {
+    "lint": "html-validate index.html",
+    "test": "node tests/smoke.mjs",
+    "serve": "python3 -m http.server 8000"
+  },
+  "devDependencies": {
+    "html-validate": "^9.7.1",
+    "playwright": "1.56.1",
+    "three": "0.160.0"
+  }
+}
