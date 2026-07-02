@@ -731,13 +731,13 @@ input[type=range]:disabled{opacity:.4}
         <div class="ctl-group">
           <h4>Garment</h4>
           <div class="seg" id="smk-garment-btns">
-            <button data-g="hoodie" class="active">
-              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4l5 3 5-3 4 3-2 4v9H5v-9L3 7z"/><path d="M9 4c0 2 1.5 3 3 3s3-1 3-3"/></svg>
-              Hoodie
-            </button>
-            <button data-g="tee">
+            <button data-g="tee" class="active">
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l4 3 4-3 5 4-2.5 3.5V20H5.5V11.5L3 8z"/></svg>
               T-shirt
+            </button>
+            <button data-g="hoodie">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4l5 3 5-3 4 3-2 4v9H5v-9L3 7z"/><path d="M9 4c0 2 1.5 3 3 3s3-1 3-3"/></svg>
+              Hoodie
             </button>
             <button data-g="polo">
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l4 4 4-4 5 4-2.5 3.5V20H5.5V11.5L3 8z"/><path d="M10 4l2 3 2-3M12 7v6"/></svg>
@@ -1089,11 +1089,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { DecalGeometry } from "three/addons/geometries/DecalGeometry.js";
-import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
-import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
-import { GTAOPass } from "three/addons/postprocessing/GTAOPass.js";
-import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
-import { SMAAPass } from "three/addons/postprocessing/SMAAPass.js";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 /* ---------------------------------------------------------------- state */
 const STORE_KEY = "smkStudio3d_v1";
@@ -1101,7 +1097,7 @@ const COLORS = { white:0xF4F4F1, teal:0x2EA7D5, navy:0x16305A, charcoal:0x2B2F33
 const GARMENTS = ["hoodie","tee","polo"];
 
 // state.decal = null (default chest projection) or { p:[x,y,z], n:[x,y,z] }
-function defaults(){ return { garment:"hoodie", color:"white", size:1, print:null, decal:null }; }
+function defaults(){ return { garment:"tee", color:"white", size:1, print:null, decal:null }; }
 function num3(a){ return Array.isArray(a) && a.length === 3 && a.every(n => typeof n === "number"); }
 function loadState(){
   try{
@@ -1144,21 +1140,18 @@ else { try{ boot(); }catch(err){ console.error("[studio] boot failed", err); sho
 
 /* ---------------------------------------------------------------- boot */
 function boot(){
-  let composer = null;   // declared first: sizeRenderer() (called below) reads it
   const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true, powerPreference:"high-performance" });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.02;
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   sizeRenderer();
   stageEl.appendChild(renderer.domElement);
 
   const scene = new THREE.Scene();
   scene.background = makeBackdrop();      // soft studio sweep behind the garment
   const camera = new THREE.PerspectiveCamera(33, aspect(), 0.1, 100);
-  camera.position.set(0, 0.2, 6.1);
+  camera.position.set(0, 0.55, 6.0);
 
   // Procedural studio environment for soft PBR reflections
   const pmrem = new THREE.PMREMGenerator(renderer);
@@ -1167,27 +1160,22 @@ function boot(){
 
   // Lighting — gentle so dark fabrics stay saturated; the key light casts a soft shadow.
   const hemi = new THREE.HemisphereLight(0xffffff, 0x8f9aa4, 0.30); scene.add(hemi);
-  const key = new THREE.DirectionalLight(0xffffff, 1.15); key.position.set(3.5, 6, 4.5);
-  key.castShadow = true;
-  key.shadow.mapSize.set(1024, 1024);
-  key.shadow.camera.near = 1; key.shadow.camera.far = 20;
-  key.shadow.camera.left = -3.5; key.shadow.camera.right = 3.5;
-  key.shadow.camera.top = 3.5; key.shadow.camera.bottom = -3.5;
-  key.shadow.bias = -0.0006; key.shadow.radius = 8;
-  scene.add(key);
+  const key = new THREE.DirectionalLight(0xffffff, 1.2); key.position.set(2.5, 7, 4); scene.add(key);
   const fill = new THREE.DirectionalLight(0xdceeff, 0.35); fill.position.set(-4, 1.5, 2); scene.add(fill);
   const rim  = new THREE.DirectionalLight(0xffffff, 0.55); rim.position.set(-1, 2.5, -5); scene.add(rim);
 
-  // Soft ground shadow catcher (real shadow map, grounds the garment)
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.ShadowMaterial({ color:0x0a2833, opacity:0.24 }));
-  ground.rotation.x = -Math.PI/2; ground.position.y = -1.72; ground.receiveShadow = true; scene.add(ground);
+  // Soft radial contact shadow directly under the garment (GTAO does the crease
+  // shading, so a projected shadow map is not needed and never smears behind).
+  const contact = makeContactShadow();
+  contact.position.y = -1.63;
+  scene.add(contact);
 
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true; controls.dampingFactor = 0.08; controls.enablePan = false;
   controls.minDistance = 4.2; controls.maxDistance = 9;
-  controls.minPolarAngle = 0.6; controls.maxPolarAngle = 2.05;
-  controls.target.set(0, 0.02, 0);
+  controls.minPolarAngle = 0.6; controls.maxPolarAngle = 1.9;
+  controls.target.set(0, -0.05, 0);
   controls.autoRotate = document.documentElement.getAttribute("data-motion") !== "calm";
   controls.autoRotateSpeed = 0.8;
 
@@ -1212,12 +1200,37 @@ function boot(){
   let fabricMats = [];
   let logoTex = null;
   let decalMesh = null;
+  let shirtGeo = null;    // realistic t-shirt model geometry (loaded async)
   const decalHelper = new THREE.Object3D();
   const ray = new THREE.Raycaster();
   const ndc = new THREE.Vector2();
 
   buildGarment(state.garment);
   if(state.print){ loadLogo(state.print); }
+  // The model is fetched over the network, which the browser blocks from a
+  // file:// page. When hosted (Railway/Pages/any server) it loads; opened as a
+  // bare file it falls back to the procedural tee.
+  if(location.protocol === "http:" || location.protocol === "https:") loadShirtModel();
+
+  // Load the realistic t-shirt mesh (MIT model) and, once ready, rebuild the tee
+  // with it. Fails silently to the procedural tee (e.g. opened from file://).
+  function loadShirtModel(){
+    new GLTFLoader().load("assets/models/shirt.glb", function(gltf){
+      let src = null;
+      gltf.scene.traverse(function(o){ if(o.isMesh && !src) src = o; });
+      if(!src) return;
+      const g = src.geometry.clone();
+      g.computeBoundingBox();
+      const c = new THREE.Vector3(), s = new THREE.Vector3();
+      g.boundingBox.getCenter(c); g.boundingBox.getSize(s);
+      g.translate(-c.x, -c.y, -c.z);           // centre at origin
+      const k = 2.95 / s.y;                    // scale to the studio's garment height
+      g.scale(k, k, k);
+      g.computeVertexNormals();
+      shirtGeo = g;
+      if(state.garment === "tee" && garment) buildGarment("tee");
+    }, undefined, function(err){ console.warn("[studio] realistic tee model unavailable, using procedural", err); });
+  }
 
   /* ---------- garment construction ---------- */
   function fabricMaterial(){
@@ -1274,9 +1287,12 @@ function boot(){
     bodyMeshes = []; fabricMats = [];
     garment = new THREE.Group();
 
-    // Body
+    if(type === "tee" && shirtGeo){
+      // realistic modelled t-shirt (already includes sleeves, neck and folds)
+      const shirt = addFabric(garment, shirtGeo, true);
+      shirt.position.y = -0.16;
+    } else {
     addFabric(garment, torsoGeometry(), true);
-
     if(type === "hoodie"){
       sleeve(garment, -1, 1.78, 0.34, 0.24);
       sleeve(garment,  1, 1.78, 0.34, 0.24);
@@ -1316,6 +1332,7 @@ function boot(){
         const b = mesh(garment, new THREE.SphereGeometry(0.035, 12, 10), cordMat, false);
         b.position.set(0, y, 0.63);
       });
+    }
     }
 
     applyColor();
@@ -1459,43 +1476,16 @@ function boot(){
   // Motion toggle from the page pill
   window.addEventListener("smk-motion", function(e){ controls.autoRotate = e.detail !== "calm"; });
 
-  /* ---------- post-processing: ambient occlusion for realistic contact shading ---------- */
-  // GTAO darkens creases, seams, underarms and pocket edges the way real cloth
-  // shades itself. Wrapped in try/catch with a plain-render fallback so a driver
-  // that can't handle it (or a headless software renderer) still shows the studio.
-  function buildComposer(){
-    try{
-      const r = stageEl.getBoundingClientRect();
-      const c = new EffectComposer(renderer);
-      c.addPass(new RenderPass(scene, camera));
-      const gtao = new GTAOPass(scene, camera, r.width, r.height);
-      gtao.output = GTAOPass.OUTPUT.Default;
-      if(gtao.updateGtaoMaterial) gtao.updateGtaoMaterial({ radius:0.5, distanceExponent:1.0, thickness:1.0, scale:1.0, samples:16, distanceFallOff:1.0 });
-      if("blendIntensity" in gtao) gtao.blendIntensity = 1.15;
-      c.addPass(gtao);
-      c.addPass(new OutputPass());
-      c.addPass(new SMAAPass(r.width, r.height));
-      c.__gtao = gtao;
-      composer = c;
-    }catch(e){ console.warn("[studio] AO unavailable, using plain render", e); composer = null; }
-  }
-  buildComposer();
-
   /* ---------- resize + render loop ---------- */
   function aspect(){ const r = stageEl.getBoundingClientRect(); return Math.max(0.2, r.width / Math.max(1, r.height)); }
-  function sizeRenderer(){ const r = stageEl.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); if(composer) composer.setSize(r.width, r.height); }
+  function sizeRenderer(){ const r = stageEl.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); }
   const ro = new ResizeObserver(function(){ sizeRenderer(); camera.aspect = aspect(); camera.updateProjectionMatrix(); });
   ro.observe(stageEl);
 
-  let firstFrame = true, usePost = !!composer;
+  let firstFrame = true;
   renderer.setAnimationLoop(function(){
     controls.update();
-    if(usePost){
-      try{ composer.render(); }
-      catch(e){ console.warn("[studio] AO render failed, falling back", e); usePost = false; renderer.render(scene, camera); }
-    } else {
-      renderer.render(scene, camera);
-    }
+    renderer.render(scene, camera);
     if(firstFrame){ firstFrame = false; if(loaderEl) loaderEl.classList.add("hide"); }
   });
 }
@@ -1517,6 +1507,24 @@ function roundedBox(w, h, d, r){
   }
   geo.computeVertexNormals();
   return geo;
+}
+
+// Soft radial contact shadow (a flattened plane) placed under the garment.
+function makeContactShadow(){
+  const s = 256, c = document.createElement("canvas"); c.width = c.height = s;
+  const ctx = c.getContext("2d");
+  const g = ctx.createRadialGradient(s/2, s/2, 0, s/2, s/2, s/2);
+  g.addColorStop(0, "rgba(10,40,50,0.38)");
+  g.addColorStop(0.5, "rgba(10,40,50,0.16)");
+  g.addColorStop(1, "rgba(10,40,50,0)");
+  ctx.fillStyle = g; ctx.fillRect(0, 0, s, s);
+  const tex = new THREE.CanvasTexture(c);
+  const mat = new THREE.MeshBasicMaterial({ map:tex, transparent:true, depthWrite:false });
+  const mesh = new THREE.Mesh(new THREE.PlaneGeometry(3.4, 3.4), mat);
+  mesh.rotation.x = -Math.PI/2;
+  mesh.scale.set(1, 0.62, 1);
+  mesh.renderOrder = -1;
+  return mesh;
 }
 
 // Soft vertical studio-sweep gradient used as the scene background.
