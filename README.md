@@ -97,8 +97,10 @@ works everywhere. The block is clearly delimited and commented.
 - **Three garments** — hoodie (hood, drawstrings, kangaroo pocket), t-shirt (crew
   neck), polo (folded collar, placket, buttons, cuffs), built as real 3D meshes.
 - **PBR fabric** — cloth sheen + a procedural woven normal map, soft studio
-  lighting, environment reflections (procedural `RoomEnvironment`), and a real
-  shadow-mapped soft shadow grounding the garment.
+  lighting, environment reflections (procedural `RoomEnvironment`), a real
+  shadow-mapped soft shadow, a studio-sweep backdrop, and **GTAO ambient
+  occlusion** post-processing so creases, seams and contact points shade like
+  real cloth.
 - **Drag to rotate** — OrbitControls; gentle auto-rotate when idle.
 - **Upload your design** — projected onto the chest as a real `DecalGeometry`
   print that conforms to (wraps) the garment surface.
