@@ -191,19 +191,13 @@ body.nav-open{overflow:hidden}
 /* Hero patch (faux-3D embroidered logo) */
 .hero-stage{position:relative;display:grid;place-items:center;min-height:min(60vh,480px);perspective:1100px}
 .patch3d{
-  position:relative;width:min(94%,440px);aspect-ratio:1.55/1;transform-style:preserve-3d;
+  position:relative;width:min(90%,430px);transform-style:preserve-3d;
   animation:float 7s ease-in-out infinite;transition:transform .18s ease-out;
-  filter:drop-shadow(0 40px 55px rgba(7,46,61,.30));
+  filter:drop-shadow(0 22px 30px rgba(7,46,61,.24));
 }
 @keyframes float{0%,100%{transform:translateY(-8px)}50%{transform:translateY(12px)}}
-.patch-card{
-  position:absolute;inset:0;border-radius:26px;display:grid;place-items:center;
-  padding:clamp(.5rem,2.5%,1.1rem);
-  background:#fff;
-  box-shadow:inset 0 0 0 3px rgba(255,255,255,.75), inset 0 0 0 4px rgba(46,167,213,.14);
-}
-.patch-card::before{content:"";position:absolute;inset:11px;border-radius:18px;border:2.5px dashed rgba(46,167,213,.32);pointer-events:none;z-index:1}
-.patch-logo{width:100%;height:auto;position:relative;object-fit:contain;display:block}
+/* Logo floats on its own (no white card) so there is no white outside the oval */
+.patch-logo{width:100%;height:auto;position:relative;display:block}
 .patch3d .sheen{
   position:absolute;inset:0;border-radius:26px;mix-blend-mode:screen;pointer-events:none;
   background:radial-gradient(circle at var(--mx,35%) var(--my,28%), rgba(255,255,255,.7), rgba(255,255,255,0) 44%);
@@ -284,10 +278,8 @@ section{position:relative}
 .showcase p{color:rgba(255,255,255,.72);margin-top:1rem}
 .showcase .float-stage{position:relative;min-height:320px;display:grid;place-items:center}
 .showcase .float-logo{
-  width:min(76%,330px);aspect-ratio:1.55/1;border-radius:24px;--logo-ink:#16282F;
-  background:#fff;padding:clamp(.5rem,2.5%,1rem);
-  display:grid;place-items:center;animation:float 8s ease-in-out infinite;
-  box-shadow:0 34px 64px -22px rgba(0,0,0,.6), inset 0 0 0 4px rgba(46,167,213,.14);
+  width:min(72%,320px);animation:float 8s ease-in-out infinite;
+  filter:drop-shadow(0 24px 40px rgba(0,0,0,.5));
 }
 .showcase .float-logo svg,.showcase .float-logo img{width:100%;height:auto;display:block}
 .showcase .mini-patch{position:absolute;width:88px;animation:float 6s ease-in-out infinite;filter:drop-shadow(0 14px 22px rgba(0,0,0,.4))}
@@ -575,9 +567,7 @@ input[type=range]:disabled{opacity:.4}
 
     <div class="hero-stage reveal in" data-delay="2">
       <div class="patch3d" id="heroPatch">
-        <div class="patch-card">
-          <img class="patch-logo" src="assets/OIP.webp" width="1896" height="1108" alt="Stitch Milton Keynes logo" />
-        </div>
+        <img class="patch-logo" src="assets/OIP.webp" width="1826" height="1030" alt="Stitch Milton Keynes logo" />
         <div class="sheen" id="heroSheen"></div>
       </div>
     </div>
@@ -644,7 +634,7 @@ input[type=range]:disabled{opacity:.4}
         <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#C79A3B"/><circle cx="50" cy="50" r="46" fill="none" stroke="#fff" stroke-width="6" stroke-dasharray="4 4"/><path d="M35 62 L65 38" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg>
       </span>
       <span class="float-logo">
-        <img src="assets/OIP.webp" width="1896" height="1108" loading="lazy" alt="Stitch Milton Keynes logo" />
+        <img src="assets/OIP.webp" width="1826" height="1030" loading="lazy" alt="Stitch Milton Keynes logo" />
       </span>
       <span class="mini-patch b">
         <svg viewBox="0 0 100 100"><rect x="8" y="8" width="84" height="84" rx="18" fill="#6E2233"/><rect x="8" y="8" width="84" height="84" rx="18" fill="none" stroke="#fff" stroke-width="6" stroke-dasharray="4 4"/><path d="M32 68 Q50 30 68 68" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/></svg>
