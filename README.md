@@ -94,21 +94,31 @@ works everywhere. The block is clearly delimited and commented.
 
 **Capabilities**
 
-- **Three garments** — the **t-shirt is a real modelled GLTF garment** (loaded
-  when hosted; `assets/models/shirt.glb`) with true fabric folds and drape; the
-  hoodie (hood, drawstrings, kangaroo pocket, ribbed waistband) and polo (folded
-  collar, placket, buttons, cuffs) are procedurally built 3D meshes.
+- **Real modelled garments** — the **t-shirt** (`assets/models/shirt.glb`) and
+  the **hoodie** (`assets/models/hoodie.glb`) are real GLTF garments with true
+  fabric folds, drape and drawstrings (loaded when hosted). The polo (folded
+  collar, placket, buttons, cuffs) is a procedurally built 3D mesh. Each modelled
+  garment is drawn as single-sided shells (never `DoubleSide`, which renders these
+  meshes see-through / washed out on some software renderers): the thin t-shirt
+  gets an inner shell so it reads solid, and the thick multi-layer hoodie is solid
+  on its own.
 - **PBR fabric** — cloth sheen + a procedural woven normal map, soft studio
   lighting, environment reflections (procedural `RoomEnvironment`), a soft radial
   contact shadow, and a studio-sweep backdrop.
 - **Drag to rotate** — OrbitControls; gentle auto-rotate when idle.
-- **Upload your design** — projected onto the chest as a real `DecalGeometry`
-  print that conforms to (wraps) the garment surface.
-- **Resize** the design with a slider; **click the garment** to reposition the print.
+- **Upload your design** — projected onto the garment as a real `DecalGeometry`
+  print that conforms to (wraps) the surface, styled to read as raised
+  **embroidery** (a normal map is generated from the artwork's alpha, plus stitch
+  ridges, sheen and a clearcoat thread highlight).
+- **Multiple logos, anywhere** — **click the garment to stamp a logo** on the
+  front, the back, the sleeves, wherever the surface faces you; place several at
+  once (up to 16). **Click a placed logo to remove it**, or use **Undo** / **Clear**.
+- **Real-world sizing** — the slider resizes the most-recent logo and the studio
+  reports its true size in **centimetres and inches**.
 - **6 fabric colours** (white, teal, navy, charcoal, gold, burgundy) + instant
   garment switching.
-- **Persistence** — garment, colour, size, print, and its position are saved to
-  `localStorage` under `smkStudio3d_v1`.
+- **Persistence** — garment, colour, size, and every placed logo (with position)
+  are saved to `localStorage` under `smkStudio3d_v1`.
 
 **Robustness**
 
@@ -173,6 +183,7 @@ in `localStorage` and defaults to `Calm` when the OS requests reduced motion.
 | `index.html` | The entire website — markup, styles, page logic, and the inline 3D studio |
 | `assets/OIP.webp` | The real brand logo image (used big in the hero and showcase) |
 | `assets/models/shirt.glb` | Realistic t-shirt model for the studio (MIT, see its `.LICENSE`) |
+| `assets/models/hoodie.glb` | Realistic hoodie model for the studio (MIT, see its `.LICENSE`) |
 | `assets/favicon.svg` | Site favicon (stitch mark) |
 | `README.md` | This file |
 | `tests/smoke.mjs` | Offline Playwright smoke test of the page and 3D studio |
@@ -254,12 +265,17 @@ file is opened locally or served from Pages.
   real clients.
 - **The 3D studio requires WebGL** and an internet connection (to fetch three.js
   from the CDN); it only renders in a live browser tab, not in flat screenshots.
-- **The realistic t-shirt model is only loaded when the site is served** over
-  http/https (Railway, Pages, or a local server). Opened as a bare file it falls
-  back to a procedural t-shirt.
+- **The realistic t-shirt and hoodie models are only loaded when the site is
+  served** over http/https (Railway, Pages, or a local server). Opened as a bare
+  file the studio falls back to the procedural t-shirt / hoodie.
 
 ## Credits
 
 - T-shirt 3D model (`assets/models/shirt.glb`): from
   [Starklord17/threejs-t-shirt](https://github.com/Starklord17/threejs-t-shirt),
   MIT licensed (Copyright 2023 MaxSM) — see `assets/models/shirt.glb.LICENSE`.
+- Hoodie 3D model (`assets/models/hoodie.glb`): derived from
+  [garbieldpnt/blkkt](https://github.com/garbieldpnt/blkkt) (`hoodie.glb`), MIT
+  licensed (Copyright 2025 Garbiboule Leplusbo). Reduced to a single untextured,
+  re-centred, height-normalised mesh and recoloured at runtime — see
+  `assets/models/hoodie.glb.LICENSE`.
