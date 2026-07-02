@@ -1224,6 +1224,7 @@ function boot(){
   let shirtGeo = null;     // realistic t-shirt model geometry (loaded async)
   let shirtMat = null;     // the model's own (double-sided) material
   let hoodieGeo = null;    // realistic hoodie model geometry (loaded async)
+  let poloGeo = null;      // realistic polo model geometry (loaded async)
   const decalHelper = new THREE.Object3D();
   const ray = new THREE.Raycaster();
   const ndc = new THREE.Vector2();
@@ -1233,7 +1234,7 @@ function boot(){
   // The model is fetched over the network, which the browser blocks from a
   // file:// page. When hosted (Railway/Pages/any server) it loads; opened as a
   // bare file it falls back to the procedural tee.
-  if(location.protocol === "http:" || location.protocol === "https:"){ loadShirtModel(); loadHoodieModel(); }
+  if(location.protocol === "http:" || location.protocol === "https:"){ loadShirtModel(); loadHoodieModel(); loadPoloModel(); }
 
   // Load the realistic t-shirt mesh (MIT model) and, once ready, rebuild the tee
   // with it. Fails silently to the procedural tee (e.g. opened from file://).
@@ -1268,6 +1269,19 @@ function boot(){
       hoodieGeo = src.geometry; hoodieGeo.userData.keep = true;   // shared across rebuilds
       if(state.garment === "hoodie" && garment) buildGarment("hoodie");
     }, undefined, function(err){ console.warn("[studio] realistic hoodie model unavailable, using procedural", err); });
+  }
+
+  // Load the realistic polo mesh (a photogrammetry scan, decimated and pre-baked
+  // to a single centred, Y-up, height-normalised geometry). Fails silently to the
+  // procedural polo.
+  function loadPoloModel(){
+    new GLTFLoader().load("assets/models/polo.glb", function(gltf){
+      let src = null;
+      gltf.scene.traverse(function(o){ if(o.isMesh && !src) src = o; });
+      if(!src) return;
+      poloGeo = src.geometry; poloGeo.userData.keep = true;   // shared across rebuilds
+      if(state.garment === "polo" && garment) buildGarment("polo");
+    }, undefined, function(err){ console.warn("[studio] realistic polo model unavailable, using procedural", err); });
   }
 
   /* ---------- garment construction ---------- */
@@ -1351,6 +1365,8 @@ function boot(){
       buildModelGarment(shirtGeo, -0.16, true);   // thin single-layer tee: add an inner shell
     } else if(type === "hoodie" && hoodieGeo){
       buildModelGarment(hoodieGeo, 0.0, false);   // already multi-layer + thick: one shell is solid
+    } else if(type === "polo" && poloGeo){
+      buildModelGarment(poloGeo, -0.16, true);    // scanned single surface: add an inner shell
     } else {
     addFabric(garment, torsoGeometry(), true);
     if(type === "hoodie"){
