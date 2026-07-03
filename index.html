@@ -351,8 +351,13 @@ section{position:relative}
 }
 .stage3d:active{cursor:grabbing}
 .stage3d canvas{display:block;width:100%;height:100%}
-.stage-hint{position:absolute;left:14px;bottom:12px;font-size:.78rem;color:var(--ink-soft);background:rgba(255,255,255,.72);padding:.35rem .7rem;border-radius:999px;backdrop-filter:blur(6px);display:flex;align-items:center;gap:.4rem;pointer-events:none}
-.stage-hint svg{width:15px;height:15px}
+.stage-hint{position:absolute;left:14px;bottom:12px;font-size:.78rem;color:var(--ink-soft);background:rgba(255,255,255,.72);padding:.35rem .7rem;border-radius:999px;backdrop-filter:blur(6px);display:flex;align-items:center;gap:.4rem;pointer-events:none;max-width:calc(100% - 90px)}
+.stage-hint svg{width:15px;height:15px;flex:none}
+.stage-zoom{position:absolute;right:12px;bottom:12px;display:flex;flex-direction:column;gap:.4rem;z-index:2}
+.stage-zoom button{width:38px;height:38px;border-radius:11px;border:1.5px solid rgba(16,40,47,.14);background:rgba(255,255,255,.85);backdrop-filter:blur(6px);color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:all .2s var(--ease);box-shadow:0 2px 8px rgba(16,40,47,.08)}
+.stage-zoom button:hover{border-color:var(--teal);color:var(--teal-dark);background:#fff}
+.stage-zoom button:active{transform:scale(.94)}
+.stage-zoom svg{width:19px;height:19px}
 .studio-loader{position:absolute;inset:0;display:grid;place-items:center;background:rgba(244,247,249,.9);z-index:3;transition:opacity .5s}
 .studio-loader.hide{opacity:0;pointer-events:none}
 .spinner{width:44px;height:44px;border-radius:50%;border:3px solid rgba(46,167,213,.25);border-top-color:var(--teal);animation:spin 1s linear infinite}
@@ -723,7 +728,12 @@ input[type=range]:disabled{opacity:.4}
         </div>
         <div class="stage-hint" aria-hidden="true">
           <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 2L9 5M12 2l3 3"/><path d="M5 12a7 7 0 0014 0"/></svg>
-          Drag to rotate · click to place your design
+          Drag to spin · click to add a logo · drag a logo to move it
+        </div>
+        <div class="stage-zoom" role="group" aria-label="Zoom the preview">
+          <button type="button" id="smk-zoom-in" title="Zoom in" aria-label="Zoom in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 6v12M6 12h12"/></svg></button>
+          <button type="button" id="smk-zoom-out" title="Zoom out" aria-label="Zoom out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 12h12"/></svg></button>
+          <button type="button" id="smk-zoom-reset" title="Reset view" aria-label="Reset view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9 9 0 00-7 3.3M3 3v3.3H6.3"/></svg></button>
         </div>
       </div>
 
@@ -774,16 +784,16 @@ input[type=range]:disabled{opacity:.4}
               Upload logo
               <input type="file" id="smk-upload" accept="image/*" hidden />
             </label>
-            <button class="mini-btn" id="smk-undo" type="button" disabled>Undo</button>
-            <button class="mini-btn" id="smk-clear" type="button" disabled>Clear</button>
+            <button class="mini-btn" id="smk-remove" type="button" disabled>Remove</button>
+            <button class="mini-btn" id="smk-clear" type="button" disabled>Clear all</button>
           </div>
           <div class="slider-row" style="margin-top:1rem">
-            <label for="smk-size">Size</label>
-            <input type="range" id="smk-size" min="0.35" max="2.8" step="0.02" value="1" disabled aria-label="Logo size" />
+            <label for="smk-size">Size <span id="smk-size-for" style="color:var(--ink-soft);font-weight:500"></span></label>
+            <input type="range" id="smk-size" min="0.35" max="2.8" step="0.02" value="1" disabled aria-label="Selected logo size" />
           </div>
           <p class="ctl-note" id="smk-sizeout" style="margin-top:.55rem;font-weight:600;color:var(--ink)"></p>
           <p class="ctl-note" id="smk-count" style="margin-top:.15rem;color:var(--teal-accent);font-weight:600"></p>
-          <p class="ctl-note" style="margin-top:.6rem"><b>Tip:</b> click the garment to stamp your logo as embroidery, as many as you like, on the front or the back (drag to rotate round). Click a logo to remove it; the slider resizes the last one.</p>
+          <p class="ctl-note" style="margin-top:.6rem"><b>How it works:</b> click the garment to add your logo as embroidery, anywhere on the front or back. <b>Drag a logo</b> to move it around. <b>Tap a logo</b> to select it, then use the slider to resize it or <b>Remove</b> to take it off. Add as many as you like. Drag the background to spin; scroll or use the +/&minus; buttons to zoom in close.</p>
           <p class="ctl-note" id="smk-status" role="status" aria-live="polite" style="display:none;margin-top:.6rem;color:var(--burgundy)"></p>
         </div>
       </div>
@@ -1146,7 +1156,7 @@ const fallbackEl = document.getElementById("studioFallback");
 const sizeInput  = document.getElementById("smk-size");
 const uploadInput= document.getElementById("smk-upload");
 const clearBtn   = document.getElementById("smk-clear");
-const undoBtn    = document.getElementById("smk-undo");
+const removeBtn  = document.getElementById("smk-remove");
 const colorBtns  = document.getElementById("smk-color-btns");
 const garmentBtns= document.getElementById("smk-garment-btns");
 
@@ -1195,8 +1205,9 @@ function boot(){
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true; controls.dampingFactor = 0.08; controls.enablePan = false;
-  controls.minDistance = 4.2; controls.maxDistance = 9;
-  controls.minPolarAngle = 0.6; controls.maxPolarAngle = 1.9;
+  controls.minDistance = 2.1; controls.maxDistance = 9;   // allow a close-up look at the stitching
+  controls.minPolarAngle = 0.35; controls.maxPolarAngle = 2.15;
+  controls.zoomSpeed = 0.9;
   controls.target.set(0, -0.05, 0);
   controls.autoRotate = document.documentElement.getAttribute("data-motion") !== "calm";
   controls.autoRotateSpeed = 0.8;
@@ -1212,10 +1223,10 @@ function boot(){
   // Logo print: projected decals styled to read as raised embroidery (sheen +
   // clearcoat thread + a normal map generated from the uploaded logo's alpha).
   const decalMat = new THREE.MeshPhysicalMaterial({
-    map:null, transparent:true, roughness:0.52, metalness:0.0,
-    sheen:1.0, sheenRoughness:0.4, sheenColor:new THREE.Color(0xffffff),
-    clearcoat:0.22, clearcoatRoughness:0.4,
-    normalScale:new THREE.Vector2(0.85, 0.85), envMapIntensity:0.6,
+    map:null, transparent:true, roughness:0.58, metalness:0.0,
+    sheen:1.0, sheenRoughness:0.35, sheenColor:new THREE.Color(0xffffff),
+    clearcoat:0.28, clearcoatRoughness:0.38,
+    normalScale:new THREE.Vector2(1.25, 1.25), envMapIntensity:0.65,
     polygonOffset:true, polygonOffsetFactor:-6, polygonOffsetUnits:-6, depthTest:true, depthWrite:false
   });
   decalMat.userData.keep = true;
@@ -1229,6 +1240,7 @@ function boot(){
   let logoRough = null;    // roughness map generated from the logo
   let logoAspect = 1;      // uploaded logo width / height
   let decalMeshes = [];    // one projected mesh per placed logo
+  let selectedIdx = -1;    // which placed logo the slider + Remove act on
   let shirtGeo = null;     // realistic t-shirt model geometry (loaded async)
   let shirtMat = null;     // the model's own (double-sided) material
   let hoodieGeo = null;    // realistic men's hoodie model geometry (loaded async)
@@ -1398,7 +1410,7 @@ function boot(){
     if(type === "tee" && shirtGeo){
       buildModelGarment(shirtGeo, -0.16, true);   // thin single-layer tee: add an inner shell
     } else if(type === "hoodie" && hoodieGeo){
-      buildModelGarment(hoodieGeo, 0.0, false);   // men's: thick multi-layer mesh, solid alone
+      buildModelGarment(hoodieGeo, -0.16, true);  // men's single-surface scan: inner shell
     } else if(type === "hoodiew" && hoodieWGeo){
       buildModelGarment(hoodieWGeo, -0.16, true); // women's single-surface scan: inner shell
     } else if(type === "polo" && poloGeo){
@@ -1504,6 +1516,7 @@ function boot(){
       decalMat.map = logoTex; decalMat.normalMap = logoNormal; decalMat.roughnessMap = logoRough;
       decalMat.needsUpdate = true;
       if(!state.decals.length) state.decals = [ frontChestPlacement() ];  // first logo lands on the chest
+      if(selectedIdx < 0 || selectedIdx >= state.decals.length) selectedIdx = 0;
       rebuildDecals();
     };
     img.onerror = function(){ setStatus("Sorry, that file could not be read. Please try another image."); };
@@ -1513,19 +1526,28 @@ function boot(){
   function updateSizeReadout(){
     const el = document.getElementById("smk-sizeout");
     if(!el) return;
-    if(!logoTex){ el.textContent = ""; return; }
-    const wcm = decalWidthWorld(state.size) * CM_PER_UNIT;
+    const d = (selectedIdx >= 0) ? state.decals[selectedIdx] : null;
+    if(!logoTex || !d){ el.textContent = ""; return; }
+    const wcm = decalWidthWorld(d.size) * CM_PER_UNIT;
     const hcm = wcm / logoAspect;
     const cm = function(v){ return v.toFixed(1); }, inch = function(v){ return (v/2.54).toFixed(1); };
     el.textContent = "Logo size: " + cm(wcm) + " × " + cm(hcm) + " cm  (" + inch(wcm) + " × " + inch(hcm) + " in)";
   }
   function updateControls(){
     const has = !!logoTex, n = state.decals.length;
-    sizeInput.disabled = !has || !n;
+    if(selectedIdx >= n) selectedIdx = n - 1;      // keep the selection valid
+    sizeInput.disabled = !has || selectedIdx < 0;
     if(clearBtn) clearBtn.disabled = !has;
-    if(undoBtn) undoBtn.disabled = !n;
+    if(removeBtn) removeBtn.disabled = selectedIdx < 0;
+    if(selectedIdx >= 0 && state.decals[selectedIdx]) sizeInput.value = state.decals[selectedIdx].size;
     const cnt = document.getElementById("smk-count");
-    if(cnt) cnt.textContent = n ? (n + (n === 1 ? " logo placed" : " logos placed")) : "";
+    if(cnt){
+      let t = n ? (n + (n === 1 ? " logo" : " logos")) : "";
+      if(n > 1 && selectedIdx >= 0) t += " · logo " + (selectedIdx + 1) + " selected";
+      cnt.textContent = t;
+    }
+    const forEl = document.getElementById("smk-size-for");
+    if(forEl) forEl.textContent = (n > 1 && selectedIdx >= 0) ? "(logo " + (selectedIdx + 1) + ")" : "";
     updateSizeReadout();
   }
 
@@ -1535,45 +1557,97 @@ function boot(){
     fabricMats.forEach(function(m){ m.color.copy(c); });
   }
 
-  /* ---------- interaction: click to place the logo ---------- */
-  let down = null;
-  renderer.domElement.addEventListener("pointerdown", function(e){ down = { x:e.clientX, y:e.clientY, t:performance.now() }; });
-  renderer.domElement.addEventListener("pointerup", function(e){
-    if(!down) return;
-    const moved = Math.hypot(e.clientX - down.x, e.clientY - down.y);
-    const quick = performance.now() - down.t < 350;
-    down = null;
-    if(moved < 6 && quick) placeAt(e.clientX, e.clientY);
-  });
-  function placeAt(clientX, clientY){
-    if(!logoTex) return;
+  /* ---------- interaction: add / drag / select logos ---------- */
+  let down = null;         // pointer-down bookkeeping, for telling a click from a drag
+  let drag = null;         // { idx, moved } while a logo is being dragged
+  let pendingMove = null;  // {idx, x, y} applied once per frame in the render loop
+
+  function rayFrom(clientX, clientY){
     const r = renderer.domElement.getBoundingClientRect();
     ndc.x = ((clientX - r.left) / r.width) * 2 - 1;
     ndc.y = -((clientY - r.top) / r.height) * 2 + 1;
     ray.setFromCamera(ndc, camera);
-    // Click an existing logo to remove it
-    const onLogo = ray.intersectObjects(decalMeshes, false);
-    if(onLogo.length){
-      const idx = decalMeshes.indexOf(onLogo[0].object);
-      if(idx >= 0){
-        const m = decalMeshes.splice(idx, 1)[0]; if(m.parent) m.parent.remove(m); m.geometry.dispose();
-        state.decals.splice(idx, 1);
-        updateControls(); saveState();
-        return;
-      }
-    }
-    // Otherwise stamp a new logo where you clicked (front OR back)
+  }
+  function pickLogo(clientX, clientY){
+    if(!decalMeshes.length) return -1;
+    rayFrom(clientX, clientY);
+    const hit = ray.intersectObjects(decalMeshes, false);
+    return hit.length ? decalMeshes.indexOf(hit[0].object) : -1;
+  }
+  function surfaceHit(clientX, clientY){
+    if(!bodyMeshes.length) return null;
+    rayFrom(clientX, clientY);
     const hits = ray.intersectObjects(bodyMeshes, false);
-    if(!hits.length) return;
-    if(state.decals.length >= 16){ setStatus("That is the maximum number of logos."); return; }
-    setStatus("");
+    if(!hits.length) return null;
     const h = hits[0];
     const n = h.face.normal.clone().transformDirection(h.object.matrixWorld).normalize();
-    const d = { p:[h.point.x, h.point.y, h.point.z], n:[n.x, n.y, n.z], size: state.size };
+    return { point:h.point, n:n };
+  }
+  function selectLogo(idx){
+    selectedIdx = idx;
+    if(idx >= 0 && state.decals[idx]) sizeInput.value = state.decals[idx].size;
+    updateControls();
+  }
+  function addLogoAt(clientX, clientY){
+    const hit = surfaceHit(clientX, clientY);
+    if(!hit) return;
+    if(state.decals.length >= 16){ setStatus("That is the maximum number of logos."); return; }
+    setStatus("");
+    const d = { p:[hit.point.x, hit.point.y, hit.point.z], n:[hit.n.x, hit.n.y, hit.n.z], size: state.size };
     state.decals.push(d);
     const m = makeDecalMesh(d); garment.add(m); decalMeshes.push(m);
+    selectedIdx = state.decals.length - 1;
     updateControls(); saveState();
   }
+  function rebuildDecalAt(idx){
+    const old = decalMeshes[idx];
+    if(old){ if(old.parent) old.parent.remove(old); old.geometry.dispose(); }
+    const m = makeDecalMesh(state.decals[idx]);
+    garment.add(m); decalMeshes[idx] = m;
+  }
+  function applyMove(mv){
+    const hit = surfaceHit(mv.x, mv.y);
+    if(!hit || !state.decals[mv.idx]) return;
+    const d = state.decals[mv.idx];
+    d.p = [hit.point.x, hit.point.y, hit.point.z];
+    d.n = [hit.n.x, hit.n.y, hit.n.z];
+    rebuildDecalAt(mv.idx);
+  }
+
+  renderer.domElement.addEventListener("pointerdown", function(e){
+    if(!logoTex){ down = null; drag = null; return; }   // no logo yet: leave the camera to OrbitControls
+    const idx = pickLogo(e.clientX, e.clientY);
+    down = { x:e.clientX, y:e.clientY, t:performance.now(), idx:idx };
+    if(idx >= 0){
+      drag = { idx:idx, moved:false };   // grabbed a logo: drag it, hold the camera still
+      controls.enabled = false;
+      selectLogo(idx);
+      try{ renderer.domElement.setPointerCapture(e.pointerId); }catch(_){}
+    }
+  });
+  renderer.domElement.addEventListener("pointermove", function(e){
+    if(!drag) return;
+    if(Math.hypot(e.clientX - down.x, e.clientY - down.y) > 3) drag.moved = true;
+    pendingMove = { idx:drag.idx, x:e.clientX, y:e.clientY };   // applied (throttled) in the render loop
+  });
+  function endPointer(e){
+    if(drag){
+      controls.enabled = true;
+      if(drag.moved) saveState();
+      try{ renderer.domElement.releasePointerCapture(e.pointerId); }catch(_){}
+      drag = null; down = null; return;
+    }
+    if(!down) return;
+    const moved = Math.hypot(e.clientX - down.x, e.clientY - down.y);
+    const quick = performance.now() - down.t < 400;
+    const idx = down.idx; down = null;
+    if(moved < 6 && quick){
+      if(idx >= 0) selectLogo(idx);          // tapped a logo -> select it
+      else addLogoAt(e.clientX, e.clientY);  // tapped bare fabric -> add one
+    }
+  }
+  renderer.domElement.addEventListener("pointerup", endPointer);
+  renderer.domElement.addEventListener("pointercancel", endPointer);
 
   /* ---------- UI wiring ---------- */
   garmentBtns.querySelectorAll("button").forEach(function(btn){
@@ -1595,13 +1669,10 @@ function boot(){
   });
   sizeInput.value = state.size;
   sizeInput.addEventListener("input", function(){
-    state.size = parseFloat(sizeInput.value);
-    // resize the most recently placed logo so you can tune it after stamping
-    if(state.decals.length){
-      const last = state.decals[state.decals.length - 1];
-      last.size = state.size;
-      const old = decalMeshes.pop(); if(old){ if(old.parent) old.parent.remove(old); old.geometry.dispose(); }
-      const m = makeDecalMesh(last); garment.add(m); decalMeshes.push(m);
+    state.size = parseFloat(sizeInput.value);   // remembered as the size for the next logo added
+    if(selectedIdx >= 0 && state.decals[selectedIdx]){
+      state.decals[selectedIdx].size = state.size;   // resize the currently selected logo
+      rebuildDecalAt(selectedIdx);
     }
     updateSizeReadout();
     saveState();
@@ -1626,19 +1697,38 @@ function boot(){
     reader.readAsDataURL(file);
     uploadInput.value = "";
   });
-  if(undoBtn) undoBtn.addEventListener("click", function(){
-    if(!state.decals.length) return;
-    state.decals.pop();
-    const m = decalMeshes.pop(); if(m){ if(m.parent) m.parent.remove(m); m.geometry.dispose(); }
+  if(removeBtn) removeBtn.addEventListener("click", function(){
+    if(selectedIdx < 0 || !state.decals[selectedIdx]) return;
+    const m = decalMeshes.splice(selectedIdx, 1)[0]; if(m){ if(m.parent) m.parent.remove(m); m.geometry.dispose(); }
+    state.decals.splice(selectedIdx, 1);
+    selectedIdx = Math.min(selectedIdx, state.decals.length - 1);
     updateControls(); saveState();
   });
   clearBtn.addEventListener("click", function(){
-    state.print = null; state.decals = [];
+    state.print = null; state.decals = []; selectedIdx = -1;
     disposeLogoMaps();
     decalMat.map = decalMat.normalMap = decalMat.roughnessMap = null; decalMat.needsUpdate = true;
     clearDecalMeshes();
     updateControls(); saveState();
   });
+
+  /* ---------- zoom / close-up controls ---------- */
+  function zoomBy(factor){
+    const off = camera.position.clone().sub(controls.target);
+    let dist = off.length() * factor;
+    dist = Math.max(controls.minDistance, Math.min(controls.maxDistance, dist));
+    camera.position.copy(controls.target).add(off.setLength(dist));
+    controls.update();
+  }
+  const zoomInBtn = document.getElementById("smk-zoom-in");
+  const zoomOutBtn = document.getElementById("smk-zoom-out");
+  const zoomResetBtn = document.getElementById("smk-zoom-reset");
+  if(zoomInBtn) zoomInBtn.addEventListener("click", function(){ zoomBy(0.72); });
+  if(zoomOutBtn) zoomOutBtn.addEventListener("click", function(){ zoomBy(1.0/0.72); });
+  if(zoomResetBtn) zoomResetBtn.addEventListener("click", function(){
+    camera.position.set(0, 0.55, 6.0); controls.target.set(0, -0.05, 0); controls.update();
+  });
+
   updateControls();
 
   // Motion toggle from the page pill
@@ -1652,6 +1742,7 @@ function boot(){
 
   let firstFrame = true;
   renderer.setAnimationLoop(function(){
+    if(pendingMove){ applyMove(pendingMove); pendingMove = null; }   // drag a logo (throttled to one rebuild/frame)
     controls.update();
     renderer.render(scene, camera);
     if(firstFrame){ firstFrame = false; if(loaderEl) loaderEl.classList.add("hide"); }
@@ -1701,7 +1792,8 @@ function heightToNormalInto(h, W, H, strength, outData){
   } }
 }
 function buildEmbroideryMaps(img, aniso){
-  const S = 512, SP = 7;
+  const S = 512, SP = 6;               // canvas size, satin-stitch spacing in px
+  const TWO = Math.PI*2;
   const colorCanvas = document.createElement("canvas"); colorCanvas.width = colorCanvas.height = S;
   const cctx = colorCanvas.getContext("2d");
   cctx.drawImage(img, 0, 0, S, S);
@@ -1715,23 +1807,30 @@ function buildEmbroideryMaps(img, aniso){
       alpha[i] = lum < 0.95 ? 1 : 0;
     }
   }
-  const dome = boxBlur(alpha, S, S, 3);            // rounded puff
+  const dome = boxBlur(alpha, S, S, 3);            // rounded puff of thread
   const height = new Float32Array(S*S);
   const roughImg = cctx.createImageData(S, S);
   for(let y=0;y<S;y++){ for(let x=0;x<S;x++){
     const i = y*S+x;
-    const t = ((x+y)/SP) % 1, ridge = 0.5 + 0.5*Math.cos(t*Math.PI*2);   // per-stitch ridge
-    height[i] = dome[i] * (0.72 + 0.28*ridge);
-    const rv = alpha[i] > 0.03 ? Math.round((0.6 - 0.16*ridge)*255) : 255;
+    const m = dome[i];
+    if(m < 0.02){ height[i] = 0; roughImg.data[i*4]=roughImg.data[i*4+1]=roughImg.data[i*4+2]=255; roughImg.data[i*4+3]=255; continue; }
+    // satin threads: raised rows running at 45°, with each thread broken into stitches
+    const thread = 0.5 + 0.5*Math.cos((x - y) / SP * TWO);           // ridge across the thread rows
+    const stitch = 0.86 + 0.14*Math.cos((x + y) / (SP*3.2) * TWO);   // stitch segments along a thread
+    // raised bead where the mask edge is (reads as a merrow border / satin outline)
+    const edge = Math.max(0, 1 - Math.abs(m - 0.5) * 2.4);
+    height[i] = (m * (0.5 + 0.5*thread) * stitch) + edge * 0.55 * thread;
+    // thread crests catch light (lower roughness) more than the valleys between them
+    const rv = Math.round((0.74 - 0.26*thread) * 255);
     roughImg.data[i*4]=roughImg.data[i*4+1]=roughImg.data[i*4+2]=rv; roughImg.data[i*4+3]=255;
   } }
   const normalImg = cctx.createImageData(S, S);
-  heightToNormalInto(height, S, S, 2.4, normalImg.data);
-  // subtle diagonal thread shading on the colour, clipped to the logo
-  cctx.globalCompositeOperation = "source-atop"; cctx.lineWidth = 2.2; cctx.lineCap = "round";
+  heightToNormalInto(height, S, S, 3.6, normalImg.data);            // stronger, more tactile relief
+  // thread sheen streaks painted onto the colour itself, clipped to the logo
+  cctx.globalCompositeOperation = "source-atop"; cctx.lineWidth = 1.9; cctx.lineCap = "round";
   for(let d=-S; d<S*2; d+=SP){
-    cctx.strokeStyle = "rgba(255,255,255,0.10)"; cctx.beginPath(); cctx.moveTo(d,0); cctx.lineTo(d+S,S); cctx.stroke();
-    cctx.strokeStyle = "rgba(0,0,0,0.10)"; cctx.beginPath(); cctx.moveTo(d+SP*0.5,0); cctx.lineTo(d+SP*0.5+S,S); cctx.stroke();
+    cctx.strokeStyle = "rgba(255,255,255,0.16)"; cctx.beginPath(); cctx.moveTo(d,0); cctx.lineTo(d+S,S); cctx.stroke();
+    cctx.strokeStyle = "rgba(0,0,0,0.13)"; cctx.beginPath(); cctx.moveTo(d+SP*0.5,0); cctx.lineTo(d+SP*0.5+S,S); cctx.stroke();
   }
   cctx.globalCompositeOperation = "source-over";
   const nc = document.createElement("canvas"); nc.width = nc.height = S; nc.getContext("2d").putImageData(normalImg, 0, 0);

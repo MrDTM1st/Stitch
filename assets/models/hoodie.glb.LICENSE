@@ -1,28 +1,13 @@
-The MIT License (MIT)
+Men's hoodie model (hoodie.glb)
+===============================
 
-Copyright (c) 2025 Garbiboule Leplusbo (https://codepen.io/Garbiboule-Leplusbo/pen/XJJGBOx)
+This garment was supplied by the site owner (a photogrammetry scan, provided as a
+~30.8 MB / 857k-vertex glTF). For the studio it was welded, decimated with the
+meshoptimizer simplifier to ~86k vertices, had vertex normals recomputed, and was
+re-centred and height-normalised, then re-exported as a compact binary glTF
+(~4.1 MB). It carries no textures and is recoloured at runtime.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
---
-Notes on this copy: the mesh was reduced to a single geometry (position +
-normals only), re-centred, normalised in height and re-exported as a compact
-binary glTF for the Stitch Milton Keynes studio. The original artwork textures
-(a band's graphics) were removed; the garment is recoloured at runtime.
-Source: https://github.com/garbieldpnt/blkkt (hoodie.glb)
+ACTION REQUIRED: confirm the original source and licence of this scan and record
+it here (author, URL, and licence terms). If the scan is under a licence that
+requires attribution (e.g. CC-BY) or restricts commercial use, that must be
+honoured before the site goes live.
