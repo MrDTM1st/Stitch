@@ -12,6 +12,12 @@
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Stitch Milton Keynes · Custom Embroidery &amp; Printed Workwear" />
 <meta property="og:description" content="Family run embroidery and printed workwear in Milton Keynes. No minimum order, bring your own garments, UK wide delivery." />
+<meta property="og:image" content="assets/OIP.webp" />
+<meta property="og:image:alt" content="Stitch Milton Keynes logo" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Stitch Milton Keynes · Custom Embroidery &amp; Printed Workwear" />
+<meta name="twitter:description" content="Family run embroidery and printed workwear in Milton Keynes. No minimum order, bring your own garments, UK wide delivery." />
+<meta name="twitter:image" content="assets/OIP.webp" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -351,8 +357,13 @@ section{position:relative}
 }
 .stage3d:active{cursor:grabbing}
 .stage3d canvas{display:block;width:100%;height:100%}
-.stage-hint{position:absolute;left:14px;bottom:12px;font-size:.78rem;color:var(--ink-soft);background:rgba(255,255,255,.72);padding:.35rem .7rem;border-radius:999px;backdrop-filter:blur(6px);display:flex;align-items:center;gap:.4rem;pointer-events:none}
-.stage-hint svg{width:15px;height:15px}
+.stage-hint{position:absolute;left:14px;bottom:12px;font-size:.78rem;color:var(--ink-soft);background:rgba(255,255,255,.72);padding:.35rem .7rem;border-radius:999px;backdrop-filter:blur(6px);display:flex;align-items:center;gap:.4rem;pointer-events:none;max-width:calc(100% - 90px)}
+.stage-hint svg{width:15px;height:15px;flex:none}
+.stage-zoom{position:absolute;right:12px;bottom:12px;display:flex;flex-direction:column;gap:.4rem;z-index:2}
+.stage-zoom button{width:38px;height:38px;border-radius:11px;border:1.5px solid rgba(16,40,47,.14);background:rgba(255,255,255,.85);backdrop-filter:blur(6px);color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:all .2s var(--ease);box-shadow:0 2px 8px rgba(16,40,47,.08)}
+.stage-zoom button:hover{border-color:var(--teal);color:var(--teal-dark);background:#fff}
+.stage-zoom button:active{transform:scale(.94)}
+.stage-zoom svg{width:19px;height:19px}
 .studio-loader{position:absolute;inset:0;display:grid;place-items:center;background:rgba(244,247,249,.9);z-index:3;transition:opacity .5s}
 .studio-loader.hide{opacity:0;pointer-events:none}
 .spinner{width:44px;height:44px;border-radius:50%;border:3px solid rgba(46,167,213,.25);border-top-color:var(--teal);animation:spin 1s linear infinite}
@@ -507,7 +518,7 @@ input[type=range]:disabled{opacity:.4}
 <!-- ======================= NAV ======================= -->
 <nav class="nav" id="nav">
   <a class="brand" href="#top" aria-label="Stitch Milton Keynes home">
-    <svg class="brand-logo" viewBox="0 0 400 226" aria-hidden="true"><use href="#smk-logo"/></svg>
+    <img class="brand-logo" src="assets/OIP.webp" width="1826" height="1030" alt="Stitch Milton Keynes" />
   </a>
 
   <div class="nav-links" id="navLinks">
@@ -723,7 +734,12 @@ input[type=range]:disabled{opacity:.4}
         </div>
         <div class="stage-hint" aria-hidden="true">
           <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 2L9 5M12 2l3 3"/><path d="M5 12a7 7 0 0014 0"/></svg>
-          Drag to rotate · click to place your design
+          Drag to spin · click to add a logo · drag a logo to move it
+        </div>
+        <div class="stage-zoom" role="group" aria-label="Zoom the preview">
+          <button type="button" id="smk-zoom-in" title="Zoom in" aria-label="Zoom in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 6v12M6 12h12"/></svg></button>
+          <button type="button" id="smk-zoom-out" title="Zoom out" aria-label="Zoom out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 12h12"/></svg></button>
+          <button type="button" id="smk-zoom-reset" title="Reset view" aria-label="Reset view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9 9 0 00-7 3.3M3 3v3.3H6.3"/></svg></button>
         </div>
       </div>
 
@@ -737,11 +753,19 @@ input[type=range]:disabled{opacity:.4}
             </button>
             <button data-g="hoodie">
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4l5 3 5-3 4 3-2 4v9H5v-9L3 7z"/><path d="M9 4c0 2 1.5 3 3 3s3-1 3-3"/></svg>
-              Hoodie
+              Hoodie&nbsp;M
+            </button>
+            <button data-g="hoodiew">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4l5 3 5-3 4 3-2 4-1 9H6l-1-9L3 7z"/><path d="M9 4c0 2 1.5 3 3 3s3-1 3-3"/></svg>
+              Hoodie&nbsp;W
             </button>
             <button data-g="polo">
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l4 4 4-4 5 4-2.5 3.5V20H5.5V11.5L3 8z"/><path d="M10 4l2 3 2-3M12 7v6"/></svg>
-              Polo
+              Polo&nbsp;M
+            </button>
+            <button data-g="polow">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l4 4 4-4 5 4-2 3V13l-1.5 7h-9L11 13v-2L8 7z"/><path d="M10 4l2 3 2-3M12 7v5"/></svg>
+              Polo&nbsp;W
             </button>
           </div>
         </div>
@@ -766,13 +790,16 @@ input[type=range]:disabled{opacity:.4}
               Upload logo
               <input type="file" id="smk-upload" accept="image/*" hidden />
             </label>
-            <button class="mini-btn" id="smk-clear" type="button">Remove</button>
+            <button class="mini-btn" id="smk-remove" type="button" disabled>Remove</button>
+            <button class="mini-btn" id="smk-clear" type="button" disabled>Clear all</button>
           </div>
           <div class="slider-row" style="margin-top:1rem">
-            <label for="smk-size">Size</label>
-            <input type="range" id="smk-size" min="0.5" max="1.8" step="0.02" value="1" disabled />
+            <label for="smk-size">Size <span id="smk-size-for" style="color:var(--ink-soft);font-weight:500"></span></label>
+            <input type="range" id="smk-size" min="0.35" max="2.8" step="0.02" value="1" disabled aria-label="Selected logo size" />
           </div>
-          <p class="ctl-note" style="margin-top:.8rem"><b>Tip:</b> after uploading, click anywhere on the chest to move your print, then use the slider to resize.</p>
+          <p class="ctl-note" id="smk-sizeout" style="margin-top:.55rem;font-weight:600;color:var(--ink)"></p>
+          <p class="ctl-note" id="smk-count" style="margin-top:.15rem;color:var(--teal-accent);font-weight:600"></p>
+          <p class="ctl-note" style="margin-top:.6rem"><b>How it works:</b> click the garment to add your logo as embroidery, anywhere on the front or back. <b>Drag a logo</b> to move it around. <b>Tap a logo</b> to select it, then use the slider to resize it or <b>Remove</b> to take it off. Add as many as you like. Drag the background to spin; scroll or use the +/&minus; buttons to zoom in close.</p>
           <p class="ctl-note" id="smk-status" role="status" aria-live="polite" style="display:none;margin-top:.6rem;color:var(--burgundy)"></p>
         </div>
       </div>
@@ -1094,22 +1121,32 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 /* ---------------------------------------------------------------- state */
 const STORE_KEY = "smkStudio3d_v1";
 const COLORS = { white:0xF4F4F1, teal:0x2EA7D5, navy:0x16305A, charcoal:0x2B2F33, gold:0xC79A3B, burgundy:0x6E2233 };
-const GARMENTS = ["hoodie","tee","polo"];
+const GARMENTS = ["hoodie","hoodiew","tee","polo","polow"];
 
-// state.decal = null (default chest projection) or { p:[x,y,z], n:[x,y,z] }
-function defaults(){ return { garment:"tee", color:"white", size:1, print:null, decal:null }; }
+// state.decals = [{ p:[x,y,z], n:[x,y,z], size:number }, ...] — one entry per placed logo
+function defaults(){ return { garment:"tee", color:"white", size:1, print:null, decals:[] }; }
 function num3(a){ return Array.isArray(a) && a.length === 3 && a.every(n => typeof n === "number"); }
+function cleanDecals(arr){
+  if(!Array.isArray(arr)) return [];
+  return arr.filter(function(d){ return d && num3(d.p) && num3(d.n); })
+            .map(function(d){ return { p:d.p, n:d.n, size: typeof d.size === "number" ? Math.min(2.8, Math.max(0.35, d.size)) : 1 }; })
+            .slice(0, 16);
+}
 function loadState(){
   try{
     const s = JSON.parse(localStorage.getItem(STORE_KEY));
     if(s && typeof s === "object"){
       const d = defaults();
+      let decals = cleanDecals(s.decals);
+      if(!decals.length && s.decal && num3(s.decal.p) && num3(s.decal.n)){   // migrate old single decal
+        decals = [{ p:s.decal.p, n:s.decal.n, size: typeof s.size === "number" ? s.size : 1 }];
+      }
       return {
         garment: GARMENTS.includes(s.garment) ? s.garment : d.garment,
         color:   COLORS[s.color] !== undefined ? s.color : d.color,
-        size:    typeof s.size === "number" ? Math.min(1.8, Math.max(0.5, s.size)) : d.size,
+        size:    typeof s.size === "number" ? Math.min(2.8, Math.max(0.35, s.size)) : d.size,
         print:   typeof s.print === "string" ? s.print : null,
-        decal:   (s.decal && num3(s.decal.p) && num3(s.decal.n)) ? s.decal : null
+        decals:  decals
       };
     }
   }catch(e){}
@@ -1125,6 +1162,7 @@ const fallbackEl = document.getElementById("studioFallback");
 const sizeInput  = document.getElementById("smk-size");
 const uploadInput= document.getElementById("smk-upload");
 const clearBtn   = document.getElementById("smk-clear");
+const removeBtn  = document.getElementById("smk-remove");
 const colorBtns  = document.getElementById("smk-color-btns");
 const garmentBtns= document.getElementById("smk-garment-btns");
 
@@ -1144,7 +1182,7 @@ function boot(){
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.02;
+  renderer.toneMappingExposure = 0.9;
   sizeRenderer();
   stageEl.appendChild(renderer.domElement);
 
@@ -1173,8 +1211,9 @@ function boot(){
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true; controls.dampingFactor = 0.08; controls.enablePan = false;
-  controls.minDistance = 4.2; controls.maxDistance = 9;
-  controls.minPolarAngle = 0.6; controls.maxPolarAngle = 1.9;
+  controls.minDistance = 2.1; controls.maxDistance = 9;   // allow a close-up look at the stitching
+  controls.minPolarAngle = 0.35; controls.maxPolarAngle = 2.15;
+  controls.zoomSpeed = 0.9;
   controls.target.set(0, -0.05, 0);
   controls.autoRotate = document.documentElement.getAttribute("data-motion") !== "calm";
   controls.autoRotateSpeed = 0.8;
@@ -1187,9 +1226,13 @@ function boot(){
   cordMat.userData.keep = true;
   darkTrimMat.userData.keep = true;
 
-  // Logo print: a real projected decal that conforms to the garment surface.
+  // Logo print: projected decals styled to read as raised embroidery (sheen +
+  // clearcoat thread + a normal map generated from the uploaded logo's alpha).
   const decalMat = new THREE.MeshPhysicalMaterial({
-    map:null, transparent:true, roughness:0.6, metalness:0.0, sheen:0.25, envMapIntensity:0.35,
+    map:null, transparent:true, roughness:0.58, metalness:0.0,
+    sheen:1.0, sheenRoughness:0.35, sheenColor:new THREE.Color(0xffffff),
+    clearcoat:0.28, clearcoatRoughness:0.38,
+    normalScale:new THREE.Vector2(1.25, 1.25), envMapIntensity:0.65,
     polygonOffset:true, polygonOffsetFactor:-6, polygonOffsetUnits:-6, depthTest:true, depthWrite:false
   });
   decalMat.userData.keep = true;
@@ -1198,9 +1241,18 @@ function boot(){
   let garment = null;
   let bodyMeshes = [];
   let fabricMats = [];
-  let logoTex = null;
-  let decalMesh = null;
-  let shirtGeo = null;    // realistic t-shirt model geometry (loaded async)
+  let logoTex = null;      // embroidered colour map
+  let logoNormal = null;   // normal map generated from the logo
+  let logoRough = null;    // roughness map generated from the logo
+  let logoAspect = 1;      // uploaded logo width / height
+  let decalMeshes = [];    // one projected mesh per placed logo
+  let selectedIdx = -1;    // which placed logo the slider + Remove act on
+  let shirtGeo = null;     // realistic t-shirt model geometry (loaded async)
+  let shirtMat = null;     // the model's own (double-sided) material
+  let hoodieGeo = null;    // realistic men's hoodie model geometry (loaded async)
+  let hoodieWGeo = null;   // realistic women's hoodie model geometry (loaded async)
+  let poloGeo = null;      // realistic men's polo model geometry (loaded async)
+  let poloWGeo = null;     // realistic women's polo model geometry (loaded async)
   const decalHelper = new THREE.Object3D();
   const ray = new THREE.Raycaster();
   const ndc = new THREE.Vector2();
@@ -1210,7 +1262,7 @@ function boot(){
   // The model is fetched over the network, which the browser blocks from a
   // file:// page. When hosted (Railway/Pages/any server) it loads; opened as a
   // bare file it falls back to the procedural tee.
-  if(location.protocol === "http:" || location.protocol === "https:") loadShirtModel();
+  if(location.protocol === "http:" || location.protocol === "https:"){ loadShirtModel(); loadHoodieModel(); loadHoodieWModel(); loadPoloModel(); loadPoloWModel(); }
 
   // Load the realistic t-shirt mesh (MIT model) and, once ready, rebuild the tee
   // with it. Fails silently to the procedural tee (e.g. opened from file://).
@@ -1225,11 +1277,63 @@ function boot(){
       g.boundingBox.getCenter(c); g.boundingBox.getSize(s);
       g.translate(-c.x, -c.y, -c.z);           // centre at origin
       const k = 2.95 / s.y;                    // scale to the studio's garment height
-      g.scale(k, k, k);
-      g.computeVertexNormals();
-      shirtGeo = g;
+      g.scale(k, k, k);                        // uniform scale keeps the glTF normals valid
+      shirtGeo = g; shirtGeo.userData.keep = true;   // shared across rebuilds; never auto-disposed
+      // Keep the model's own material — it is double-sided and renders solid
+      // and correctly (a MeshPhysicalMaterial + DoubleSide washes out on some renderers).
+      shirtMat = src.material; if(shirtMat){ shirtMat.side = THREE.DoubleSide; }
       if(state.garment === "tee" && garment) buildGarment("tee");
     }, undefined, function(err){ console.warn("[studio] realistic tee model unavailable, using procedural", err); });
+  }
+
+  // Load the realistic hoodie mesh (MIT model). It is pre-baked to a single,
+  // centred, Y-up, height-normalised geometry (textures stripped) so nothing
+  // needs transforming here. Fails silently to the procedural hoodie.
+  function loadHoodieModel(){
+    new GLTFLoader().load("assets/models/hoodie.glb", function(gltf){
+      let src = null;
+      gltf.scene.traverse(function(o){ if(o.isMesh && !src) src = o; });
+      if(!src) return;
+      hoodieGeo = src.geometry; hoodieGeo.userData.keep = true;   // shared across rebuilds
+      if(state.garment === "hoodie" && garment) buildGarment("hoodie");
+    }, undefined, function(err){ console.warn("[studio] realistic hoodie model unavailable, using procedural", err); });
+  }
+
+  // Load the realistic women's hoodie mesh (a fitted-cut scan, decimated and pre-baked
+  // like the polos). Fails silently to the procedural hoodie.
+  function loadHoodieWModel(){
+    new GLTFLoader().load("assets/models/hoodie-womens.glb", function(gltf){
+      let src = null;
+      gltf.scene.traverse(function(o){ if(o.isMesh && !src) src = o; });
+      if(!src) return;
+      hoodieWGeo = src.geometry; hoodieWGeo.userData.keep = true;
+      if(state.garment === "hoodiew" && garment) buildGarment("hoodiew");
+    }, undefined, function(err){ console.warn("[studio] realistic women's hoodie model unavailable, using procedural", err); });
+  }
+
+  // Load the realistic polo mesh (a photogrammetry scan, decimated and pre-baked
+  // to a single centred, Y-up, height-normalised geometry). Fails silently to the
+  // procedural polo.
+  function loadPoloModel(){
+    new GLTFLoader().load("assets/models/polo.glb", function(gltf){
+      let src = null;
+      gltf.scene.traverse(function(o){ if(o.isMesh && !src) src = o; });
+      if(!src) return;
+      poloGeo = src.geometry; poloGeo.userData.keep = true;   // shared across rebuilds
+      if(state.garment === "polo" && garment) buildGarment("polo");
+    }, undefined, function(err){ console.warn("[studio] realistic polo model unavailable, using procedural", err); });
+  }
+
+  // Load the realistic women's polo mesh (a fitted-cut scan, decimated and pre-baked
+  // like the men's). Fails silently to the procedural polo.
+  function loadPoloWModel(){
+    new GLTFLoader().load("assets/models/polo-womens.glb", function(gltf){
+      let src = null;
+      gltf.scene.traverse(function(o){ if(o.isMesh && !src) src = o; });
+      if(!src) return;
+      poloWGeo = src.geometry; poloWGeo.userData.keep = true;
+      if(state.garment === "polow" && garment) buildGarment("polow");
+    }, undefined, function(err){ console.warn("[studio] realistic women's polo model unavailable, using procedural", err); });
   }
 
   /* ---------- garment construction ---------- */
@@ -1239,7 +1343,8 @@ function boot(){
       roughness: 0.9, metalness: 0.0,
       sheen: 0.5, sheenRoughness: 0.9, sheenColor: new THREE.Color(0xffffff),
       normalMap: fabricNormal, normalScale: new THREE.Vector2(0.38, 0.38),
-      envMapIntensity: 0.75
+      envMapIntensity: 0.45,
+      side: THREE.DoubleSide     // modelled garments are open surfaces; avoid see-through backfaces
     });
     fabricMats.push(m);
     return m;
@@ -1281,16 +1386,43 @@ function boot(){
     return g;
   }
 
+  // Build a real modelled garment from a loaded geometry. Rendered as single-
+  // sided shells (never DoubleSide, which washes these meshes out white on some
+  // software renderers). A thin single-layer mesh (the tee) also gets an inner
+  // BackSide shell so it reads solid from every angle; a thick, multi-layer mesh
+  // (the hoodie) is already solid with just the outer shell. The outer shell is
+  // the click/raycast target, so logos land on whichever side faces the camera.
+  function buildModelGarment(geo, yOffset, addInner){
+    const col = new THREE.Color(COLORS[state.color]);
+    const front = new THREE.MeshStandardMaterial({ color:col.clone(), roughness:0.86, metalness:0.0, side:THREE.FrontSide, envMapIntensity:0.5 });
+    fabricMats.push(front);
+    const outer = mesh(garment, geo, front, true);
+    outer.position.y = yOffset;
+    if(addInner){
+      const back = new THREE.MeshStandardMaterial({ color:col.clone(), roughness:0.92, metalness:0.0, side:THREE.BackSide, envMapIntensity:0.35 });
+      fabricMats.push(back);
+      const inner = new THREE.Mesh(geo, back);
+      inner.position.y = yOffset; inner.castShadow = false; inner.receiveShadow = false;
+      garment.add(inner);
+    }
+  }
+
   function buildGarment(type){
     if(garment){ scene.remove(garment); disposeObject(garment); }
-    decalMesh = null;
+    decalMeshes = [];   // old decals were children of the disposed garment
     bodyMeshes = []; fabricMats = [];
     garment = new THREE.Group();
 
     if(type === "tee" && shirtGeo){
-      // realistic modelled t-shirt (already includes sleeves, neck and folds)
-      const shirt = addFabric(garment, shirtGeo, true);
-      shirt.position.y = -0.16;
+      buildModelGarment(shirtGeo, -0.16, true);   // thin single-layer tee: add an inner shell
+    } else if(type === "hoodie" && hoodieGeo){
+      buildModelGarment(hoodieGeo, -0.16, true);  // men's single-surface scan: inner shell
+    } else if(type === "hoodiew" && hoodieWGeo){
+      buildModelGarment(hoodieWGeo, -0.16, true); // women's single-surface scan: inner shell
+    } else if(type === "polo" && poloGeo){
+      buildModelGarment(poloGeo, -0.16, true);    // scanned single surface: add an inner shell
+    } else if(type === "polow" && poloWGeo){
+      buildModelGarment(poloWGeo, -0.16, true);   // women's fitted scan
     } else {
     addFabric(garment, torsoGeometry(), true);
     if(type === "hoodie"){
@@ -1338,52 +1470,91 @@ function boot(){
     applyColor();
     scene.add(garment);
     garment.updateMatrixWorld(true);
-    rebuildDecal();
+    rebuildDecals();
   }
 
-  /* ---------- logo decal (projected, conforms to the surface) ---------- */
-  function defaultDecal(){
-    // raycast straight into the chest to find the exact surface point + normal
-    ray.set(new THREE.Vector3(0, 0.18, 5), new THREE.Vector3(0, 0, -1));
+  /* ---------- logo decals (multiple, embroidered, front & back) ---------- */
+  const CM_PER_UNIT = 24.5;   // garment height (~2.95 units) is about 72 cm
+  const DECAL_BASE  = 0.42;   // decal world width at size 1 (about 10 cm)
+  function decalWidthWorld(size){ return DECAL_BASE * size; }
+
+  function frontChestPlacement(){
+    ray.set(new THREE.Vector3(0, 0.16, 5), new THREE.Vector3(0, 0, -1));
     const hits = bodyMeshes.length ? ray.intersectObjects(bodyMeshes, false) : [];
     if(hits.length){
       const n = hits[0].face.normal.clone().transformDirection(hits[0].object.matrixWorld).normalize();
       const p = hits[0].point;
-      return { p:[p.x, p.y, p.z], n:[n.x, n.y, n.z] };
+      return { p:[p.x, p.y, p.z], n:[n.x, n.y, n.z], size: state.size };
     }
-    return { p:[0, 0.18, 0.62], n:[0, 0, 1] };
+    return { p:[0, 0.16, 0.62], n:[0, 0, 1], size: state.size };
   }
-  function rebuildDecal(){
-    if(decalMesh){ garment.remove(decalMesh); decalMesh.geometry.dispose(); decalMesh = null; }
-    if(!logoTex || !bodyMeshes.length) return;
-    const d = state.decal || defaultDecal();
+  function makeDecalMesh(d){
     const pos = new THREE.Vector3(d.p[0], d.p[1], d.p[2]);
     const nrm = new THREE.Vector3(d.n[0], d.n[1], d.n[2]).normalize();
     decalHelper.position.copy(pos);
     decalHelper.lookAt(pos.clone().add(nrm));
-    const img = logoTex.image;
-    const aspect = (img && img.width && img.height) ? img.width / img.height : 1;
-    const w = 0.95 * state.size;
-    const size = new THREE.Vector3(w, w / aspect, 0.5);
-    decalMesh = new THREE.Mesh(new DecalGeometry(bodyMeshes[0], pos, decalHelper.rotation.clone(), size), decalMat);
-    decalMesh.castShadow = false; decalMesh.renderOrder = 2;
-    garment.add(decalMesh);
+    const w = decalWidthWorld(d.size);
+    const size = new THREE.Vector3(w, w / logoAspect, 0.6);
+    const m = new THREE.Mesh(new DecalGeometry(bodyMeshes[0], pos, decalHelper.rotation.clone(), size), decalMat);
+    m.castShadow = false; m.renderOrder = 2;
+    return m;
+  }
+  function clearDecalMeshes(){
+    decalMeshes.forEach(function(m){ if(m.parent) m.parent.remove(m); m.geometry.dispose(); });
+    decalMeshes = [];
+  }
+  function rebuildDecals(){
+    clearDecalMeshes();
+    if(!logoTex || !bodyMeshes.length || !garment) return;
+    state.decals.forEach(function(d){ const m = makeDecalMesh(d); garment.add(m); decalMeshes.push(m); });
+    updateControls();
+  }
+  function disposeLogoMaps(){
+    [logoTex, logoNormal, logoRough].forEach(function(t){ if(t) t.dispose(); });
+    logoTex = logoNormal = logoRough = null;
   }
   function loadLogo(url){
     const img = new Image();
     img.onload = function(){
-      const tex = new THREE.Texture(img);
-      tex.colorSpace = THREE.SRGBColorSpace;
-      tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
-      tex.needsUpdate = true;
-      if(logoTex) logoTex.dispose();
-      logoTex = tex;
-      decalMat.map = tex; decalMat.needsUpdate = true;
-      sizeInput.disabled = false;
-      rebuildDecal();
+      disposeLogoMaps();
+      const maps = buildEmbroideryMaps(img, renderer.capabilities.getMaxAnisotropy());
+      logoTex = maps.map; logoNormal = maps.normal; logoRough = maps.rough; logoAspect = maps.aspect;
+      decalMat.map = logoTex; decalMat.normalMap = logoNormal; decalMat.roughnessMap = logoRough;
+      decalMat.needsUpdate = true;
+      if(!state.decals.length) state.decals = [ frontChestPlacement() ];  // first logo lands on the chest
+      if(selectedIdx < 0 || selectedIdx >= state.decals.length) selectedIdx = 0;
+      rebuildDecals();
     };
     img.onerror = function(){ setStatus("Sorry, that file could not be read. Please try another image."); };
     img.src = url;
+  }
+
+  function updateSizeReadout(){
+    const el = document.getElementById("smk-sizeout");
+    if(!el) return;
+    const d = (selectedIdx >= 0) ? state.decals[selectedIdx] : null;
+    if(!logoTex || !d){ el.textContent = ""; return; }
+    const wcm = decalWidthWorld(d.size) * CM_PER_UNIT;
+    const hcm = wcm / logoAspect;
+    const cm = function(v){ return v.toFixed(1); }, inch = function(v){ return (v/2.54).toFixed(1); };
+    el.textContent = "Logo size: " + cm(wcm) + " × " + cm(hcm) + " cm  (" + inch(wcm) + " × " + inch(hcm) + " in)";
+  }
+  function updateControls(){
+    const has = !!logoTex, n = state.decals.length;
+    if(selectedIdx >= n) selectedIdx = n - 1;      // keep the selection valid
+    sizeInput.disabled = !has || selectedIdx < 0;
+    if(clearBtn) clearBtn.disabled = !has;
+    if(removeBtn) removeBtn.disabled = selectedIdx < 0;
+    if(selectedIdx >= 0 && state.decals[selectedIdx]) sizeInput.value = state.decals[selectedIdx].size;
+    const cnt = document.getElementById("smk-count");
+    if(cnt){
+      let t = n ? (n + (n === 1 ? " logo" : " logos")) : "";
+      if(n > 1 && selectedIdx >= 0) t += " · logo " + (selectedIdx + 1) + " selected";
+      cnt.textContent = t;
+    }
+    const forEl = document.getElementById("smk-size-for");
+    if(forEl) forEl.textContent = (n > 1 && selectedIdx >= 0) ? "(logo " + (selectedIdx + 1) + ")" : "";
+    updateSizeReadout();
   }
 
   /* ---------- appearance ---------- */
@@ -1392,31 +1563,97 @@ function boot(){
     fabricMats.forEach(function(m){ m.color.copy(c); });
   }
 
-  /* ---------- interaction: click to place the logo ---------- */
-  let down = null;
-  renderer.domElement.addEventListener("pointerdown", function(e){ down = { x:e.clientX, y:e.clientY, t:performance.now() }; });
-  renderer.domElement.addEventListener("pointerup", function(e){
-    if(!down) return;
-    const moved = Math.hypot(e.clientX - down.x, e.clientY - down.y);
-    const quick = performance.now() - down.t < 350;
-    down = null;
-    if(moved < 6 && quick) placeAt(e.clientX, e.clientY);
-  });
-  function placeAt(clientX, clientY){
-    if(!logoTex) return;
+  /* ---------- interaction: add / drag / select logos ---------- */
+  let down = null;         // pointer-down bookkeeping, for telling a click from a drag
+  let drag = null;         // { idx, moved } while a logo is being dragged
+  let pendingMove = null;  // {idx, x, y} applied once per frame in the render loop
+
+  function rayFrom(clientX, clientY){
     const r = renderer.domElement.getBoundingClientRect();
     ndc.x = ((clientX - r.left) / r.width) * 2 - 1;
     ndc.y = -((clientY - r.top) / r.height) * 2 + 1;
     ray.setFromCamera(ndc, camera);
+  }
+  function pickLogo(clientX, clientY){
+    if(!decalMeshes.length) return -1;
+    rayFrom(clientX, clientY);
+    const hit = ray.intersectObjects(decalMeshes, false);
+    return hit.length ? decalMeshes.indexOf(hit[0].object) : -1;
+  }
+  function surfaceHit(clientX, clientY){
+    if(!bodyMeshes.length) return null;
+    rayFrom(clientX, clientY);
     const hits = ray.intersectObjects(bodyMeshes, false);
-    if(!hits.length) return;
+    if(!hits.length) return null;
     const h = hits[0];
     const n = h.face.normal.clone().transformDirection(h.object.matrixWorld).normalize();
-    if(n.z <= 0.1) return;                             // front-facing surfaces only
-    state.decal = { p:[h.point.x, h.point.y, h.point.z], n:[n.x, n.y, n.z] };
-    rebuildDecal();
-    saveState();
+    return { point:h.point, n:n };
   }
+  function selectLogo(idx){
+    selectedIdx = idx;
+    if(idx >= 0 && state.decals[idx]) sizeInput.value = state.decals[idx].size;
+    updateControls();
+  }
+  function addLogoAt(clientX, clientY){
+    const hit = surfaceHit(clientX, clientY);
+    if(!hit) return;
+    if(state.decals.length >= 16){ setStatus("That is the maximum number of logos."); return; }
+    setStatus("");
+    const d = { p:[hit.point.x, hit.point.y, hit.point.z], n:[hit.n.x, hit.n.y, hit.n.z], size: state.size };
+    state.decals.push(d);
+    const m = makeDecalMesh(d); garment.add(m); decalMeshes.push(m);
+    selectedIdx = state.decals.length - 1;
+    updateControls(); saveState();
+  }
+  function rebuildDecalAt(idx){
+    const old = decalMeshes[idx];
+    if(old){ if(old.parent) old.parent.remove(old); old.geometry.dispose(); }
+    const m = makeDecalMesh(state.decals[idx]);
+    garment.add(m); decalMeshes[idx] = m;
+  }
+  function applyMove(mv){
+    const hit = surfaceHit(mv.x, mv.y);
+    if(!hit || !state.decals[mv.idx]) return;
+    const d = state.decals[mv.idx];
+    d.p = [hit.point.x, hit.point.y, hit.point.z];
+    d.n = [hit.n.x, hit.n.y, hit.n.z];
+    rebuildDecalAt(mv.idx);
+  }
+
+  renderer.domElement.addEventListener("pointerdown", function(e){
+    if(!logoTex){ down = null; drag = null; return; }   // no logo yet: leave the camera to OrbitControls
+    const idx = pickLogo(e.clientX, e.clientY);
+    down = { x:e.clientX, y:e.clientY, t:performance.now(), idx:idx };
+    if(idx >= 0){
+      drag = { idx:idx, moved:false };   // grabbed a logo: drag it, hold the camera still
+      controls.enabled = false;
+      selectLogo(idx);
+      try{ renderer.domElement.setPointerCapture(e.pointerId); }catch(_){}
+    }
+  });
+  renderer.domElement.addEventListener("pointermove", function(e){
+    if(!drag) return;
+    if(Math.hypot(e.clientX - down.x, e.clientY - down.y) > 3) drag.moved = true;
+    pendingMove = { idx:drag.idx, x:e.clientX, y:e.clientY };   // applied (throttled) in the render loop
+  });
+  function endPointer(e){
+    if(drag){
+      controls.enabled = true;
+      if(drag.moved) saveState();
+      try{ renderer.domElement.releasePointerCapture(e.pointerId); }catch(_){}
+      drag = null; down = null; return;
+    }
+    if(!down) return;
+    const moved = Math.hypot(e.clientX - down.x, e.clientY - down.y);
+    const quick = performance.now() - down.t < 400;
+    const idx = down.idx; down = null;
+    if(moved < 6 && quick){
+      if(idx >= 0) selectLogo(idx);          // tapped a logo -> select it
+      else addLogoAt(e.clientX, e.clientY);  // tapped bare fabric -> add one
+    }
+  }
+  renderer.domElement.addEventListener("pointerup", endPointer);
+  renderer.domElement.addEventListener("pointercancel", endPointer);
 
   /* ---------- UI wiring ---------- */
   garmentBtns.querySelectorAll("button").forEach(function(btn){
@@ -1437,10 +1674,13 @@ function boot(){
     });
   });
   sizeInput.value = state.size;
-  sizeInput.disabled = !state.print;
   sizeInput.addEventListener("input", function(){
-    state.size = parseFloat(sizeInput.value);
-    if(logoTex) rebuildDecal();
+    state.size = parseFloat(sizeInput.value);   // remembered as the size for the next logo added
+    if(selectedIdx >= 0 && state.decals[selectedIdx]){
+      state.decals[selectedIdx].size = state.size;   // resize the currently selected logo
+      rebuildDecalAt(selectedIdx);
+    }
+    updateSizeReadout();
     saveState();
   });
   uploadInput.addEventListener("change", function(e){
@@ -1449,11 +1689,10 @@ function boot(){
     setStatus("");
     const reader = new FileReader();
     reader.onload = function(){
-      // Bound the stored image so a large photo cannot blow the localStorage quota
-      // (which would otherwise fail silently and stop all later saves too).
+      // Bound the stored image so a large photo cannot blow the localStorage quota.
       downscaleDataURL(reader.result, 640, function(smallUrl){
         state.print = smallUrl;
-        state.decal = null;                 // re-centre the new logo on the chest
+        state.decals = [];                  // fresh logo starts with one chest placement
         loadLogo(state.print);
         if(!saveState()){
           setStatus("That image is large, so it shows now but may not be remembered after you close the tab.");
@@ -1464,14 +1703,39 @@ function boot(){
     reader.readAsDataURL(file);
     uploadInput.value = "";
   });
-  clearBtn.addEventListener("click", function(){
-    state.print = null; state.decal = null;
-    if(logoTex){ logoTex.dispose(); logoTex = null; }
-    decalMat.map = null; decalMat.needsUpdate = true;
-    if(decalMesh){ garment.remove(decalMesh); decalMesh.geometry.dispose(); decalMesh = null; }
-    sizeInput.disabled = true;
-    saveState();
+  if(removeBtn) removeBtn.addEventListener("click", function(){
+    if(selectedIdx < 0 || !state.decals[selectedIdx]) return;
+    const m = decalMeshes.splice(selectedIdx, 1)[0]; if(m){ if(m.parent) m.parent.remove(m); m.geometry.dispose(); }
+    state.decals.splice(selectedIdx, 1);
+    selectedIdx = Math.min(selectedIdx, state.decals.length - 1);
+    updateControls(); saveState();
   });
+  clearBtn.addEventListener("click", function(){
+    state.print = null; state.decals = []; selectedIdx = -1;
+    disposeLogoMaps();
+    decalMat.map = decalMat.normalMap = decalMat.roughnessMap = null; decalMat.needsUpdate = true;
+    clearDecalMeshes();
+    updateControls(); saveState();
+  });
+
+  /* ---------- zoom / close-up controls ---------- */
+  function zoomBy(factor){
+    const off = camera.position.clone().sub(controls.target);
+    let dist = off.length() * factor;
+    dist = Math.max(controls.minDistance, Math.min(controls.maxDistance, dist));
+    camera.position.copy(controls.target).add(off.setLength(dist));
+    controls.update();
+  }
+  const zoomInBtn = document.getElementById("smk-zoom-in");
+  const zoomOutBtn = document.getElementById("smk-zoom-out");
+  const zoomResetBtn = document.getElementById("smk-zoom-reset");
+  if(zoomInBtn) zoomInBtn.addEventListener("click", function(){ zoomBy(0.72); });
+  if(zoomOutBtn) zoomOutBtn.addEventListener("click", function(){ zoomBy(1.0/0.72); });
+  if(zoomResetBtn) zoomResetBtn.addEventListener("click", function(){
+    camera.position.set(0, 0.55, 6.0); controls.target.set(0, -0.05, 0); controls.update();
+  });
+
+  updateControls();
 
   // Motion toggle from the page pill
   window.addEventListener("smk-motion", function(e){ controls.autoRotate = e.detail !== "calm"; });
@@ -1484,6 +1748,7 @@ function boot(){
 
   let firstFrame = true;
   renderer.setAnimationLoop(function(){
+    if(pendingMove){ applyMove(pendingMove); pendingMove = null; }   // drag a logo (throttled to one rebuild/frame)
     controls.update();
     renderer.render(scene, camera);
     if(firstFrame){ firstFrame = false; if(loaderEl) loaderEl.classList.add("hide"); }
@@ -1507,6 +1772,80 @@ function roundedBox(w, h, d, r){
   }
   geo.computeVertexNormals();
   return geo;
+}
+
+// ---- Embroidery maps: turn an uploaded logo into colour + normal + roughness
+// maps so the projected decal reads as raised stitched thread. All derived at
+// runtime from the image on a 2D canvas (see research pipeline).
+function boxBlur(data, W, H, r){
+  if(r <= 0) return data;
+  const n = r*2+1, tmp = new Float32Array(W*H), out = new Float32Array(W*H);
+  const cl = function(v, m){ return v < 0 ? 0 : (v >= m ? m-1 : v); };
+  for(let y=0;y<H;y++){ let sum=0; for(let k=-r;k<=r;k++) sum += data[y*W+cl(k,W)];
+    for(let x=0;x<W;x++){ tmp[y*W+x] = sum/n; sum += data[y*W+cl(x+r+1,W)] - data[y*W+cl(x-r,W)]; } }
+  for(let x=0;x<W;x++){ let sum=0; for(let k=-r;k<=r;k++) sum += tmp[cl(k,H)*W+x];
+    for(let y=0;y<H;y++){ out[y*W+x] = sum/n; sum += tmp[cl(y+r+1,H)*W+x] - tmp[cl(y-r,H)*W+x]; } }
+  return out;
+}
+function heightToNormalInto(h, W, H, strength, outData){
+  const at = function(x, y){ return h[(y<0?0:(y>=H?H-1:y))*W + (x<0?0:(x>=W?W-1:x))]; };
+  for(let y=0;y<H;y++){ for(let x=0;x<W;x++){
+    const gx = (at(x+1,y-1)+2*at(x+1,y)+at(x+1,y+1)) - (at(x-1,y-1)+2*at(x-1,y)+at(x-1,y+1));
+    const gy = (at(x-1,y+1)+2*at(x,y+1)+at(x+1,y+1)) - (at(x-1,y-1)+2*at(x,y-1)+at(x+1,y-1));
+    let nx = -gx*strength, ny = -gy*strength, nz = 1;
+    const inv = 1/Math.hypot(nx, ny, nz); nx*=inv; ny*=inv; nz*=inv;
+    const i = (y*W+x)*4; outData[i]=(nx*.5+.5)*255; outData[i+1]=(ny*.5+.5)*255; outData[i+2]=(nz*.5+.5)*255; outData[i+3]=255;
+  } }
+}
+function buildEmbroideryMaps(img, aniso){
+  const S = 512, SP = 6;               // canvas size, satin-stitch spacing in px
+  const TWO = Math.PI*2;
+  const colorCanvas = document.createElement("canvas"); colorCanvas.width = colorCanvas.height = S;
+  const cctx = colorCanvas.getContext("2d");
+  cctx.drawImage(img, 0, 0, S, S);
+  const src = cctx.getImageData(0, 0, S, S).data;
+  // mask from alpha, or from non-white luminance when the image is opaque
+  const alpha = new Float32Array(S*S); let hasAlpha = false;
+  for(let i=0;i<S*S;i++){ const a = src[i*4+3]/255; if(a < 0.98) hasAlpha = true; alpha[i] = a; }
+  if(!hasAlpha){
+    for(let i=0;i<S*S;i++){
+      const lum = (0.299*src[i*4] + 0.587*src[i*4+1] + 0.114*src[i*4+2]) / 255;
+      alpha[i] = lum < 0.95 ? 1 : 0;
+    }
+  }
+  const dome = boxBlur(alpha, S, S, 3);            // rounded puff of thread
+  const height = new Float32Array(S*S);
+  const roughImg = cctx.createImageData(S, S);
+  for(let y=0;y<S;y++){ for(let x=0;x<S;x++){
+    const i = y*S+x;
+    const m = dome[i];
+    if(m < 0.02){ height[i] = 0; roughImg.data[i*4]=roughImg.data[i*4+1]=roughImg.data[i*4+2]=255; roughImg.data[i*4+3]=255; continue; }
+    // satin threads: raised rows running at 45°, with each thread broken into stitches
+    const thread = 0.5 + 0.5*Math.cos((x - y) / SP * TWO);           // ridge across the thread rows
+    const stitch = 0.86 + 0.14*Math.cos((x + y) / (SP*3.2) * TWO);   // stitch segments along a thread
+    // raised bead where the mask edge is (reads as a merrow border / satin outline)
+    const edge = Math.max(0, 1 - Math.abs(m - 0.5) * 2.4);
+    height[i] = (m * (0.5 + 0.5*thread) * stitch) + edge * 0.55 * thread;
+    // thread crests catch light (lower roughness) more than the valleys between them
+    const rv = Math.round((0.74 - 0.26*thread) * 255);
+    roughImg.data[i*4]=roughImg.data[i*4+1]=roughImg.data[i*4+2]=rv; roughImg.data[i*4+3]=255;
+  } }
+  const normalImg = cctx.createImageData(S, S);
+  heightToNormalInto(height, S, S, 3.6, normalImg.data);            // stronger, more tactile relief
+  // thread sheen streaks painted onto the colour itself, clipped to the logo
+  cctx.globalCompositeOperation = "source-atop"; cctx.lineWidth = 1.9; cctx.lineCap = "round";
+  for(let d=-S; d<S*2; d+=SP){
+    cctx.strokeStyle = "rgba(255,255,255,0.16)"; cctx.beginPath(); cctx.moveTo(d,0); cctx.lineTo(d+S,S); cctx.stroke();
+    cctx.strokeStyle = "rgba(0,0,0,0.13)"; cctx.beginPath(); cctx.moveTo(d+SP*0.5,0); cctx.lineTo(d+SP*0.5+S,S); cctx.stroke();
+  }
+  cctx.globalCompositeOperation = "source-over";
+  const nc = document.createElement("canvas"); nc.width = nc.height = S; nc.getContext("2d").putImageData(normalImg, 0, 0);
+  const rc = document.createElement("canvas"); rc.width = rc.height = S; rc.getContext("2d").putImageData(roughImg, 0, 0);
+  const map = new THREE.CanvasTexture(colorCanvas); map.colorSpace = THREE.SRGBColorSpace; map.anisotropy = aniso || 1;
+  const normal = new THREE.CanvasTexture(nc); normal.colorSpace = THREE.NoColorSpace;
+  const rough = new THREE.CanvasTexture(rc); rough.colorSpace = THREE.NoColorSpace;
+  map.needsUpdate = normal.needsUpdate = rough.needsUpdate = true;
+  return { map:map, normal:normal, rough:rough, aspect: (img.width && img.height) ? img.width/img.height : 1 };
 }
 
 // Soft radial contact shadow (a flattened plane) placed under the garment.
@@ -1606,7 +1945,7 @@ function downscaleDataURL(url, maxDim, cb){
 
 function disposeObject(obj){
   obj.traverse(function(o){
-    if(o.geometry) o.geometry.dispose();
+    if(o.geometry && !(o.geometry.userData && o.geometry.userData.keep)) o.geometry.dispose();
     if(o.material){
       const mats = Array.isArray(o.material) ? o.material : [o.material];
       // Skip shared materials (cords, trims) so garment switches don't free them.
