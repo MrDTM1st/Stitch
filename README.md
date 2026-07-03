@@ -94,16 +94,16 @@ works everywhere. The block is clearly delimited and commented.
 
 **Capabilities**
 
-- **Real modelled garments** — five real GLTF garments with true fabric folds and
-  drape (loaded when hosted): a **t-shirt** (`shirt.glb`), a **men's** and a
-  **women's hoodie** (`hoodie.glb`, `hoodie-womens.glb`), and a **men's** and a
-  **women's polo** (`polo.glb`, `polo-womens.glb`), all under `assets/models/`. The
-  two hoodies and two polos are photogrammetry scans (each decimated with
-  meshoptimizer from ~0.5–0.9M down to ~74–86k vertices and recoloured at runtime),
-  distinct men's and women's cuts. Each modelled garment is drawn as single-sided
-  shells (never `DoubleSide`, which renders these meshes see-through / washed out on
-  some software renderers) with an inner shell so the scanned single surfaces read
-  solid.
+- **Real modelled garments** — six real GLTF garments with true fabric folds and
+  drape (loaded when hosted), in **men's and women's cuts**: a **t-shirt**
+  (`shirt.glb` men's, `shirt-womens.glb` women's), a **hoodie** (`hoodie.glb`,
+  `hoodie-womens.glb`), and a **polo** (`polo.glb`, `polo-womens.glb`), all under
+  `assets/models/`. The women's t-shirt, both hoodies and both polos are
+  photogrammetry scans (each decimated with meshoptimizer from ~0.5–0.9M down to
+  ~73–86k vertices and recoloured at runtime), distinct fitted cuts. Each modelled
+  garment is drawn as single-sided shells (never `DoubleSide`, which renders these
+  meshes see-through / washed out on some software renderers) with an inner shell so
+  the scanned single surfaces read solid.
 - **PBR fabric** — cloth sheen + a procedural woven normal map, soft studio
   lighting, environment reflections (procedural `RoomEnvironment`), a soft radial
   contact shadow, and a studio-sweep backdrop.
@@ -184,7 +184,8 @@ in `localStorage` and defaults to `Calm` when the OS requests reduced motion.
 |---|---|
 | `index.html` | The entire website — markup, styles, page logic, and the inline 3D studio |
 | `assets/OIP.webp` | The real brand logo image (used big in the hero and showcase) |
-| `assets/models/shirt.glb` | Realistic t-shirt model for the studio (MIT, see its `.LICENSE`) |
+| `assets/models/shirt.glb` | Realistic men's t-shirt model for the studio (MIT, see its `.LICENSE`) |
+| `assets/models/shirt-womens.glb` | Realistic women's t-shirt model for the studio (owner-supplied scan, see its `.LICENSE`) |
 | `assets/models/hoodie.glb` | Realistic men's hoodie model for the studio (owner-supplied scan, see its `.LICENSE`) |
 | `assets/models/hoodie-womens.glb` | Realistic women's hoodie model for the studio (owner-supplied scan, see its `.LICENSE`) |
 | `assets/models/polo.glb` | Realistic men's polo model for the studio (owner-supplied scan, see its `.LICENSE`) |
@@ -276,13 +277,12 @@ file is opened locally or served from Pages.
 
 ## Credits
 
-- T-shirt 3D model (`assets/models/shirt.glb`): from
+- Men's t-shirt 3D model (`assets/models/shirt.glb`): from
   [Starklord17/threejs-t-shirt](https://github.com/Starklord17/threejs-t-shirt),
   MIT licensed (Copyright 2023 MaxSM) — see `assets/models/shirt.glb.LICENSE`.
-- Hoodie & polo 3D models (`assets/models/hoodie.glb`, `hoodie-womens.glb`,
-  `polo.glb`, `polo-womens.glb`): owner-supplied photogrammetry scans, each decimated
-  with the [meshoptimizer](https://github.com/zeux/meshoptimizer) simplifier (via
-  [glTF-Transform](https://gltf-transform.dev)) from ~0.5–0.9M down to ~74–86k
-  vertices, normals recomputed, re-centred and height-normalised, recoloured at
-  runtime. **Their original source/licence still needs confirming** — see the
-  matching `.LICENSE` files.
+- Women's t-shirt, hoodie & polo scans (`shirt-womens.glb`, `hoodie*.glb`,
+  `polo*.glb`): owner-supplied photogrammetry scans, each decimated with the
+  [meshoptimizer](https://github.com/zeux/meshoptimizer) simplifier (via
+  [glTF-Transform](https://gltf-transform.dev)) to ~73–86k vertices, normals
+  recomputed, re-centred and height-normalised, recoloured at runtime. **Their
+  original source/licence still needs confirming** — see the matching `.LICENSE` files.

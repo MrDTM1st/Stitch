@@ -1150,9 +1150,9 @@ const COLORS = { white:0xF4F4F1, teal:0x2EA7D5, navy:0x16305A, charcoal:0x2B2F33
 const GARMENTS = ["tee","hoodie","polo"];   // base garment types
 const GENDERS  = ["male","female"];
 const GARMENT_ALIASES = { hoodiew:{garment:"hoodie",gender:"female"}, polow:{garment:"polo",gender:"female"} };
-// Map a (base garment, gender) pair to the internal model type buildGarment understands.
-// The t-shirt has no gendered variant, so it stays "tee" for both.
-function garmentType(garment, gender){ return garment === "tee" ? "tee" : garment + (gender === "female" ? "w" : ""); }
+// Map a (base garment, gender) pair to the internal model type buildGarment understands
+// (men's stays the base name; women's gets a "w" suffix: tee/teew, hoodie/hoodiew, polo/polow).
+function garmentType(garment, gender){ return garment + (gender === "female" ? "w" : ""); }
 
 // state.decals = [{ p:[x,y,z], n:[x,y,z], size:number }, ...] — one entry per placed logo
 function defaults(){ return { garment:"tee", gender:"male", color:"white", size:1, print:null, decals:[] }; }
@@ -1283,7 +1283,8 @@ function boot(){
   let logoAspect = 1;      // uploaded logo width / height
   let decalMeshes = [];    // one projected mesh per placed logo
   let selectedIdx = -1;    // which placed logo the slider + Remove act on
-  let shirtGeo = null;     // realistic t-shirt model geometry (loaded async)
+  let shirtGeo = null;     // realistic men's t-shirt model geometry (loaded async)
+  let shirtWGeo = null;    // realistic women's t-shirt model geometry (loaded async)
   let shirtMat = null;     // the model's own (double-sided) material
   let hoodieGeo = null;    // realistic men's hoodie model geometry (loaded async)
   let hoodieWGeo = null;   // realistic women's hoodie model geometry (loaded async)
@@ -1298,7 +1299,7 @@ function boot(){
   // The model is fetched over the network, which the browser blocks from a
   // file:// page. When hosted (Railway/Pages/any server) it loads; opened as a
   // bare file it falls back to the procedural tee.
-  if(location.protocol === "http:" || location.protocol === "https:"){ loadShirtModel(); loadHoodieModel(); loadHoodieWModel(); loadPoloModel(); loadPoloWModel(); }
+  if(location.protocol === "http:" || location.protocol === "https:"){ loadShirtModel(); loadShirtWModel(); loadHoodieModel(); loadHoodieWModel(); loadPoloModel(); loadPoloWModel(); }
 
   // Load the realistic t-shirt mesh (MIT model) and, once ready, rebuild the tee
   // with it. Fails silently to the procedural tee (e.g. opened from file://).
@@ -1320,6 +1321,18 @@ function boot(){
       shirtMat = src.material; if(shirtMat){ shirtMat.side = THREE.DoubleSide; }
       if(garmentType(state.garment, state.gender) === "tee" && garment) buildGarment("tee");
     }, undefined, function(err){ console.warn("[studio] realistic tee model unavailable, using procedural", err); });
+  }
+
+  // Load the realistic women's t-shirt mesh (a fitted-cut scan, decimated and
+  // pre-baked like the polos). Fails silently to the procedural tee.
+  function loadShirtWModel(){
+    new GLTFLoader().load("assets/models/shirt-womens.glb", function(gltf){
+      let src = null;
+      gltf.scene.traverse(function(o){ if(o.isMesh && !src) src = o; });
+      if(!src) return;
+      shirtWGeo = src.geometry; shirtWGeo.userData.keep = true;
+      if(garmentType(state.garment, state.gender) === "teew" && garment) buildGarment("teew");
+    }, undefined, function(err){ console.warn("[studio] realistic women's tee model unavailable, using procedural", err); });
   }
 
   // Load the realistic hoodie mesh (MIT model). It is pre-baked to a single,
@@ -1451,6 +1464,8 @@ function boot(){
 
     if(type === "tee" && shirtGeo){
       buildModelGarment(shirtGeo, -0.16, true);   // thin single-layer tee: add an inner shell
+    } else if(type === "teew" && shirtWGeo){
+      buildModelGarment(shirtWGeo, -0.16, true);  // women's fitted tee scan
     } else if(type === "hoodie" && hoodieGeo){
       buildModelGarment(hoodieGeo, -0.16, true);  // men's single-surface scan: inner shell
     } else if(type === "hoodiew" && hoodieWGeo){
@@ -1461,7 +1476,7 @@ function boot(){
       buildModelGarment(poloWGeo, -0.16, true);   // women's fitted scan
     } else {
     addFabric(garment, torsoGeometry(), true);
-    if(type === "hoodie"){
+    if(type === "hoodie" || type === "hoodiew"){
       sleeve(garment, -1, 1.78, 0.34, 0.24);
       sleeve(garment,  1, 1.78, 0.34, 0.24);
       // hood (bunched dome behind the neck)
@@ -1484,7 +1499,7 @@ function boot(){
         const aglet = mesh(garment, new THREE.CylinderGeometry(0.03, 0.03, 0.07, 8), darkTrimMat, false);
         aglet.position.set(x, 0.53, 0.6);
       });
-    } else if(type === "tee"){
+    } else if(type === "tee" || type === "teew"){
       sleeve(garment, -1, 0.66, 0.40, 0.42);
       sleeve(garment,  1, 0.66, 0.40, 0.42);
       const neck = mesh(garment, new THREE.TorusGeometry(0.42, 0.06, 12, 32), fabricMaterial(), false);
