@@ -94,16 +94,15 @@ works everywhere. The block is clearly delimited and commented.
 
 **Capabilities**
 
-- **Real modelled garments** — the **t-shirt** (`assets/models/shirt.glb`), the
+- **Real modelled garments** — the **t-shirt** (`assets/models/shirt.glb`), a
   **hoodie** (`assets/models/hoodie.glb`) and both a **men's and a women's polo**
   (`assets/models/polo.glb`, `assets/models/polo-womens.glb`) are all real GLTF
-  garments with true fabric folds and drape (loaded when hosted). The two polos are
-  photogrammetry scans (each decimated with meshoptimizer from ~0.5M to ~74k
-  vertices and recoloured at runtime); the women's is a distinct fitted cut. Each
-  modelled garment is drawn as single-sided shells (never `DoubleSide`, which
-  renders these meshes see-through / washed out on some software renderers): the
-  thin t-shirt and scanned polos get an inner shell so they read solid, and the
-  thick multi-layer hoodie is solid on its own.
+  garments with true fabric folds and drape (loaded when hosted). The hoodie and the
+  two polos are photogrammetry scans (each decimated with meshoptimizer from
+  ~0.5–0.8M down to ~74–77k vertices and recoloured at runtime); the women's polo is
+  a distinct fitted cut. Each modelled garment is drawn as single-sided shells
+  (never `DoubleSide`, which renders these meshes see-through / washed out on some
+  software renderers) with an inner shell so the scanned single surfaces read solid.
 - **PBR fabric** — cloth sheen + a procedural woven normal map, soft studio
   lighting, environment reflections (procedural `RoomEnvironment`), a soft radial
   contact shadow, and a studio-sweep backdrop.
@@ -185,7 +184,7 @@ in `localStorage` and defaults to `Calm` when the OS requests reduced motion.
 | `index.html` | The entire website — markup, styles, page logic, and the inline 3D studio |
 | `assets/OIP.webp` | The real brand logo image (used big in the hero and showcase) |
 | `assets/models/shirt.glb` | Realistic t-shirt model for the studio (MIT, see its `.LICENSE`) |
-| `assets/models/hoodie.glb` | Realistic hoodie model for the studio (MIT, see its `.LICENSE`) |
+| `assets/models/hoodie.glb` | Realistic hoodie model for the studio (owner-supplied scan, see its `.LICENSE`) |
 | `assets/models/polo.glb` | Realistic men's polo model for the studio (owner-supplied scan, see its `.LICENSE`) |
 | `assets/models/polo-womens.glb` | Realistic women's polo model for the studio (owner-supplied scan, see its `.LICENSE`) |
 | `assets/favicon.svg` | Site favicon (stitch mark) |
@@ -278,10 +277,11 @@ file is opened locally or served from Pages.
 - T-shirt 3D model (`assets/models/shirt.glb`): from
   [Starklord17/threejs-t-shirt](https://github.com/Starklord17/threejs-t-shirt),
   MIT licensed (Copyright 2023 MaxSM) — see `assets/models/shirt.glb.LICENSE`.
-- Hoodie 3D model (`assets/models/hoodie.glb`): derived from
-  [garbieldpnt/blkkt](https://github.com/garbieldpnt/blkkt) (`hoodie.glb`), MIT
-  licensed (Copyright 2025 Garbiboule Leplusbo). Reduced to a single untextured,
-  re-centred, height-normalised mesh and recoloured at runtime — see
+- Hoodie 3D model (`assets/models/hoodie.glb`): an owner-supplied photogrammetry
+  scan, decimated with the [meshoptimizer](https://github.com/zeux/meshoptimizer)
+  simplifier (via [glTF-Transform](https://gltf-transform.dev)) from ~771k to ~77k
+  vertices, normals recomputed, re-centred and height-normalised, recoloured at
+  runtime. **Its original source/licence still needs confirming** — see
   `assets/models/hoodie.glb.LICENSE`.
 - Polo 3D models (`assets/models/polo.glb` men's, `assets/models/polo-womens.glb`
   women's): owner-supplied photogrammetry scans, each decimated with the

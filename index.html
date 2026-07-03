@@ -1381,7 +1381,7 @@ function boot(){
     if(type === "tee" && shirtGeo){
       buildModelGarment(shirtGeo, -0.16, true);   // thin single-layer tee: add an inner shell
     } else if(type === "hoodie" && hoodieGeo){
-      buildModelGarment(hoodieGeo, 0.0, false);   // already multi-layer + thick: one shell is solid
+      buildModelGarment(hoodieGeo, -0.16, true);  // single-surface scan: add an inner shell
     } else if(type === "polo" && poloGeo){
       buildModelGarment(poloGeo, -0.16, true);    // scanned single surface: add an inner shell
     } else if(type === "polow" && poloWGeo){
