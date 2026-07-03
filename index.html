@@ -737,7 +737,11 @@ input[type=range]:disabled{opacity:.4}
             </button>
             <button data-g="hoodie">
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4l5 3 5-3 4 3-2 4v9H5v-9L3 7z"/><path d="M9 4c0 2 1.5 3 3 3s3-1 3-3"/></svg>
-              Hoodie
+              Hoodie&nbsp;M
+            </button>
+            <button data-g="hoodiew">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4l5 3 5-3 4 3-2 4-1 9H6l-1-9L3 7z"/><path d="M9 4c0 2 1.5 3 3 3s3-1 3-3"/></svg>
+              Hoodie&nbsp;W
             </button>
             <button data-g="polo">
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l4 4 4-4 5 4-2.5 3.5V20H5.5V11.5L3 8z"/><path d="M10 4l2 3 2-3M12 7v6"/></svg>
@@ -1101,7 +1105,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 /* ---------------------------------------------------------------- state */
 const STORE_KEY = "smkStudio3d_v1";
 const COLORS = { white:0xF4F4F1, teal:0x2EA7D5, navy:0x16305A, charcoal:0x2B2F33, gold:0xC79A3B, burgundy:0x6E2233 };
-const GARMENTS = ["hoodie","tee","polo","polow"];
+const GARMENTS = ["hoodie","hoodiew","tee","polo","polow"];
 
 // state.decals = [{ p:[x,y,z], n:[x,y,z], size:number }, ...] — one entry per placed logo
 function defaults(){ return { garment:"tee", color:"white", size:1, print:null, decals:[] }; }
@@ -1227,7 +1231,8 @@ function boot(){
   let decalMeshes = [];    // one projected mesh per placed logo
   let shirtGeo = null;     // realistic t-shirt model geometry (loaded async)
   let shirtMat = null;     // the model's own (double-sided) material
-  let hoodieGeo = null;    // realistic hoodie model geometry (loaded async)
+  let hoodieGeo = null;    // realistic men's hoodie model geometry (loaded async)
+  let hoodieWGeo = null;   // realistic women's hoodie model geometry (loaded async)
   let poloGeo = null;      // realistic men's polo model geometry (loaded async)
   let poloWGeo = null;     // realistic women's polo model geometry (loaded async)
   const decalHelper = new THREE.Object3D();
@@ -1239,7 +1244,7 @@ function boot(){
   // The model is fetched over the network, which the browser blocks from a
   // file:// page. When hosted (Railway/Pages/any server) it loads; opened as a
   // bare file it falls back to the procedural tee.
-  if(location.protocol === "http:" || location.protocol === "https:"){ loadShirtModel(); loadHoodieModel(); loadPoloModel(); loadPoloWModel(); }
+  if(location.protocol === "http:" || location.protocol === "https:"){ loadShirtModel(); loadHoodieModel(); loadHoodieWModel(); loadPoloModel(); loadPoloWModel(); }
 
   // Load the realistic t-shirt mesh (MIT model) and, once ready, rebuild the tee
   // with it. Fails silently to the procedural tee (e.g. opened from file://).
@@ -1274,6 +1279,18 @@ function boot(){
       hoodieGeo = src.geometry; hoodieGeo.userData.keep = true;   // shared across rebuilds
       if(state.garment === "hoodie" && garment) buildGarment("hoodie");
     }, undefined, function(err){ console.warn("[studio] realistic hoodie model unavailable, using procedural", err); });
+  }
+
+  // Load the realistic women's hoodie mesh (a fitted-cut scan, decimated and pre-baked
+  // like the polos). Fails silently to the procedural hoodie.
+  function loadHoodieWModel(){
+    new GLTFLoader().load("assets/models/hoodie-womens.glb", function(gltf){
+      let src = null;
+      gltf.scene.traverse(function(o){ if(o.isMesh && !src) src = o; });
+      if(!src) return;
+      hoodieWGeo = src.geometry; hoodieWGeo.userData.keep = true;
+      if(state.garment === "hoodiew" && garment) buildGarment("hoodiew");
+    }, undefined, function(err){ console.warn("[studio] realistic women's hoodie model unavailable, using procedural", err); });
   }
 
   // Load the realistic polo mesh (a photogrammetry scan, decimated and pre-baked
@@ -1381,7 +1398,9 @@ function boot(){
     if(type === "tee" && shirtGeo){
       buildModelGarment(shirtGeo, -0.16, true);   // thin single-layer tee: add an inner shell
     } else if(type === "hoodie" && hoodieGeo){
-      buildModelGarment(hoodieGeo, -0.16, true);  // single-surface scan: add an inner shell
+      buildModelGarment(hoodieGeo, 0.0, false);   // men's: thick multi-layer mesh, solid alone
+    } else if(type === "hoodiew" && hoodieWGeo){
+      buildModelGarment(hoodieWGeo, -0.16, true); // women's single-surface scan: inner shell
     } else if(type === "polo" && poloGeo){
       buildModelGarment(poloGeo, -0.16, true);    // scanned single surface: add an inner shell
     } else if(type === "polow" && poloWGeo){
