@@ -741,7 +741,11 @@ input[type=range]:disabled{opacity:.4}
             </button>
             <button data-g="polo">
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l4 4 4-4 5 4-2.5 3.5V20H5.5V11.5L3 8z"/><path d="M10 4l2 3 2-3M12 7v6"/></svg>
-              Polo
+              Polo&nbsp;M
+            </button>
+            <button data-g="polow">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l4 4 4-4 5 4-2 3V13l-1.5 7h-9L11 13v-2L8 7z"/><path d="M10 4l2 3 2-3M12 7v5"/></svg>
+              Polo&nbsp;W
             </button>
           </div>
         </div>
@@ -1097,7 +1101,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 /* ---------------------------------------------------------------- state */
 const STORE_KEY = "smkStudio3d_v1";
 const COLORS = { white:0xF4F4F1, teal:0x2EA7D5, navy:0x16305A, charcoal:0x2B2F33, gold:0xC79A3B, burgundy:0x6E2233 };
-const GARMENTS = ["hoodie","tee","polo"];
+const GARMENTS = ["hoodie","tee","polo","polow"];
 
 // state.decals = [{ p:[x,y,z], n:[x,y,z], size:number }, ...] — one entry per placed logo
 function defaults(){ return { garment:"tee", color:"white", size:1, print:null, decals:[] }; }
@@ -1224,7 +1228,8 @@ function boot(){
   let shirtGeo = null;     // realistic t-shirt model geometry (loaded async)
   let shirtMat = null;     // the model's own (double-sided) material
   let hoodieGeo = null;    // realistic hoodie model geometry (loaded async)
-  let poloGeo = null;      // realistic polo model geometry (loaded async)
+  let poloGeo = null;      // realistic men's polo model geometry (loaded async)
+  let poloWGeo = null;     // realistic women's polo model geometry (loaded async)
   const decalHelper = new THREE.Object3D();
   const ray = new THREE.Raycaster();
   const ndc = new THREE.Vector2();
@@ -1234,7 +1239,7 @@ function boot(){
   // The model is fetched over the network, which the browser blocks from a
   // file:// page. When hosted (Railway/Pages/any server) it loads; opened as a
   // bare file it falls back to the procedural tee.
-  if(location.protocol === "http:" || location.protocol === "https:"){ loadShirtModel(); loadHoodieModel(); loadPoloModel(); }
+  if(location.protocol === "http:" || location.protocol === "https:"){ loadShirtModel(); loadHoodieModel(); loadPoloModel(); loadPoloWModel(); }
 
   // Load the realistic t-shirt mesh (MIT model) and, once ready, rebuild the tee
   // with it. Fails silently to the procedural tee (e.g. opened from file://).
@@ -1282,6 +1287,18 @@ function boot(){
       poloGeo = src.geometry; poloGeo.userData.keep = true;   // shared across rebuilds
       if(state.garment === "polo" && garment) buildGarment("polo");
     }, undefined, function(err){ console.warn("[studio] realistic polo model unavailable, using procedural", err); });
+  }
+
+  // Load the realistic women's polo mesh (a fitted-cut scan, decimated and pre-baked
+  // like the men's). Fails silently to the procedural polo.
+  function loadPoloWModel(){
+    new GLTFLoader().load("assets/models/polo-womens.glb", function(gltf){
+      let src = null;
+      gltf.scene.traverse(function(o){ if(o.isMesh && !src) src = o; });
+      if(!src) return;
+      poloWGeo = src.geometry; poloWGeo.userData.keep = true;
+      if(state.garment === "polow" && garment) buildGarment("polow");
+    }, undefined, function(err){ console.warn("[studio] realistic women's polo model unavailable, using procedural", err); });
   }
 
   /* ---------- garment construction ---------- */
@@ -1367,6 +1384,8 @@ function boot(){
       buildModelGarment(hoodieGeo, 0.0, false);   // already multi-layer + thick: one shell is solid
     } else if(type === "polo" && poloGeo){
       buildModelGarment(poloGeo, -0.16, true);    // scanned single surface: add an inner shell
+    } else if(type === "polow" && poloWGeo){
+      buildModelGarment(poloWGeo, -0.16, true);   // women's fitted scan
     } else {
     addFabric(garment, torsoGeometry(), true);
     if(type === "hoodie"){

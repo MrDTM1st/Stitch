@@ -95,14 +95,15 @@ works everywhere. The block is clearly delimited and commented.
 **Capabilities**
 
 - **Real modelled garments** — the **t-shirt** (`assets/models/shirt.glb`), the
-  **hoodie** (`assets/models/hoodie.glb`) and the **polo** (`assets/models/polo.glb`)
-  are all real GLTF garments with true fabric folds and drape (loaded when hosted).
-  The polo is a photogrammetry scan (decimated with meshoptimizer from ~567k to
-  ~74k vertices and recoloured at runtime). Each modelled garment is drawn as
-  single-sided shells (never `DoubleSide`, which renders these meshes see-through /
-  washed out on some software renderers): the thin t-shirt and scanned polo get an
-  inner shell so they read solid, and the thick multi-layer hoodie is solid on its
-  own.
+  **hoodie** (`assets/models/hoodie.glb`) and both a **men's and a women's polo**
+  (`assets/models/polo.glb`, `assets/models/polo-womens.glb`) are all real GLTF
+  garments with true fabric folds and drape (loaded when hosted). The two polos are
+  photogrammetry scans (each decimated with meshoptimizer from ~0.5M to ~74k
+  vertices and recoloured at runtime); the women's is a distinct fitted cut. Each
+  modelled garment is drawn as single-sided shells (never `DoubleSide`, which
+  renders these meshes see-through / washed out on some software renderers): the
+  thin t-shirt and scanned polos get an inner shell so they read solid, and the
+  thick multi-layer hoodie is solid on its own.
 - **PBR fabric** — cloth sheen + a procedural woven normal map, soft studio
   lighting, environment reflections (procedural `RoomEnvironment`), a soft radial
   contact shadow, and a studio-sweep backdrop.
@@ -185,7 +186,8 @@ in `localStorage` and defaults to `Calm` when the OS requests reduced motion.
 | `assets/OIP.webp` | The real brand logo image (used big in the hero and showcase) |
 | `assets/models/shirt.glb` | Realistic t-shirt model for the studio (MIT, see its `.LICENSE`) |
 | `assets/models/hoodie.glb` | Realistic hoodie model for the studio (MIT, see its `.LICENSE`) |
-| `assets/models/polo.glb` | Realistic polo model for the studio (owner-supplied scan, see its `.LICENSE`) |
+| `assets/models/polo.glb` | Realistic men's polo model for the studio (owner-supplied scan, see its `.LICENSE`) |
+| `assets/models/polo-womens.glb` | Realistic women's polo model for the studio (owner-supplied scan, see its `.LICENSE`) |
 | `assets/favicon.svg` | Site favicon (stitch mark) |
 | `README.md` | This file |
 | `tests/smoke.mjs` | Offline Playwright smoke test of the page and 3D studio |
@@ -281,9 +283,10 @@ file is opened locally or served from Pages.
   licensed (Copyright 2025 Garbiboule Leplusbo). Reduced to a single untextured,
   re-centred, height-normalised mesh and recoloured at runtime — see
   `assets/models/hoodie.glb.LICENSE`.
-- Polo 3D model (`assets/models/polo.glb`): an owner-supplied photogrammetry scan,
-  decimated with the [meshoptimizer](https://github.com/zeux/meshoptimizer)
-  simplifier (via [glTF-Transform](https://gltf-transform.dev)) from ~567k to ~74k
-  vertices, normals recomputed, re-centred and height-normalised, recoloured at
-  runtime. **Its original source/licence still needs confirming** — see
-  `assets/models/polo.glb.LICENSE`.
+- Polo 3D models (`assets/models/polo.glb` men's, `assets/models/polo-womens.glb`
+  women's): owner-supplied photogrammetry scans, each decimated with the
+  [meshoptimizer](https://github.com/zeux/meshoptimizer) simplifier (via
+  [glTF-Transform](https://gltf-transform.dev)) from ~0.5M to ~74k vertices, normals
+  recomputed, re-centred and height-normalised, recoloured at runtime. **Their
+  original source/licence still needs confirming** — see the matching `.LICENSE`
+  files.
