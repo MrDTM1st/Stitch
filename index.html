@@ -405,7 +405,18 @@ section{position:relative}
 .upload-btn:hover{background:var(--teal-btn-hover);transform:translateY(-1px)}
 .upload-btn svg{width:18px;height:18px}
 .mini-btn{padding:.75rem 1rem;border-radius:12px;border:1.5px solid rgba(16,40,47,.14);font-weight:600;font-size:.9rem;color:var(--ink-soft);transition:all .25s}
-.mini-btn:hover{border-color:var(--burgundy);color:var(--burgundy)}
+.mini-btn:hover:not(:disabled){border-color:var(--burgundy);color:var(--burgundy)}
+.mini-btn:disabled{opacity:.45;cursor:not-allowed}
+/* logo nudge D-pad */
+.nudge-row{display:flex;align-items:center;gap:1.1rem;margin-top:1rem}
+.nudge-title{font-size:.85rem;color:var(--ink-soft);font-weight:500;white-space:nowrap}
+.dpad{display:grid;grid-template-columns:repeat(3,34px);grid-template-rows:repeat(3,34px);gap:5px}
+.dbtn{border:1.5px solid rgba(16,40,47,.14);background:#fff;border-radius:9px;display:grid;place-items:center;cursor:pointer;color:var(--ink);transition:border-color .15s,color .15s,transform .1s,background .15s;touch-action:none}
+.dbtn:hover:not(:disabled){border-color:var(--teal);color:var(--teal-dark)}
+.dbtn:active:not(:disabled){transform:scale(.9);background:rgba(46,167,213,.12)}
+.dbtn:disabled{opacity:.4;cursor:not-allowed}
+.dbtn svg{width:16px;height:16px}
+.dup{grid-area:1/2}.dleft{grid-area:2/1}.dright{grid-area:2/3}.ddown{grid-area:3/2}
 .slider-row{display:flex;align-items:center;gap:.9rem}
 .slider-row label{font-size:.85rem;color:var(--ink-soft);white-space:nowrap;font-weight:500}
 input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:6px;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--twill-2));outline:none}
@@ -745,6 +756,20 @@ input[type=range]:disabled{opacity:.4}
 
       <div class="controls">
         <div class="ctl-group">
+          <h4>Fit</h4>
+          <div class="seg seg-2" id="smk-gender-btns">
+            <button data-gender="male" class="active">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="5"/><path d="M14 10l6-6M15 4h5v5"/></svg>
+              Men's
+            </button>
+            <button data-gender="female">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M12 13v8M9 18h6"/></svg>
+              Women's
+            </button>
+          </div>
+        </div>
+
+        <div class="ctl-group">
           <h4>Garment</h4>
           <div class="seg" id="smk-garment-btns">
             <button data-g="tee" class="active">
@@ -753,19 +778,11 @@ input[type=range]:disabled{opacity:.4}
             </button>
             <button data-g="hoodie">
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4l5 3 5-3 4 3-2 4v9H5v-9L3 7z"/><path d="M9 4c0 2 1.5 3 3 3s3-1 3-3"/></svg>
-              Hoodie&nbsp;M
-            </button>
-            <button data-g="hoodiew">
-              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4l5 3 5-3 4 3-2 4-1 9H6l-1-9L3 7z"/><path d="M9 4c0 2 1.5 3 3 3s3-1 3-3"/></svg>
-              Hoodie&nbsp;W
+              Hoodie
             </button>
             <button data-g="polo">
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l4 4 4-4 5 4-2.5 3.5V20H5.5V11.5L3 8z"/><path d="M10 4l2 3 2-3M12 7v6"/></svg>
-              Polo&nbsp;M
-            </button>
-            <button data-g="polow">
-              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l4 4 4-4 5 4-2 3V13l-1.5 7h-9L11 13v-2L8 7z"/><path d="M10 4l2 3 2-3M12 7v5"/></svg>
-              Polo&nbsp;W
+              Polo
             </button>
           </div>
         </div>
@@ -797,9 +814,18 @@ input[type=range]:disabled{opacity:.4}
             <label for="smk-size">Size <span id="smk-size-for" style="color:var(--ink-soft);font-weight:500"></span></label>
             <input type="range" id="smk-size" min="0.35" max="2.8" step="0.02" value="1" disabled aria-label="Selected logo size" />
           </div>
+          <div class="nudge-row">
+            <span class="nudge-title">Move logo</span>
+            <div class="dpad" role="group" aria-label="Nudge the selected logo">
+              <button class="dbtn dup" id="smk-up" type="button" disabled aria-label="Move logo up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
+              <button class="dbtn dleft" id="smk-left" type="button" disabled aria-label="Move logo left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+              <button class="dbtn dright" id="smk-right" type="button" disabled aria-label="Move logo right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+              <button class="dbtn ddown" id="smk-down" type="button" disabled aria-label="Move logo down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+            </div>
+          </div>
           <p class="ctl-note" id="smk-sizeout" style="margin-top:.55rem;font-weight:600;color:var(--ink)"></p>
           <p class="ctl-note" id="smk-count" style="margin-top:.15rem;color:var(--teal-accent);font-weight:600"></p>
-          <p class="ctl-note" style="margin-top:.6rem"><b>How it works:</b> click the garment to add your logo as embroidery, anywhere on the front or back. <b>Drag a logo</b> to move it around. <b>Tap a logo</b> to select it, then use the slider to resize it or <b>Remove</b> to take it off. Add as many as you like. Drag the background to spin; scroll or use the +/&minus; buttons to zoom in close.</p>
+          <p class="ctl-note" style="margin-top:.6rem"><b>How it works:</b> click the garment to add your logo as embroidery, anywhere on the front or back. <b>Tap a logo</b> to select it, then nudge it with the <b>arrows</b> (or drag it) and use the slider to resize it; <b>Remove</b> takes it off. Add as many as you like. Drag the background to spin; scroll or use the +/&minus; buttons to zoom in close.</p>
           <p class="ctl-note" id="smk-status" role="status" aria-live="polite" style="display:none;margin-top:.6rem;color:var(--burgundy)"></p>
         </div>
       </div>
@@ -1121,10 +1147,15 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 /* ---------------------------------------------------------------- state */
 const STORE_KEY = "smkStudio3d_v1";
 const COLORS = { white:0xF4F4F1, teal:0x2EA7D5, navy:0x16305A, charcoal:0x2B2F33, gold:0xC79A3B, burgundy:0x6E2233 };
-const GARMENTS = ["hoodie","hoodiew","tee","polo","polow"];
+const GARMENTS = ["tee","hoodie","polo"];   // base garment types
+const GENDERS  = ["male","female"];
+const GARMENT_ALIASES = { hoodiew:{garment:"hoodie",gender:"female"}, polow:{garment:"polo",gender:"female"} };
+// Map a (base garment, gender) pair to the internal model type buildGarment understands.
+// The t-shirt has no gendered variant, so it stays "tee" for both.
+function garmentType(garment, gender){ return garment === "tee" ? "tee" : garment + (gender === "female" ? "w" : ""); }
 
 // state.decals = [{ p:[x,y,z], n:[x,y,z], size:number }, ...] — one entry per placed logo
-function defaults(){ return { garment:"tee", color:"white", size:1, print:null, decals:[] }; }
+function defaults(){ return { garment:"tee", gender:"male", color:"white", size:1, print:null, decals:[] }; }
 function num3(a){ return Array.isArray(a) && a.length === 3 && a.every(n => typeof n === "number"); }
 function cleanDecals(arr){
   if(!Array.isArray(arr)) return [];
@@ -1141,8 +1172,12 @@ function loadState(){
       if(!decals.length && s.decal && num3(s.decal.p) && num3(s.decal.n)){   // migrate old single decal
         decals = [{ p:s.decal.p, n:s.decal.n, size: typeof s.size === "number" ? s.size : 1 }];
       }
+      // migrate the old flat garment ids (hoodiew / polow) to base garment + gender
+      let g = s.garment, gender = s.gender;
+      if(GARMENT_ALIASES[g]){ gender = gender || GARMENT_ALIASES[g].gender; g = GARMENT_ALIASES[g].garment; }
       return {
-        garment: GARMENTS.includes(s.garment) ? s.garment : d.garment,
+        garment: GARMENTS.includes(g) ? g : d.garment,
+        gender:  GENDERS.includes(gender) ? gender : d.gender,
         color:   COLORS[s.color] !== undefined ? s.color : d.color,
         size:    typeof s.size === "number" ? Math.min(2.8, Math.max(0.35, s.size)) : d.size,
         print:   typeof s.print === "string" ? s.print : null,
@@ -1165,6 +1200,7 @@ const clearBtn   = document.getElementById("smk-clear");
 const removeBtn  = document.getElementById("smk-remove");
 const colorBtns  = document.getElementById("smk-color-btns");
 const garmentBtns= document.getElementById("smk-garment-btns");
+const genderBtns = document.getElementById("smk-gender-btns");
 
 function showFallback(){ if(loaderEl) loaderEl.classList.add("hide"); if(fallbackEl) fallbackEl.classList.add("show"); }
 function webglSupported(){
@@ -1257,7 +1293,7 @@ function boot(){
   const ray = new THREE.Raycaster();
   const ndc = new THREE.Vector2();
 
-  buildGarment(state.garment);
+  buildGarment(garmentType(state.garment, state.gender));
   if(state.print){ loadLogo(state.print); }
   // The model is fetched over the network, which the browser blocks from a
   // file:// page. When hosted (Railway/Pages/any server) it loads; opened as a
@@ -1282,7 +1318,7 @@ function boot(){
       // Keep the model's own material — it is double-sided and renders solid
       // and correctly (a MeshPhysicalMaterial + DoubleSide washes out on some renderers).
       shirtMat = src.material; if(shirtMat){ shirtMat.side = THREE.DoubleSide; }
-      if(state.garment === "tee" && garment) buildGarment("tee");
+      if(garmentType(state.garment, state.gender) === "tee" && garment) buildGarment("tee");
     }, undefined, function(err){ console.warn("[studio] realistic tee model unavailable, using procedural", err); });
   }
 
@@ -1295,7 +1331,7 @@ function boot(){
       gltf.scene.traverse(function(o){ if(o.isMesh && !src) src = o; });
       if(!src) return;
       hoodieGeo = src.geometry; hoodieGeo.userData.keep = true;   // shared across rebuilds
-      if(state.garment === "hoodie" && garment) buildGarment("hoodie");
+      if(garmentType(state.garment, state.gender) === "hoodie" && garment) buildGarment("hoodie");
     }, undefined, function(err){ console.warn("[studio] realistic hoodie model unavailable, using procedural", err); });
   }
 
@@ -1307,7 +1343,7 @@ function boot(){
       gltf.scene.traverse(function(o){ if(o.isMesh && !src) src = o; });
       if(!src) return;
       hoodieWGeo = src.geometry; hoodieWGeo.userData.keep = true;
-      if(state.garment === "hoodiew" && garment) buildGarment("hoodiew");
+      if(garmentType(state.garment, state.gender) === "hoodiew" && garment) buildGarment("hoodiew");
     }, undefined, function(err){ console.warn("[studio] realistic women's hoodie model unavailable, using procedural", err); });
   }
 
@@ -1320,7 +1356,7 @@ function boot(){
       gltf.scene.traverse(function(o){ if(o.isMesh && !src) src = o; });
       if(!src) return;
       poloGeo = src.geometry; poloGeo.userData.keep = true;   // shared across rebuilds
-      if(state.garment === "polo" && garment) buildGarment("polo");
+      if(garmentType(state.garment, state.gender) === "polo" && garment) buildGarment("polo");
     }, undefined, function(err){ console.warn("[studio] realistic polo model unavailable, using procedural", err); });
   }
 
@@ -1332,7 +1368,7 @@ function boot(){
       gltf.scene.traverse(function(o){ if(o.isMesh && !src) src = o; });
       if(!src) return;
       poloWGeo = src.geometry; poloWGeo.userData.keep = true;
-      if(state.garment === "polow" && garment) buildGarment("polow");
+      if(garmentType(state.garment, state.gender) === "polow" && garment) buildGarment("polow");
     }, undefined, function(err){ console.warn("[studio] realistic women's polo model unavailable, using procedural", err); });
   }
 
@@ -1545,6 +1581,7 @@ function boot(){
     sizeInput.disabled = !has || selectedIdx < 0;
     if(clearBtn) clearBtn.disabled = !has;
     if(removeBtn) removeBtn.disabled = selectedIdx < 0;
+    ["smk-up","smk-down","smk-left","smk-right"].forEach(function(id){ const b = document.getElementById(id); if(b) b.disabled = selectedIdx < 0; });
     if(selectedIdx >= 0 && state.decals[selectedIdx]) sizeInput.value = state.decals[selectedIdx].size;
     const cnt = document.getElementById("smk-count");
     if(cnt){
@@ -1619,6 +1656,30 @@ function boot(){
     d.n = [hit.n.x, hit.n.y, hit.n.z];
     rebuildDecalAt(mv.idx);
   }
+  // Arrow-nudge the selected logo a small step across the garment surface. dx/dy
+  // are in the logo's own tangent frame (right / up); the moved point is then
+  // re-projected straight back onto the fabric so it keeps hugging the surface.
+  function nudgeSelected(dx, dy){
+    if(selectedIdx < 0 || !state.decals[selectedIdx] || !bodyMeshes.length) return;
+    const d = state.decals[selectedIdx];
+    const pos = new THREE.Vector3(d.p[0], d.p[1], d.p[2]);
+    const nrm = new THREE.Vector3(d.n[0], d.n[1], d.n[2]).normalize();
+    decalHelper.position.copy(pos); decalHelper.lookAt(pos.clone().add(nrm));
+    const right = new THREE.Vector3(1,0,0).applyQuaternion(decalHelper.quaternion);
+    const up    = new THREE.Vector3(0,1,0).applyQuaternion(decalHelper.quaternion);
+    const STEP = 0.035;
+    const target = pos.clone().addScaledVector(right, dx*STEP).addScaledVector(up, dy*STEP);
+    ray.set(target.clone().addScaledVector(nrm, 0.5), nrm.clone().multiplyScalar(-1));
+    const hits = ray.intersectObjects(bodyMeshes, false);
+    if(hits.length){
+      const h = hits[0];
+      const nn = h.face.normal.clone().transformDirection(h.object.matrixWorld).normalize();
+      d.p = [h.point.x, h.point.y, h.point.z]; d.n = [nn.x, nn.y, nn.z];
+    } else {
+      d.p = [target.x, target.y, target.z];   // off the edge: still nudge in the tangent plane
+    }
+    rebuildDecalAt(selectedIdx); saveState();
+  }
 
   renderer.domElement.addEventListener("pointerdown", function(e){
     if(!logoTex){ down = null; drag = null; return; }   // no logo yet: leave the camera to OrbitControls
@@ -1661,7 +1722,17 @@ function boot(){
     btn.addEventListener("click", function(){
       state.garment = btn.dataset.g;
       garmentBtns.querySelectorAll("button").forEach(function(b){ b.classList.toggle("active", b === btn); });
-      buildGarment(state.garment);
+      buildGarment(garmentType(state.garment, state.gender));
+      saveState();
+    });
+  });
+  genderBtns.querySelectorAll("button").forEach(function(btn){
+    btn.classList.toggle("active", btn.dataset.gender === state.gender);
+    btn.addEventListener("click", function(){
+      if(state.gender === btn.dataset.gender) return;
+      state.gender = btn.dataset.gender;
+      genderBtns.querySelectorAll("button").forEach(function(b){ b.classList.toggle("active", b === btn); });
+      buildGarment(garmentType(state.garment, state.gender));   // t-shirt is unisex, so this no-ops for tee
       saveState();
     });
   });
@@ -1734,6 +1805,26 @@ function boot(){
   if(zoomResetBtn) zoomResetBtn.addEventListener("click", function(){
     camera.position.set(0, 0.55, 6.0); controls.target.set(0, -0.05, 0); controls.update();
   });
+
+  /* ---------- logo nudge arrows (press or hold) ---------- */
+  function bindNudge(id, dx, dy){
+    const btn = document.getElementById(id);
+    if(!btn) return;
+    let hold = null, rep = null;
+    function start(e){
+      if(btn.disabled) return;
+      e.preventDefault();
+      nudgeSelected(dx, dy);
+      hold = setTimeout(function(){ rep = setInterval(function(){ nudgeSelected(dx, dy); }, 80); }, 320);
+    }
+    function stop(){ if(hold){ clearTimeout(hold); hold = null; } if(rep){ clearInterval(rep); rep = null; } }
+    btn.addEventListener("pointerdown", start);
+    btn.addEventListener("pointerup", stop);
+    btn.addEventListener("pointerleave", stop);
+    btn.addEventListener("pointercancel", stop);
+  }
+  bindNudge("smk-up", 0, 1); bindNudge("smk-down", 0, -1);
+  bindNudge("smk-left", -1, 0); bindNudge("smk-right", 1, 0);
 
   updateControls();
 
