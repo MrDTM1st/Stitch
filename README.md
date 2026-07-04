@@ -74,8 +74,8 @@ python3 -m http.server 8000
    Gifts, Your Own Garments.
 5. **Showcase band** — dark panel, "Every patch, a little piece of craft," with
    floating logo + accent patches.
-6. **Brands** — six **embroidered example patches** (invented demo brands) that
-   **flip on hover / focus**.
+6. **Work** — a gallery of real embroidered and printed workwear the studio has
+   produced (photos in `assets/gallery/`).
 7. **Process** — three steps on a draw-on-scroll stitched thread path.
 8. **Promise** — "With family in mind" family-values band.
 9. **Design studio** — the interactive 3D garment customiser (see below).
@@ -165,7 +165,7 @@ No em dashes anywhere in the copy (per brand preference).
 - Scrolling services marquee
 - Scroll-reveals (staggered) on every section and card
 - Draw-on-scroll stitched dividers + process thread path
-- Brand patches flip on hover / keyboard focus
+- Work-gallery photos lift gently on hover
 - Nav frosts on scroll
 - Reveals use an IntersectionObserver **plus** a throttled scroll/resize safety-net
   sweep, so nothing stays hidden even under fast scrolling or when the page is
@@ -202,7 +202,7 @@ in `localStorage` and defaults to `Calm` when the OS requests reduced motion.
 The **real logo image** (`assets/OIP.webp`) is featured on the white embroidered
 patches in the hero and showcase. A faithful **inline SVG** re-creation of the same
 mark handles the nav and footer, where it stays crisp at small sizes and flips to a
-light "MILTON KEYNES" on the dark footer. The six brand patches are inline SVG too.
+light "MILTON KEYNES" on the dark footer.
 
 ---
 
@@ -210,9 +210,8 @@ light "MILTON KEYNES" on the dark footer. The six brand patches are inline SVG t
 
 - **Copy & colours** — the CSS design tokens live in the `:root` block near the top
   of `index.html`; text is in the markup below it.
-- **Brand patches** — the six demo brands are generated from the `brands` array in
-  the page `<script>` (name, shape, colours, icon). Edit that array to change them,
-  or replace with real client logos.
+- **Work gallery** — the photos live in `assets/gallery/` and are referenced from
+  the `#workGallery` markup. Swap the images (and their `alt` text) to update it.
 - **Studio colours / garments** — edit `COLORS` and the garment builders in the
   inline studio module, plus the matching control markup (`#smk-color-btns`,
   `#smk-garment-btns`).
@@ -251,7 +250,7 @@ npm run serve     # preview at http://localhost:8000
 
 The smoke test serves three.js from the local install, so it runs fully offline and
 checks that the page loads without errors, the studio renders (or shows its WebGL
-fallback), and the brand patches and reveals appear.
+fallback), and the work-gallery images and reveals appear.
 
 ## Deploying
 
@@ -267,8 +266,8 @@ file is opened locally or served from Pages.
 
 - **Review quotes are placeholders** (generic, unattributed) so nothing is
   misrepresented as a real testimonial — swap in real ones when ready.
-- **The six brand patches are invented demos** (MK-area names) to show range, not
-  real clients.
+- **The work-gallery photos are real jobs** supplied by the owner. The uploaded
+  copies are low-resolution; swap in full-resolution versions for a crisp gallery.
 - **The 3D studio requires WebGL** and an internet connection (to fetch three.js
   from the CDN); it only renders in a live browser tab, not in flat screenshots.
 - **The realistic t-shirt, hoodie and polo models are only loaded when the site is
