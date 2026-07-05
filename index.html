@@ -1237,16 +1237,30 @@ function boot(){
   let hoodieWGeo = null;   // realistic women's hoodie model geometry (loaded async)
   let poloGeo = null;      // realistic men's polo model geometry (loaded async)
   let poloWGeo = null;     // realistic women's polo model geometry (loaded async)
+  let modelFallbackTimer = null;   // safety net: build the procedural garment if a model is slow/broken
+  let defaultDecalPending = false; // a logo loaded before the garment existed; place its chest decal once built
   const decalHelper = new THREE.Object3D();
   const ray = new THREE.Raycaster();
   const ndc = new THREE.Vector2();
 
-  buildGarment(garmentType(state.garment, state.gender));
+  // The realistic garment models are fetched over the network, which the browser
+  // blocks from a file:// page. When hosted (Railway/Pages/any server) they load,
+  // and the studio keeps the spinner up until the *selected* garment's model
+  // arrives, then builds it — so the low-detail procedural garment never flashes
+  // in first. Opened as a bare file (no network) we build the procedural garment
+  // straight away, since no model can load.
+  if(location.protocol === "http:" || location.protocol === "https:"){
+    loadShirtModel(); loadShirtWModel(); loadHoodieModel(); loadHoodieWModel(); loadPoloModel(); loadPoloWModel();
+    // Safety net: if the selected garment's model has not arrived in a few seconds
+    // (slow or broken network), fall back to the procedural garment rather than
+    // spin forever.
+    modelFallbackTimer = setTimeout(function(){
+      if(!garment) buildGarment(garmentType(state.garment, state.gender));
+    }, 8000);
+  } else {
+    buildGarment(garmentType(state.garment, state.gender));
+  }
   if(state.print){ loadLogo(state.print); }
-  // The model is fetched over the network, which the browser blocks from a
-  // file:// page. When hosted (Railway/Pages/any server) it loads; opened as a
-  // bare file it falls back to the procedural tee.
-  if(location.protocol === "http:" || location.protocol === "https:"){ loadShirtModel(); loadShirtWModel(); loadHoodieModel(); loadHoodieWModel(); loadPoloModel(); loadPoloWModel(); }
 
   // Load the realistic t-shirt mesh (MIT model) and, once ready, rebuild the tee
   // with it. Fails silently to the procedural tee (e.g. opened from file://).
@@ -1266,8 +1280,8 @@ function boot(){
       // Keep the model's own material — it is double-sided and renders solid
       // and correctly (a MeshPhysicalMaterial + DoubleSide washes out on some renderers).
       shirtMat = src.material; if(shirtMat){ shirtMat.side = THREE.DoubleSide; }
-      if(garmentType(state.garment, state.gender) === "tee" && garment) buildGarment("tee");
-    }, undefined, function(err){ console.warn("[studio] realistic tee model unavailable, using procedural", err); });
+      if(garmentType(state.garment, state.gender) === "tee") buildGarment("tee");
+    }, undefined, function(err){ console.warn("[studio] realistic tee model unavailable, using procedural", err); modelFailedFor("tee"); });
   }
 
   // Load the realistic women's t-shirt mesh (a fitted-cut scan, decimated and
@@ -1278,8 +1292,8 @@ function boot(){
       gltf.scene.traverse(function(o){ if(o.isMesh && !src) src = o; });
       if(!src) return;
       shirtWGeo = src.geometry; shirtWGeo.userData.keep = true;
-      if(garmentType(state.garment, state.gender) === "teew" && garment) buildGarment("teew");
-    }, undefined, function(err){ console.warn("[studio] realistic women's tee model unavailable, using procedural", err); });
+      if(garmentType(state.garment, state.gender) === "teew") buildGarment("teew");
+    }, undefined, function(err){ console.warn("[studio] realistic women's tee model unavailable, using procedural", err); modelFailedFor("teew"); });
   }
 
   // Load the realistic hoodie mesh (MIT model). It is pre-baked to a single,
@@ -1291,8 +1305,8 @@ function boot(){
       gltf.scene.traverse(function(o){ if(o.isMesh && !src) src = o; });
       if(!src) return;
       hoodieGeo = src.geometry; hoodieGeo.userData.keep = true;   // shared across rebuilds
-      if(garmentType(state.garment, state.gender) === "hoodie" && garment) buildGarment("hoodie");
-    }, undefined, function(err){ console.warn("[studio] realistic hoodie model unavailable, using procedural", err); });
+      if(garmentType(state.garment, state.gender) === "hoodie") buildGarment("hoodie");
+    }, undefined, function(err){ console.warn("[studio] realistic hoodie model unavailable, using procedural", err); modelFailedFor("hoodie"); });
   }
 
   // Load the realistic women's hoodie mesh (a fitted-cut scan, decimated and pre-baked
@@ -1303,8 +1317,8 @@ function boot(){
       gltf.scene.traverse(function(o){ if(o.isMesh && !src) src = o; });
       if(!src) return;
       hoodieWGeo = src.geometry; hoodieWGeo.userData.keep = true;
-      if(garmentType(state.garment, state.gender) === "hoodiew" && garment) buildGarment("hoodiew");
-    }, undefined, function(err){ console.warn("[studio] realistic women's hoodie model unavailable, using procedural", err); });
+      if(garmentType(state.garment, state.gender) === "hoodiew") buildGarment("hoodiew");
+    }, undefined, function(err){ console.warn("[studio] realistic women's hoodie model unavailable, using procedural", err); modelFailedFor("hoodiew"); });
   }
 
   // Load the realistic polo mesh (a photogrammetry scan, decimated and pre-baked
@@ -1316,8 +1330,8 @@ function boot(){
       gltf.scene.traverse(function(o){ if(o.isMesh && !src) src = o; });
       if(!src) return;
       poloGeo = src.geometry; poloGeo.userData.keep = true;   // shared across rebuilds
-      if(garmentType(state.garment, state.gender) === "polo" && garment) buildGarment("polo");
-    }, undefined, function(err){ console.warn("[studio] realistic polo model unavailable, using procedural", err); });
+      if(garmentType(state.garment, state.gender) === "polo") buildGarment("polo");
+    }, undefined, function(err){ console.warn("[studio] realistic polo model unavailable, using procedural", err); modelFailedFor("polo"); });
   }
 
   // Load the realistic women's polo mesh (a fitted-cut scan, decimated and pre-baked
@@ -1328,8 +1342,14 @@ function boot(){
       gltf.scene.traverse(function(o){ if(o.isMesh && !src) src = o; });
       if(!src) return;
       poloWGeo = src.geometry; poloWGeo.userData.keep = true;
-      if(garmentType(state.garment, state.gender) === "polow" && garment) buildGarment("polow");
-    }, undefined, function(err){ console.warn("[studio] realistic women's polo model unavailable, using procedural", err); });
+      if(garmentType(state.garment, state.gender) === "polow") buildGarment("polow");
+    }, undefined, function(err){ console.warn("[studio] realistic women's polo model unavailable, using procedural", err); modelFailedFor("polow"); });
+  }
+
+  // A model failed to load: if it was the one we are waiting to show and nothing
+  // has been built yet, drop to the procedural garment so the spinner comes down.
+  function modelFailedFor(type){
+    if(!garment && garmentType(state.garment, state.gender) === type){ buildGarment(type); }
   }
 
   /* ---------- garment construction ---------- */
@@ -1404,6 +1424,7 @@ function boot(){
   }
 
   function buildGarment(type){
+    clearTimeout(modelFallbackTimer);   // a garment now exists, so cancel the slow-network safety net
     if(garment){ scene.remove(garment); disposeObject(garment); }
     decalMeshes = [];   // old decals were children of the disposed garment
     bodyMeshes = []; fabricMats = [];
@@ -1468,6 +1489,13 @@ function boot(){
     applyColor();
     scene.add(garment);
     garment.updateMatrixWorld(true);
+    // A logo loaded before the garment existed: now that the body is here, place
+    // its default chest decal against the real surface.
+    if(defaultDecalPending && logoTex && !state.decals.length && bodyMeshes.length){
+      state.decals = [ frontChestPlacement() ];
+      if(selectedIdx < 0) selectedIdx = 0;
+      defaultDecalPending = false;
+    }
     rebuildDecals();
   }
 
@@ -1519,7 +1547,10 @@ function boot(){
       logoTex = maps.map; logoNormal = maps.normal; logoRough = maps.rough; logoAspect = maps.aspect;
       decalMat.map = logoTex; decalMat.normalMap = logoNormal; decalMat.roughnessMap = logoRough;
       decalMat.needsUpdate = true;
-      if(!state.decals.length) state.decals = [ frontChestPlacement() ];  // first logo lands on the chest
+      if(!state.decals.length){
+        if(bodyMeshes.length){ state.decals = [ frontChestPlacement() ]; defaultDecalPending = false; }  // first logo lands on the chest
+        else { defaultDecalPending = true; }   // garment not built yet — place it once buildGarment runs
+      }
       if(selectedIdx < 0 || selectedIdx >= state.decals.length) selectedIdx = 0;
       rebuildDecals();
     };
@@ -1806,13 +1837,17 @@ function boot(){
   new IntersectionObserver(function(entries){ onScreen = entries[0].isIntersecting; },
     { rootMargin: "120px" }).observe(stageEl);
 
-  let firstFrame = true;
+  // Keep the spinner up (and keep rendering, even off-screen) until the garment
+  // is built and painted for the first time — so the studio only reveals a real
+  // garment, never an empty stage or a placeholder that gets swapped out. On
+  // hosted pages that means waiting for the selected model to download.
+  let painted = false;
   renderer.setAnimationLoop(function(){
-    if(!onScreen && !firstFrame) return;   // idle while scrolled away (after the first paint)
+    if(!onScreen && painted) return;   // idle while scrolled away (once the garment has appeared)
     if(pendingMove){ applyMove(pendingMove); pendingMove = null; }   // drag a logo (throttled to one rebuild/frame)
     controls.update();
     renderer.render(scene, camera);
-    if(firstFrame){ firstFrame = false; if(loaderEl) loaderEl.classList.add("hide"); }
+    if(!painted && garment){ painted = true; if(loaderEl) loaderEl.classList.add("hide"); }
   });
 }
 
