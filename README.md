@@ -199,10 +199,10 @@ in `localStorage` and defaults to `Calm` when the OS requests reduced motion.
 | `.claude/hooks/session-start.sh` | Installs dev tools in Claude Code web sessions |
 | `railpack.json` | Railway static-file deploy provider |
 
-The **real logo image** (`assets/OIP.webp`) is featured on the white embroidered
-patches in the hero and showcase. A faithful **inline SVG** re-creation of the same
-mark handles the nav and footer, where it stays crisp at small sizes and flips to a
-light "MILTON KEYNES" on the dark footer.
+The **real logo image** (`assets/OIP.webp`) is used in the nav, the hero, the
+showcase, and on a white badge in the footer (so it stays legible on the dark
+panel). A faithful **inline SVG** re-creation of the same mark is kept as a
+scalable fallback.
 
 ---
 
