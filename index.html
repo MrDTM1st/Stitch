@@ -296,10 +296,10 @@ section{position:relative}
 /* ---------- Brands ---------- */
 .brands{background:var(--cream)}
 /* real-work photo gallery */
-.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:1.3rem;margin-top:1rem}
-@media (max-width:900px){.gallery{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:480px){.gallery{grid-template-columns:1fr}}
-.gcard{position:relative;margin:0;border-radius:16px;overflow:hidden;aspect-ratio:4/3;background:#e7ebee;box-shadow:0 14px 30px rgba(10,63,84,.16);border:1px solid rgba(10,63,84,.06)}
+.gallery{display:flex;flex-wrap:wrap;justify-content:center;gap:1.3rem;margin-top:1rem}
+.gcard{flex:0 1 calc(25% - 1rem);min-width:230px;max-width:320px;position:relative;margin:0;border-radius:16px;overflow:hidden;aspect-ratio:4/3;background:#e7ebee;box-shadow:0 14px 30px rgba(10,63,84,.16);border:1px solid rgba(10,63,84,.06)}
+@media (max-width:900px){.gcard{flex-basis:calc(50% - .7rem)}}
+@media (max-width:480px){.gcard{flex-basis:100%}}
 .gcard img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s var(--ease)}
 .gcard::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(46,167,213,0) 55%,rgba(10,63,84,.12));opacity:0;transition:opacity .4s var(--ease)}
 .gcard:hover img{transform:scale(1.05)}
@@ -670,6 +670,7 @@ input[type=range]:disabled{opacity:.4}
       <figure class="gcard reveal" data-delay="2"><img src="assets/gallery/work-2.jpg" width="281" height="211" loading="lazy" alt="Personalised Mum and Nanny embroidered hoodies in pink and sage" /></figure>
       <figure class="gcard reveal" data-delay="3"><img src="assets/gallery/work-3.jpg" width="284" height="213" loading="lazy" alt="AtoZ Design printed hoodie with matching embroidered beanies" /></figure>
       <figure class="gcard reveal" data-delay="4"><img src="assets/gallery/work-4.jpg" width="280" height="210" loading="lazy" alt="Craiwarn Gundogs embroidered polos, quarter-zips and caps" /></figure>
+      <figure class="gcard reveal" data-delay="1"><img src="assets/gallery/fellas-3d.jpg" width="1200" height="900" loading="lazy" alt="The Fellas Studios logo given a 3D extruded treatment" /></figure>
     </div>
   </div>
 </section>

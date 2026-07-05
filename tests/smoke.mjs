@@ -78,7 +78,7 @@ const state = await page.evaluate(() => ({
 check(errors.length === 0, "Console/page errors:\n    " + errors.join("\n    "));
 check(state.studio === "rendered" || state.studio === "fallback",
   "3D studio did not resolve (got: " + state.studio + ")");
-check(state.brandPatches === 4, "Expected 4 gallery images, got " + state.brandPatches);
+check(state.brandPatches === 5, "Expected 5 gallery images, got " + state.brandPatches);
 check(state.revealsShown > 0, "No reveal elements were revealed");
 check(/Stitch Milton Keynes/.test(state.title), "Unexpected document title: " + state.title);
 
