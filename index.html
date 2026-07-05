@@ -350,7 +350,11 @@ section{position:relative}
 .stage3d{
   position:relative;border-radius:18px;overflow:hidden;min-height:clamp(360px,52vh,560px);
   background:radial-gradient(120% 100% at 50% 0%, #f3f6f8, #e4e9ee 70%, #d8dee4);
-  cursor:grab;touch-action:none;
+  cursor:grab;
+  /* pan-y: a vertical swipe scrolls the page (so the tall stage never traps
+     scrolling on touch); a horizontal swipe spins the garment. OrbitControls
+     also sets this on the canvas from JS — see the override in boot(). */
+  touch-action:pan-y;
 }
 .stage3d:active{cursor:grabbing}
 .stage3d canvas{display:block;width:100%;height:100%}
@@ -748,7 +752,7 @@ input[type=range]:disabled{opacity:.4}
         </div>
         <div class="stage-hint" aria-hidden="true">
           <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 2L9 5M12 2l3 3"/><path d="M5 12a7 7 0 0014 0"/></svg>
-          Drag to spin · click to add a logo · drag a logo to move it
+          Drag to spin · tap to add a logo · pinch or +/&minus; to zoom
         </div>
         <div class="stage-zoom" role="group" aria-label="Zoom the preview">
           <button type="button" id="smk-zoom-in" title="Zoom in" aria-label="Zoom in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 6v12M6 12h12"/></svg></button>
@@ -828,7 +832,7 @@ input[type=range]:disabled{opacity:.4}
           </div>
           <p class="ctl-note" id="smk-sizeout" style="margin-top:.55rem;font-weight:600;color:var(--ink)"></p>
           <p class="ctl-note" id="smk-count" style="margin-top:.15rem;color:var(--teal-accent);font-weight:600"></p>
-          <p class="ctl-note" style="margin-top:.6rem"><b>How it works:</b> click the garment to add your logo as embroidery, anywhere on the front or back. <b>Tap a logo</b> to select it, then nudge it with the <b>arrows</b> (or drag it) and use the slider to resize it; <b>Remove</b> takes it off. Add as many as you like. Drag the background to spin; scroll or use the +/&minus; buttons to zoom in close.</p>
+          <p class="ctl-note" style="margin-top:.6rem"><b>How it works:</b> click the garment to add your logo as embroidery, anywhere on the front or back. <b>Tap a logo</b> to select it, then nudge it with the <b>arrows</b> (or drag it) and use the slider to resize it; <b>Remove</b> takes it off. Add as many as you like. On a phone, swipe left/right to spin and up/down to scroll the page; pinch, scroll, or use the +/&minus; buttons to zoom in close.</p>
           <p class="ctl-note" id="smk-status" role="status" aria-live="polite" style="display:none;margin-top:.6rem;color:var(--burgundy)"></p>
         </div>
       </div>
@@ -1200,6 +1204,16 @@ function boot(){
   controls.target.set(0, -0.05, 0);
   controls.autoRotate = document.documentElement.getAttribute("data-motion") !== "calm";
   controls.autoRotateSpeed = 0.8;
+  // OrbitControls forces `touch-action:none` on the canvas, which traps the
+  // page's vertical scroll behind the tall studio on phones. Relax it to pan-y:
+  // a vertical drag scrolls the page, a horizontal drag spins the garment, and
+  // two-finger pinch still zooms. (Logo dragging re-suppresses scroll per-gesture
+  // via the touchstart handler below.)
+  renderer.domElement.style.touchAction = "pan-y";
+  // Recover from a lost WebGL context (common on mobile Safari under memory
+  // pressure or when backgrounding the tab) instead of leaving a blank stage.
+  renderer.domElement.addEventListener("webglcontextlost", function(e){ e.preventDefault(); }, false);
+  renderer.domElement.addEventListener("webglcontextrestored", function(){ sizeRenderer(); painted = false; }, false);
 
   // Shared assets (created once, reused across garment rebuilds; flagged so
   // disposeObject never frees them when a garment group is torn down).
@@ -1708,6 +1722,15 @@ function boot(){
   }
   renderer.domElement.addEventListener("pointerup", endPointer);
   renderer.domElement.addEventListener("pointercancel", endPointer);
+  // With touch-action:pan-y a one-finger vertical drag scrolls the page — great
+  // for getting past the studio, but it would also hijack a vertical *logo* drag.
+  // When a single finger lands directly on a logo, suppress the page scroll for
+  // that gesture so the logo can be dragged in any direction.
+  renderer.domElement.addEventListener("touchstart", function(e){
+    if(!logoTex || e.touches.length !== 1) return;
+    const t = e.touches[0];
+    if(pickLogo(t.clientX, t.clientY) >= 0) e.preventDefault();
+  }, { passive:false });
 
   /* ---------- UI wiring ---------- */
   garmentBtns.querySelectorAll("button").forEach(function(btn){
