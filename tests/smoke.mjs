@@ -70,7 +70,7 @@ const state = await page.evaluate(() => ({
   studio: document.getElementById("studioFallback").classList.contains("show")
     ? "fallback"
     : (document.querySelector("#stage3d canvas") ? "rendered" : "no-canvas"),
-  brandPatches: document.querySelectorAll("#brandGrid .flip").length,
+  brandPatches: document.querySelectorAll("#workGallery .gcard img").length,
   revealsShown: document.querySelectorAll(".reveal.in").length,
   title: document.title,
 }));
@@ -78,7 +78,7 @@ const state = await page.evaluate(() => ({
 check(errors.length === 0, "Console/page errors:\n    " + errors.join("\n    "));
 check(state.studio === "rendered" || state.studio === "fallback",
   "3D studio did not resolve (got: " + state.studio + ")");
-check(state.brandPatches === 6, "Expected 6 brand patches, got " + state.brandPatches);
+check(state.brandPatches === 5, "Expected 5 gallery images, got " + state.brandPatches);
 check(state.revealsShown > 0, "No reveal elements were revealed");
 check(/Stitch Milton Keynes/.test(state.title), "Unexpected document title: " + state.title);
 

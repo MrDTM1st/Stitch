@@ -295,23 +295,19 @@ section{position:relative}
 
 /* ---------- Brands ---------- */
 .brands{background:var(--cream)}
-.brand-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1.4rem;margin-top:1rem}
-@media (max-width:900px){.brand-grid{grid-template-columns:repeat(3,1fr)}}
-@media (max-width:520px){.brand-grid{grid-template-columns:repeat(2,1fr)}}
-.flip{aspect-ratio:1;perspective:900px;cursor:pointer}
-.flip-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .9s var(--ease)}
-.flip:hover .flip-inner, .flip:focus-visible .flip-inner{transform:rotateY(180deg)}
-.flip-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:grid;place-items:center}
-.flip-face svg{width:100%;height:100%;filter:drop-shadow(0 14px 24px rgba(10,63,84,.22))}
-.flip-back{transform:rotateY(180deg)}
-.flip-back .disc{
-  width:100%;height:100%;border-radius:50%;display:grid;place-items:center;text-align:center;padding:1rem;
-  background:repeating-radial-gradient(circle, rgba(255,255,255,.5) 0 2px, transparent 2px 5px), linear-gradient(135deg,#fff,#eef1f4);
-  border:3px dashed rgba(46,167,213,.5);box-shadow:var(--shadow-sm);
-}
-.flip-back .disc small{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;line-height:1.4}
-.flip-back .disc b{display:block;font-family:var(--serif);font-size:1.05rem;color:var(--deep);margin-top:.3rem}
-.brands-note{margin-top:1.8rem;font-size:.82rem;color:var(--ink-soft);font-style:italic}
+/* real-work photo gallery */
+.gallery{display:flex;flex-wrap:wrap;justify-content:center;gap:1.3rem;margin-top:1rem}
+.gcard{flex:0 1 calc(25% - 1rem);min-width:230px;max-width:320px;position:relative;margin:0;border-radius:16px;overflow:hidden;aspect-ratio:4/3;background:#e7ebee;box-shadow:0 14px 30px rgba(10,63,84,.16);border:1px solid rgba(10,63,84,.06)}
+@media (max-width:900px){.gcard{flex-basis:calc(50% - .7rem)}}
+@media (max-width:480px){.gcard{flex-basis:100%}}
+.gcard img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s var(--ease)}
+/* the 3D logo tile floats with a transparent background, no photo-card frame */
+.gcard--logo{background:transparent;box-shadow:none;border:none}
+.gcard--logo img{object-fit:contain}
+.gcard--logo::after{display:none}
+.gcard::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(46,167,213,0) 55%,rgba(10,63,84,.12));opacity:0;transition:opacity .4s var(--ease)}
+.gcard:hover img{transform:scale(1.05)}
+.gcard:hover::after{opacity:1}
 
 /* ---------- Process ---------- */
 .process{background:#fff;overflow:hidden}
@@ -665,16 +661,21 @@ input[type=range]:disabled{opacity:.4}
   </div>
 </section>
 
-<!-- ======================= BRANDS ======================= -->
+<!-- ======================= WORK / GALLERY ======================= -->
 <section class="section brands" id="brands">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow">In good company</span>
+      <span class="eyebrow">Our work</span>
       <h2>The kind of work we love</h2>
-      <p class="lead">Local teams, trades and little businesses. Hover a patch to see it spin.</p>
+      <p class="lead">A few recent jobs, from embroidered polos and workwear to personalised hoodies for local teams, trades and little businesses.</p>
     </div>
-    <div class="brand-grid" id="brandGrid"><!-- patches injected by script --></div>
-    <p class="brands-note reveal">Example patches shown to illustrate our range. Swap in your own logo any time.</p>
+    <div class="gallery" id="workGallery">
+      <figure class="gcard gcard--logo reveal" data-delay="1"><img src="assets/gallery/fellas-3d.png" width="1600" height="1200" loading="lazy" alt="The Fellas Studios logo given a 3D extruded treatment" /></figure>
+      <figure class="gcard reveal" data-delay="2"><img src="assets/gallery/work-1.jpg" width="284" height="213" loading="lazy" alt="Embroidered Safe As Houses Locksmiths polo shirts" /></figure>
+      <figure class="gcard reveal" data-delay="3"><img src="assets/gallery/work-2.jpg" width="281" height="211" loading="lazy" alt="Personalised Mum and Nanny embroidered hoodies in pink and sage" /></figure>
+      <figure class="gcard reveal" data-delay="4"><img src="assets/gallery/work-3.jpg" width="284" height="213" loading="lazy" alt="AtoZ Design printed hoodie with matching embroidered beanies" /></figure>
+      <figure class="gcard reveal" data-delay="1"><img src="assets/gallery/work-4.jpg" width="280" height="210" loading="lazy" alt="Craiwarn Gundogs embroidered polos, quarter-zips and caps" /></figure>
+    </div>
   </div>
 </section>
 
@@ -1043,62 +1044,6 @@ input[type=range]:disabled{opacity:.4}
       sheen.style.setProperty("--my", (py*100)+"%");
     });
     stage.addEventListener("pointerleave", function(){ patch.style.transform = ""; });
-  }
-
-  /* ----- brand patches (invented demos) ----- */
-  var brands = [
-    {name:"Northfield Joinery",  shape:"shield",  bg:"#1A88B0", ac:"#C79A3B", ic:"tools",  tag:"Est. Milton Keynes"},
-    {name:"Redway Rovers FC",    shape:"circle",  bg:"#16305A", ac:"#C79A3B", ic:"ball",   tag:"Sunday League"},
-    {name:"Willow &amp; Co Bakery",  shape:"rounded", bg:"#6E2233", ac:"#F6F3EC", ic:"wheat",  tag:"Fresh Daily"},
-    {name:"Grand Union Plumbing",shape:"hex",     bg:"#0A3F54", ac:"#2EA7D5", ic:"drop",   tag:"Trusted Trade"},
-    {name:"Ouzel Valley Farm",   shape:"circle",  bg:"#2B6B4F", ac:"#C79A3B", ic:"leaf",   tag:"Local Produce"},
-    {name:"Bletchley Boxing Club",shape:"shield", bg:"#2B2F33", ac:"#C0392B", ic:"glove",  tag:"Since 1998"}
-  ];
-  var icons = {
-    tools:'<path d="M40 60 L60 40" stroke="{ac}" stroke-width="6" stroke-linecap="round"/><circle cx="60" cy="40" r="6" fill="none" stroke="{ac}" stroke-width="4"/><path d="M38 42 l8 8 M42 38 l8 8" stroke="#fff" stroke-width="4" stroke-linecap="round"/>',
-    ball:'<circle cx="50" cy="50" r="16" fill="none" stroke="{ac}" stroke-width="4"/><path d="M50 34 l6 10 -6 8 -6 -8z" fill="{ac}"/><path d="M34 46 l10 4 M66 46 l-10 4" stroke="#fff" stroke-width="3" stroke-linecap="round"/>',
-    wheat:'<path d="M50 34 v32" stroke="{ac}" stroke-width="4" stroke-linecap="round"/><path d="M50 40 q8 -2 10 4 q-8 2 -10 -4z M50 48 q8 -2 10 4 q-8 2 -10 -4z M50 40 q-8 -2 -10 4 q8 2 10 -4z M50 48 q-8 -2 -10 4 q8 2 10 -4z" fill="{ac}"/>',
-    drop:'<path d="M50 32 q12 16 12 24 a12 12 0 01-24 0 q0 -8 12 -24z" fill="none" stroke="{ac}" stroke-width="4"/><path d="M46 52 a4 4 0 004 4" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>',
-    leaf:'<path d="M38 62 q0 -22 24 -24 q2 22 -24 24z" fill="none" stroke="{ac}" stroke-width="4"/><path d="M40 60 q10 -10 20 -20" stroke="{ac}" stroke-width="3" stroke-linecap="round"/>',
-    glove:'<path d="M40 46 q0 -8 6 -8 q6 0 6 8 v2 q4 -2 6 2 q2 4 -2 8 q-2 8 -10 8 q-8 0 -10 -8 q-2 -6 4 -10z" fill="none" stroke="{ac}" stroke-width="4"/>'
-  };
-  function shapePath(shape){
-    switch(shape){
-      case "shield": return '<path d="M50 6 L90 20 V52 Q90 82 50 96 Q10 82 10 52 V20 Z" {fill}/>';
-      case "rounded": return '<rect x="8" y="8" width="84" height="84" rx="20" {fill}/>';
-      case "hex": return '<path d="M50 6 L88 28 V72 L50 94 L12 72 V28 Z" {fill}/>';
-      default: return '<circle cx="50" cy="50" r="44" {fill}/>';
-    }
-  }
-  function patchSVG(b){
-    var outline = shapePath(b.shape);
-    var body = outline.replace("{fill}", 'fill="'+b.bg+'"');
-    var border = outline.replace("{fill}", 'fill="none" stroke="#F6F3EC" stroke-width="7" stroke-dasharray="4 4"');
-    var icon = (icons[b.ic]||"").replace(/\{ac\}/g, b.ac);
-    // The accessible name lives on the card wrapper (role=img); the SVG is decorative.
-    return '<svg viewBox="0 0 100 100" aria-hidden="true">'
-         + body + border
-         + '<g>'+icon+'</g>'
-         + '</svg>';
-  }
-  var grid = document.getElementById("brandGrid");
-  if(grid){
-    brands.forEach(function(b, i){
-      var wrap = document.createElement("div");
-      wrap.className = "flip reveal";
-      wrap.setAttribute("role","img");
-      wrap.setAttribute("tabindex","0");
-      wrap.setAttribute("data-delay", String((i%4)+1));
-      wrap.setAttribute("aria-label", "Example embroidered patch: " + b.name.replace(/&amp;/g,"and"));
-      wrap.innerHTML =
-        '<div class="flip-inner">'
-        + '<div class="flip-face">'+patchSVG(b)+'</div>'
-        + '<div class="flip-face flip-back" aria-hidden="true"><div class="disc"><small>'+b.tag+'</small><b>'+b.name+'</b><small style="margin-top:.4rem;color:var(--teal-accent)">Example only</small></div></div>'
-        + '</div>';
-      grid.appendChild(wrap);
-    });
-    // Patches are injected after the observer exists, so register them the same way.
-    registerReveals(grid.querySelectorAll(".reveal"));
   }
 
   /* ----- motion toggle ----- */
