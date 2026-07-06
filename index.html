@@ -242,7 +242,10 @@ body.nav-open{overflow:hidden}
 .marquee-track{display:flex;gap:0;width:max-content;align-items:center;animation:scroll-x 30s linear infinite}
 /* line-height:1 hugs the line box to the glyphs so the flex centring centres the
    visible text in the band (the serif's tall default line box sat the words high) */
-.marquee-track span{display:inline-flex;align-items:center;font-family:var(--serif);font-size:clamp(1.1rem,2.2vw,1.7rem);line-height:1;padding-inline:1.4rem;white-space:nowrap}
+/* No padding on the spans: the two copies tile at the loop seam, and any span
+   padding doubles up there, pushing "Custom Embroidery" off-centre between its
+   stars. Word spacing comes solely from the separators' own padding. */
+.marquee-track span{display:inline-flex;align-items:center;font-family:var(--serif);font-size:clamp(1.1rem,2.2vw,1.7rem);line-height:1;white-space:nowrap}
 .marquee-track span em{color:var(--teal);font-style:normal;padding-inline:1rem;font-size:1.1em;line-height:1}
 @keyframes scroll-x{to{transform:translateX(-50%)}}
 
