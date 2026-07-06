@@ -205,13 +205,17 @@ body.nav-open{overflow:hidden}
 /* Logo floats on its own (no white card) so there is no white outside the oval */
 .patch-logo{width:100%;height:auto;position:relative;display:block}
 .patch3d .sheen{
-  position:absolute;inset:0;border-radius:26px;mix-blend-mode:screen;pointer-events:none;
+  position:absolute;inset:0;mix-blend-mode:screen;pointer-events:none;
   background:radial-gradient(circle at var(--mx,35%) var(--my,28%), rgba(255,255,255,.7), rgba(255,255,255,0) 44%);
   opacity:.65;transition:background .1s linear;
+  /* Clip the hover sheen to the logo's own pixels — without this the highlight
+     lights up the transparent rectangle around the oval when the cursor moves.
+     The silhouette is inlined as a small data URI: an external mask URL is a
+     CORS-checked fetch, which fails when the page is opened from file://. */
+  --logo-mask:url("data:image/png;base64,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");
+  -webkit-mask-image:var(--logo-mask);-webkit-mask-size:100% 100%;-webkit-mask-repeat:no-repeat;
+  mask-image:var(--logo-mask);mask-size:100% 100%;mask-repeat:no-repeat;
 }
-.hero-flourish{position:absolute;top:5.5rem;right:clamp(1rem,4vw,3rem);width:clamp(120px,16vw,190px);opacity:.9;pointer-events:none}
-.hero-flourish path,.hero-flourish line{stroke-dasharray:400;stroke-dashoffset:400;animation:draw-underline 2.2s var(--ease) 1s forwards}
-
 /* drifting ambient thread dots */
 .thread-dots{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .thread-dots i{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--teal);opacity:.18;animation:drift 14s linear infinite}
@@ -231,14 +235,15 @@ body.nav-open{overflow:hidden}
   .hero-actions,.hero-trust{justify-content:center}
   .hero-stage{order:-1;min-height:auto;margin-bottom:1rem}
   .patch3d{width:min(86%,360px)}
-  .hero-flourish{display:none}
 }
 
 /* ---------- Marquee ---------- */
 .marquee{background:var(--deep);color:#fff;overflow:hidden;padding:1rem 0;border-block:1px solid rgba(255,255,255,.08)}
-.marquee-track{display:flex;gap:0;width:max-content;animation:scroll-x 30s linear infinite}
-.marquee-track span{display:inline-flex;align-items:center;font-family:var(--serif);font-size:clamp(1.1rem,2.2vw,1.7rem);padding-inline:1.4rem;white-space:nowrap}
-.marquee-track span em{color:var(--teal);font-style:normal;padding-inline:1rem;font-size:1.1em}
+.marquee-track{display:flex;gap:0;width:max-content;align-items:center;animation:scroll-x 30s linear infinite}
+/* line-height:1 hugs the line box to the glyphs so the flex centring centres the
+   visible text in the band (the serif's tall default line box sat the words high) */
+.marquee-track span{display:inline-flex;align-items:center;font-family:var(--serif);font-size:clamp(1.1rem,2.2vw,1.7rem);line-height:1;padding-inline:1.4rem;white-space:nowrap}
+.marquee-track span em{color:var(--teal);font-style:normal;padding-inline:1rem;font-size:1.1em;line-height:1}
 @keyframes scroll-x{to{transform:translateX(-50%)}}
 
 /* ---------- Section shell ---------- */
@@ -412,6 +417,12 @@ section{position:relative}
 .upload-btn:hover{background:var(--teal-btn-hover);transform:translateY(-1px)}
 .upload-btn svg{width:18px;height:18px}
 .mini-btn{padding:.75rem 1rem;border-radius:12px;border:1.5px solid rgba(16,40,47,.14);font-weight:600;font-size:.9rem;color:var(--ink-soft);transition:all .25s}
+/* placed-logo list: one chip per logo, click to select */
+.logo-list{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.9rem}
+.logo-list:empty{display:none}
+.logo-chip{border:1.5px solid rgba(16,40,47,.14);background:#fff;border-radius:999px;padding:.42rem .85rem;font-size:.8rem;font-weight:600;color:var(--ink-soft);cursor:pointer;transition:border-color .2s,background .2s,color .2s}
+.logo-chip:hover{border-color:var(--teal)}
+.logo-chip.active{border-color:var(--teal);background:rgba(46,167,213,.1);color:var(--teal-dark)}
 .mini-btn:hover:not(:disabled){border-color:var(--burgundy);color:var(--burgundy)}
 .mini-btn:disabled{opacity:.45;cursor:not-allowed}
 /* logo nudge D-pad */
@@ -501,7 +512,7 @@ input[type=range]:disabled{opacity:.4}
 @media (prefers-reduced-motion: reduce){
   .reveal{opacity:1;transform:none;transition:none}
   .patch3d,.marquee-track,.thread-dots i,.float-logo,.mini-patch,.spinner{animation:none !important}
-  .hero .accent-word .draw path,.hero-flourish path,.hero-flourish line{stroke-dashoffset:0 !important;animation:none}
+  .hero .accent-word .draw path{stroke-dashoffset:0 !important;animation:none}
   .stitch-divider path,.process .thread path{stroke-dashoffset:0 !important;transition:none}
 }
 </style>
@@ -560,13 +571,6 @@ input[type=range]:disabled{opacity:.4}
     <i style="left:12%;top:70%"></i><i style="left:70%;top:80%"></i><i style="left:40%;top:60%"></i><i style="left:88%;top:65%"></i>
   </div>
 
-  <svg class="hero-flourish" viewBox="0 0 200 200" fill="none" aria-hidden="true">
-    <line x1="30" y1="20" x2="150" y2="140" stroke="#2EA7D5" stroke-width="3" stroke-linecap="round"/>
-    <circle cx="150" cy="140" r="5" fill="none" stroke="#2EA7D5" stroke-width="2.6"/>
-    <path d="M30 20 q-14 6 -8 20 q7 12 22 6 q12 -6 4 -16" stroke="#C79A3B" stroke-width="2.6" stroke-linecap="round"/>
-    <path d="M60 50 l8 8 M80 70 l8 8 M100 90 l8 8 M120 110 l8 8" stroke="#2EA7D5" stroke-width="2.4" stroke-linecap="round" opacity=".55"/>
-  </svg>
-
   <div class="wrap hero-grid">
     <div class="hero-copy">
       <span class="eyebrow reveal in">Family run in Milton Keynes</span>
@@ -597,7 +601,7 @@ input[type=range]:disabled{opacity:.4}
 
     <div class="hero-stage reveal in" data-delay="2">
       <div class="patch3d" id="heroPatch">
-        <img class="patch-logo" src="assets/OIP.webp" width="1826" height="1030" alt="Stitch Milton Keynes logo" />
+        <img class="patch-logo" src="assets/hero-logo.png" width="1826" height="1030" alt="Stitch Milton Keynes logo" />
         <div class="sheen" id="heroSheen"></div>
       </div>
     </div>
@@ -823,6 +827,7 @@ input[type=range]:disabled{opacity:.4}
             <button class="mini-btn" id="smk-remove" type="button" disabled>Remove</button>
             <button class="mini-btn" id="smk-clear" type="button" disabled>Clear all</button>
           </div>
+          <div class="logo-list" id="smk-logo-list" role="group" aria-label="Placed logos — click one to select it"></div>
           <div class="slider-row" style="margin-top:1rem">
             <label for="smk-size">Size <span id="smk-size-for" style="color:var(--ink-soft);font-weight:500"></span></label>
             <input type="range" id="smk-size" min="0.35" max="2.8" step="0.02" value="1" disabled aria-label="Selected logo size" />
@@ -838,7 +843,7 @@ input[type=range]:disabled{opacity:.4}
           </div>
           <p class="ctl-note" id="smk-sizeout" style="margin-top:.55rem;font-weight:600;color:var(--ink)"></p>
           <p class="ctl-note" id="smk-count" style="margin-top:.15rem;color:var(--teal-accent);font-weight:600"></p>
-          <p class="ctl-note" style="margin-top:.6rem"><b>How it works:</b> click the garment to add your logo as embroidery, anywhere on the front or back. <b>Tap a logo</b> to select it, then nudge it with the <b>arrows</b> (or drag it) and use the slider to resize it; <b>Remove</b> takes it off. Add as many as you like. On a phone, swipe left/right to spin and up/down to scroll the page; pinch, scroll, or use the +/&minus; buttons to zoom in close.</p>
+          <p class="ctl-note" style="margin-top:.6rem"><b>How it works:</b> click the garment to add your logo as embroidery, anywhere on the front or back. <b>Tap a logo</b> (on the garment or in the list above) to select it, then nudge it with the <b>arrows</b> (or drag it) and use the slider to resize it; <b>Remove</b> takes it off. Add as many as you like &mdash; chest logos go up to <b>4&Prime; across the diagonal</b> and back logos up to <b>20 &times; 30 cm</b>. On a phone, swipe left/right to spin and up/down to scroll the page; pinch, scroll, or use the +/&minus; buttons to zoom in close.</p>
           <p class="ctl-note" id="smk-status" role="status" aria-live="polite" style="display:none;margin-top:.6rem;color:var(--burgundy)"></p>
         </div>
       </div>
@@ -1208,8 +1213,7 @@ function boot(){
   controls.minPolarAngle = 0.35; controls.maxPolarAngle = 2.15;
   controls.zoomSpeed = 0.9;
   controls.target.set(0, -0.05, 0);
-  controls.autoRotate = document.documentElement.getAttribute("data-motion") !== "calm";
-  controls.autoRotateSpeed = 0.8;
+  controls.autoRotate = false;   // the garment holds still until the user spins it
   // OrbitControls forces `touch-action:none` on the canvas, which traps the
   // page's vertical scroll behind the tall studio on phones. Relax it to pan-y:
   // a vertical drag scrolls the page, a horizontal drag spins the garment, and
@@ -1522,25 +1526,56 @@ function boot(){
   /* ---------- logo decals (multiple, embroidered, front & back) ---------- */
   const CM_PER_UNIT = 24.5;   // garment height (~2.95 units) is about 72 cm
   const DECAL_BASE  = 0.42;   // decal world width at size 1 (about 10 cm)
+  const IN_CM = 2.54;
   function decalWidthWorld(size){ return DECAL_BASE * size; }
+
+  // Real-world print limits: a chest/front logo may be at most 4 inches across
+  // its diagonal; a back logo may fill at most a 20 x 30 cm area. A logo's
+  // maximum slider size therefore depends on where it sits and on its aspect.
+  function isFrontDecal(d){ return d.n[2] >= 0; }   // the garment faces +z
+  function maxWidthCm(d){
+    const a = logoAspect || 1;
+    if(isFrontDecal(d)) return (4 * IN_CM) / Math.sqrt(1 + 1/(a*a));  // diagonal capped at 4 in
+    return Math.min(20, 30 * a);                                      // width <= 20cm AND height <= 30cm
+  }
+  function maxSizeFor(d){ return maxWidthCm(d) / (DECAL_BASE * CM_PER_UNIT); }
+  function clampDecalSize(d){
+    const mx = maxSizeFor(d);
+    if(d.size > mx){ d.size = mx; return true; }
+    return false;
+  }
 
   function frontChestPlacement(){
     ray.set(new THREE.Vector3(0, 0.16, 5), new THREE.Vector3(0, 0, -1));
     const hits = bodyMeshes.length ? ray.intersectObjects(bodyMeshes, false) : [];
-    if(hits.length){
-      const n = hits[0].face.normal.clone().transformDirection(hits[0].object.matrixWorld).normalize();
-      const p = hits[0].point;
-      return { p:[p.x, p.y, p.z], n:[n.x, n.y, n.z], size: state.size };
-    }
-    return { p:[0, 0.16, 0.62], n:[0, 0, 1], size: state.size };
+    const d = hits.length
+      ? (function(){
+          const n = hits[0].face.normal.clone().transformDirection(hits[0].object.matrixWorld).normalize();
+          const p = hits[0].point;
+          return { p:[p.x, p.y, p.z], n:[n.x, n.y, n.z], size: state.size };
+        })()
+      : { p:[0, 0.16, 0.62], n:[0, 0, 1], size: state.size };
+    clampDecalSize(d);
+    return d;
+  }
+  // Orient the projector without degenerating when the surface faces straight
+  // up/down (lookAt with a parallel up vector rolls the decal arbitrarily).
+  function aimDecalHelper(pos, nrm){
+    decalHelper.up.set(0, Math.abs(nrm.y) > 0.9 ? 0 : 1, Math.abs(nrm.y) > 0.9 ? 1 : 0);
+    decalHelper.position.copy(pos);
+    decalHelper.lookAt(pos.clone().add(nrm));
   }
   function makeDecalMesh(d){
     const pos = new THREE.Vector3(d.p[0], d.p[1], d.p[2]);
     const nrm = new THREE.Vector3(d.n[0], d.n[1], d.n[2]).normalize();
-    decalHelper.position.copy(pos);
-    decalHelper.lookAt(pos.clone().add(nrm));
+    aimDecalHelper(pos, nrm);
     const w = decalWidthWorld(d.size);
-    const size = new THREE.Vector3(w, w / logoAspect, 0.6);
+    const h = w / logoAspect;
+    // Shallow projection box: just deep enough to cover the fabric's curvature
+    // under the logo. A deep box wraps around shoulders/sides and smears the
+    // print into long distorted streaks.
+    const depth = Math.max(0.15, 0.4 * Math.max(w, h));
+    const size = new THREE.Vector3(w, h, depth);
     const m = new THREE.Mesh(new DecalGeometry(bodyMeshes[0], pos, decalHelper.rotation.clone(), size), decalMat);
     m.castShadow = false; m.renderOrder = 2;
     return m;
@@ -1552,6 +1587,7 @@ function boot(){
   function rebuildDecals(){
     clearDecalMeshes();
     if(!logoTex || !bodyMeshes.length || !garment) return;
+    state.decals.forEach(clampDecalSize);   // saved designs also respect the print limits
     state.decals.forEach(function(d){ const m = makeDecalMesh(d); garment.add(m); decalMeshes.push(m); });
     updateControls();
   }
@@ -1585,8 +1621,9 @@ function boot(){
     if(!logoTex || !d){ el.textContent = ""; return; }
     const wcm = decalWidthWorld(d.size) * CM_PER_UNIT;
     const hcm = wcm / logoAspect;
-    const cm = function(v){ return v.toFixed(1); }, inch = function(v){ return (v/2.54).toFixed(1); };
-    el.textContent = "Logo size: " + cm(wcm) + " × " + cm(hcm) + " cm  (" + inch(wcm) + " × " + inch(hcm) + " in)";
+    const cm = function(v){ return v.toFixed(1); }, inch = function(v){ return (v/IN_CM).toFixed(1); };
+    const limit = isFrontDecal(d) ? "chest max 4″ diagonal" : "back max 20 × 30 cm";
+    el.textContent = "Logo size: " + cm(wcm) + " × " + cm(hcm) + " cm  (" + inch(wcm) + " × " + inch(hcm) + " in) · " + limit;
   }
   function updateControls(){
     const has = !!logoTex, n = state.decals.length;
@@ -1595,7 +1632,29 @@ function boot(){
     if(clearBtn) clearBtn.disabled = !has;
     if(removeBtn) removeBtn.disabled = selectedIdx < 0;
     ["smk-up","smk-down","smk-left","smk-right"].forEach(function(id){ const b = document.getElementById(id); if(b) b.disabled = selectedIdx < 0; });
-    if(selectedIdx >= 0 && state.decals[selectedIdx]) sizeInput.value = state.decals[selectedIdx].size;
+    if(selectedIdx >= 0 && state.decals[selectedIdx]){
+      const d = state.decals[selectedIdx];
+      sizeInput.max = maxSizeFor(d).toFixed(2);    // the slider stops at this placement's print limit
+      sizeInput.value = d.size;
+    } else {
+      sizeInput.max = "2.8";
+    }
+    // one selectable chip per placed logo, labelled with placement + real size
+    const list = document.getElementById("smk-logo-list");
+    if(list){
+      list.innerHTML = "";
+      state.decals.forEach(function(d, i){
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "logo-chip" + (i === selectedIdx ? " active" : "");
+        b.setAttribute("aria-pressed", i === selectedIdx ? "true" : "false");
+        const wcm = decalWidthWorld(d.size) * CM_PER_UNIT;
+        const hcm = wcm / (logoAspect || 1);
+        b.textContent = "Logo " + (i + 1) + " · " + (isFrontDecal(d) ? "front" : "back") + " · " + wcm.toFixed(1) + " × " + hcm.toFixed(1) + " cm";
+        b.addEventListener("click", function(){ selectLogo(i); });
+        list.appendChild(b);
+      });
+    }
     const cnt = document.getElementById("smk-count");
     if(cnt){
       let t = n ? (n + (n === 1 ? " logo" : " logos")) : "";
@@ -1628,7 +1687,13 @@ function boot(){
     if(!decalMeshes.length) return -1;
     rayFrom(clientX, clientY);
     const hit = ray.intersectObjects(decalMeshes, false);
-    return hit.length ? decalMeshes.indexOf(hit[0].object) : -1;
+    if(!hit.length) return -1;
+    // A logo hidden behind the garment (e.g. a back logo clicked from the front)
+    // must not be pickable through the fabric: the decal only counts if it is
+    // essentially the surface the user can see, not metres behind it.
+    const body = bodyMeshes.length ? ray.intersectObjects(bodyMeshes, false) : [];
+    if(body.length && body[0].distance < hit[0].distance - 0.05) return -1;
+    return decalMeshes.indexOf(hit[0].object);
   }
   function surfaceHit(clientX, clientY){
     if(!bodyMeshes.length) return null;
@@ -1650,6 +1715,7 @@ function boot(){
     if(state.decals.length >= 16){ setStatus("That is the maximum number of logos."); return; }
     setStatus("");
     const d = { p:[hit.point.x, hit.point.y, hit.point.z], n:[hit.n.x, hit.n.y, hit.n.z], size: state.size };
+    clampDecalSize(d);   // respect the chest / back print limits from the start
     state.decals.push(d);
     const m = makeDecalMesh(d); garment.add(m); decalMeshes.push(m);
     selectedIdx = state.decals.length - 1;
@@ -1667,6 +1733,7 @@ function boot(){
     const d = state.decals[mv.idx];
     d.p = [hit.point.x, hit.point.y, hit.point.z];
     d.n = [hit.n.x, hit.n.y, hit.n.z];
+    clampDecalSize(d);   // dragging between front and back can change its size limit
     rebuildDecalAt(mv.idx);
   }
   // Arrow-nudge the selected logo a small step across the garment surface. dx/dy
@@ -1677,7 +1744,7 @@ function boot(){
     const d = state.decals[selectedIdx];
     const pos = new THREE.Vector3(d.p[0], d.p[1], d.p[2]);
     const nrm = new THREE.Vector3(d.n[0], d.n[1], d.n[2]).normalize();
-    decalHelper.position.copy(pos); decalHelper.lookAt(pos.clone().add(nrm));
+    aimDecalHelper(pos, nrm);
     const right = new THREE.Vector3(1,0,0).applyQuaternion(decalHelper.quaternion);
     const up    = new THREE.Vector3(0,1,0).applyQuaternion(decalHelper.quaternion);
     const STEP = 0.035;
@@ -1691,7 +1758,8 @@ function boot(){
     } else {
       d.p = [target.x, target.y, target.z];   // off the edge: still nudge in the tangent plane
     }
-    rebuildDecalAt(selectedIdx); saveState();
+    clampDecalSize(d);   // nudging around a seam can change its front/back size limit
+    rebuildDecalAt(selectedIdx); updateControls(); saveState();
   }
 
   renderer.domElement.addEventListener("pointerdown", function(e){
@@ -1713,7 +1781,7 @@ function boot(){
   function endPointer(e){
     if(drag){
       controls.enabled = true;
-      if(drag.moved) saveState();
+      if(drag.moved){ updateControls(); saveState(); }   // placement (front/back) and size limit may have changed
       try{ renderer.domElement.releasePointerCapture(e.pointerId); }catch(_){}
       drag = null; down = null; return;
     }
@@ -1770,10 +1838,12 @@ function boot(){
   sizeInput.addEventListener("input", function(){
     state.size = parseFloat(sizeInput.value);   // remembered as the size for the next logo added
     if(selectedIdx >= 0 && state.decals[selectedIdx]){
-      state.decals[selectedIdx].size = state.size;   // resize the currently selected logo
+      const d = state.decals[selectedIdx];
+      d.size = state.size;                     // resize the currently selected logo
+      if(clampDecalSize(d)){ state.size = d.size; sizeInput.value = d.size; }   // print limit reached
       rebuildDecalAt(selectedIdx);
     }
-    updateSizeReadout();
+    updateControls();
     saveState();
   });
   uploadInput.addEventListener("change", function(e){
@@ -1849,9 +1919,6 @@ function boot(){
   bindNudge("smk-left", -1, 0); bindNudge("smk-right", 1, 0);
 
   updateControls();
-
-  // Motion toggle from the page pill
-  window.addEventListener("smk-motion", function(e){ controls.autoRotate = e.detail !== "calm"; });
 
   /* ---------- resize + render loop ---------- */
   function aspect(){ const r = stageEl.getBoundingClientRect(); return Math.max(0.2, r.width / Math.max(1, r.height)); }
