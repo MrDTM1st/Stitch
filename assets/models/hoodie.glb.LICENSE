@@ -1,11 +1,12 @@
 Men's hoodie model (hoodie.glb)
 ===============================
 
-This garment was supplied by the site owner (a photogrammetry scan, provided as a
-~30.8 MB / 857k-vertex glTF). For the studio it was welded, decimated with the
-meshoptimizer simplifier to ~86k vertices, had vertex normals recomputed, and was
-re-centred and height-normalised, then re-exported as a compact binary glTF
-(~4.1 MB). It carries no textures and is recoloured at runtime.
+This garment was supplied by the site owner (a photogrammetry scan, provided as
+a ~26.8 MB / 743k-vertex glTF, replacing an earlier lower-resolution scan). For
+the studio it was welded, decimated with the meshoptimizer simplifier to ~85k
+vertices, had vertex normals recomputed, and was re-centred and
+height-normalised, then re-exported as a compact binary glTF (~4.1 MB). It
+carries no textures and is recoloured at runtime.
 
 ACTION REQUIRED: confirm the original source and licence of this scan and record
 it here (author, URL, and licence terms). If the scan is under a licence that
