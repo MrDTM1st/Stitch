@@ -3,7 +3,8 @@ Women's hoodie model (hoodie-womens.glb)
 
 This garment was supplied by the site owner (a photogrammetry scan, provided as
 a ~23.7 MB / 658k-vertex glTF, replacing an earlier scan). For the studio it was
-welded, decimated with the meshoptimizer simplifier to ~79k vertices, had vertex
+lightly Taubin-smoothed and eroded slightly inward along vertex normals (to
+thin the scan-inflated fabric edges), welded, decimated with the meshoptimizer simplifier to ~79k vertices, had vertex
 normals recomputed, and was re-centred and height-normalised, then re-exported
 as a compact binary glTF (~3.8 MB). It carries no textures and is recoloured at
 runtime.
