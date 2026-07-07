@@ -1,11 +1,12 @@
 Women's t-shirt model (shirt-womens.glb)
 ========================================
 
-This garment was supplied by the site owner (a photogrammetry scan, provided as a
-~21.8 MB / 607k-vertex glTF). For the studio it was welded, decimated with the
-meshoptimizer simplifier to ~73k vertices, had vertex normals recomputed, and was
+This garment was supplied by the site owner (a textured photogrammetry scan,
+provided as a ~9.2 MB / 25k-vertex Blender-exported glTF, replacing an earlier
+scan). For the studio it was welded, had its textures and materials stripped
+(the studio recolours garments at runtime), vertex normals recomputed, and was
 re-centred and height-normalised, then re-exported as a compact binary glTF
-(~3.5 MB). It carries no textures and is recoloured at runtime.
+(~0.8 MB).
 
 ACTION REQUIRED: confirm the original source and licence of this scan and record
 it here (author, URL, and licence terms). If the scan is under a licence that
