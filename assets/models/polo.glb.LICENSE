@@ -2,7 +2,9 @@ Polo model (polo.glb)
 =====================
 
 This garment was supplied by the site owner (a photogrammetry scan, provided as a
-~20 MB / 567k-vertex glTF). For the studio it was welded, decimated with the
+~20 MB / 567k-vertex glTF). For the studio the scan was smoothed with 40
+iterations of Taubin smoothing (to relax scan creases and ripples while keeping
+the collar, buttons and placket crisp), then welded, decimated with the
 meshoptimizer simplifier to ~74k vertices, had vertex normals recomputed, and was
 re-centred and height-normalised, then re-exported as a compact binary glTF
 (~3.5 MB). It carries no textures and is recoloured at runtime.
