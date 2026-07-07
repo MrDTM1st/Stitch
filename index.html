@@ -420,6 +420,15 @@ section{position:relative}
 .upload-btn:hover{background:var(--teal-btn-hover);transform:translateY(-1px)}
 .upload-btn svg{width:18px;height:18px}
 .mini-btn{padding:.75rem 1rem;border-radius:12px;border:1.5px solid rgba(16,40,47,.14);font-weight:600;font-size:.9rem;color:var(--ink-soft);transition:all .25s}
+/* typed text logos */
+.text-logo{display:flex;flex-direction:column;gap:.6rem;margin-top:.35rem}
+.text-logo textarea{border:1.5px solid rgba(16,40,47,.14);border-radius:12px;padding:.65rem .8rem;font-size:1.1rem;font-family:inherit;color:var(--ink);background:#fff;resize:none;line-height:1.3}
+.text-logo textarea:focus{outline:none;border-color:var(--teal)}
+.text-row{display:flex;gap:.6rem;align-items:stretch;flex-wrap:wrap}
+.text-row select{flex:1;min-width:140px;padding:.55rem .6rem;border-radius:10px;border:1.5px solid rgba(16,40,47,.14);background:#fff;color:var(--ink);font-size:.9rem}
+.text-row input[type=color]{width:46px;min-height:40px;padding:3px;border:1.5px solid rgba(16,40,47,.14);border-radius:10px;background:#fff;cursor:pointer}
+.text-row .upload-btn{flex:0 0 auto;min-width:0}
+
 /* placed-logo list: one chip per logo, click to select */
 .logo-list{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.9rem}
 .logo-list:empty{display:none}
@@ -830,6 +839,18 @@ input[type=range]:disabled{opacity:.4}
             <button class="mini-btn" id="smk-remove" type="button" disabled>Remove</button>
             <button class="mini-btn" id="smk-clear" type="button" disabled>Clear all</button>
           </div>
+          <p class="ctl-note" style="margin-top:.9rem">&hellip;or just type it &mdash; pick a font and we&rsquo;ll stitch the lettering:</p>
+          <div class="text-logo">
+            <textarea id="smk-text" rows="2" maxlength="60" placeholder="Type your logo text&hellip;" aria-label="Logo text"></textarea>
+            <div class="text-row">
+              <select id="smk-font" aria-label="Lettering font"></select>
+              <input type="color" id="smk-text-color" value="#16305a" aria-label="Thread colour" title="Thread colour" />
+              <button class="upload-btn" id="smk-text-add" type="button">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16M6 16L16 6l2 2L8 18l-3 1z"/></svg>
+                Stitch text
+              </button>
+            </div>
+          </div>
           <div class="logo-list" id="smk-logo-list" role="group" aria-label="Placed logos — click one to select it"></div>
           <div class="slider-row" style="margin-top:1rem">
             <label for="smk-size">Size <span id="smk-size-for" style="color:var(--ink-soft);font-weight:500"></span></label>
@@ -846,7 +867,7 @@ input[type=range]:disabled{opacity:.4}
           </div>
           <p class="ctl-note" id="smk-sizeout" style="margin-top:.55rem;font-weight:600;color:var(--ink)"></p>
           <p class="ctl-note" id="smk-count" style="margin-top:.15rem;color:var(--teal-accent);font-weight:600"></p>
-          <p class="ctl-note" style="margin-top:.6rem"><b>How it works:</b> click the garment to add your logo as embroidery, anywhere on the front or back. <b>Tap a logo</b> (on the garment or in the list above) to select it, then nudge it with the <b>arrows</b> (or drag it) and use the slider to resize it; <b>Remove</b> takes it off. Add as many as you like &mdash; chest logos go up to <b>4&Prime; across the diagonal</b> and back logos up to <b>20 &times; 30 cm</b>. On a phone, swipe left/right to spin and up/down to scroll the page; pinch, scroll, or use the +/&minus; buttons to zoom in close.</p>
+          <p class="ctl-note" style="margin-top:.6rem"><b>How it works:</b> upload your logo &mdash; or type your text and pick from <b>50 fonts</b> &mdash; then click the garment to add it as embroidery, anywhere on the front or back. <b>Tap a logo</b> (on the garment or in the list above) to select it, then nudge it with the <b>arrows</b> (or drag it) and use the slider to resize it; <b>Remove</b> takes it off. Add as many as you like &mdash; chest logos go up to <b>4&Prime; across the diagonal</b> and back logos up to <b>20 &times; 30 cm</b>. On a phone, swipe left/right to spin and up/down to scroll the page; pinch, scroll, or use the +/&minus; buttons to zoom in close.</p>
           <p class="ctl-note" id="smk-status" role="status" aria-live="polite" style="display:none;margin-top:.6rem;color:var(--burgundy)"></p>
         </div>
       </div>
@@ -1120,7 +1141,7 @@ const GARMENT_ALIASES = { hoodiew:{garment:"hoodie",gender:"female"}, polow:{gar
 function garmentType(garment, gender){ return garment + (gender === "female" ? "w" : ""); }
 
 // state.decals = [{ p:[x,y,z], n:[x,y,z], size:number }, ...] — one entry per placed logo
-function defaults(){ return { garment:"tee", gender:"male", color:"white", size:1, print:null, decals:[] }; }
+function defaults(){ return { garment:"tee", gender:"male", color:"white", size:1, print:null, decals:[], textLogo:null }; }
 function num3(a){ return Array.isArray(a) && a.length === 3 && a.every(n => typeof n === "number"); }
 function cleanDecals(arr){
   if(!Array.isArray(arr)) return [];
@@ -1146,7 +1167,9 @@ function loadState(){
         color:   COLORS[s.color] !== undefined ? s.color : d.color,
         size:    typeof s.size === "number" ? Math.min(2.8, Math.max(0.35, s.size)) : d.size,
         print:   typeof s.print === "string" ? s.print : null,
-        decals:  decals
+        decals:  decals,
+        textLogo: (s.textLogo && typeof s.textLogo.text === "string" && typeof s.textLogo.font === "string" && typeof s.textLogo.color === "string")
+          ? { text: s.textLogo.text.slice(0, 60), font: s.textLogo.font, color: s.textLogo.color } : null
       };
     }
   }catch(e){}
@@ -1166,6 +1189,10 @@ const removeBtn  = document.getElementById("smk-remove");
 const colorBtns  = document.getElementById("smk-color-btns");
 const garmentBtns= document.getElementById("smk-garment-btns");
 const genderBtns = document.getElementById("smk-gender-btns");
+const textInput  = document.getElementById("smk-text");
+const fontSel    = document.getElementById("smk-font");
+const textColor  = document.getElementById("smk-text-color");
+const textAddBtn = document.getElementById("smk-text-add");
 
 function showFallback(){ if(loaderEl) loaderEl.classList.add("hide"); if(fallbackEl) fallbackEl.classList.add("show"); }
 function webglSupported(){
@@ -1859,6 +1886,7 @@ function boot(){
       downscaleDataURL(reader.result, 640, function(smallUrl){
         state.print = smallUrl;
         state.decals = [];                  // fresh logo starts with one chest placement
+        state.textLogo = null;              // an uploaded image supersedes any typed lettering
         loadLogo(state.print);
         if(!saveState()){
           setStatus("That image is large, so it shows now but may not be remembered after you close the tab.");
@@ -1869,6 +1897,97 @@ function boot(){
     reader.readAsDataURL(file);
     uploadInput.value = "";
   });
+
+  /* ---------- typed text logos ---------- */
+  // An extensive font menu for lettering-only logos. Each family is fetched from
+  // Google Fonts only when it is first picked or stitched, so the page loads
+  // nothing extra up front (and falls back to a default face offline).
+  const FONT_GROUPS = {
+    "Script & handwriting": ["Pacifico", "Dancing Script", "Great Vibes", "Satisfy", "Lobster", "Yellowtail", "Sacramento", "Allura", "Kaushan Script", "Courgette", "Tangerine", "Alex Brush"],
+    "Serif & classic": ["Playfair Display", "Merriweather", "Cormorant Garamond", "EB Garamond", "Libre Baskerville", "Cinzel", "Abril Fatface"],
+    "Sans & modern": ["Montserrat", "Oswald", "Raleway", "Poppins", "Bebas Neue", "Archivo Black", "Anton", "Josefin Sans", "Exo 2", "Fredoka"],
+    "Slab & sturdy": ["Roboto Slab", "Alfa Slab One", "Arvo", "Bree Serif", "Crete Round"],
+    "Display & fun": ["Bangers", "Righteous", "Monoton", "Luckiest Guy", "Bungee", "Black Ops One", "Titan One", "Chewy", "Shrikhand"],
+    "Varsity, gothic & typewriter": ["Graduate", "Changa One", "UnifrakturMaguntia", "Pirata One", "MedievalSharp", "Special Elite", "Courier Prime"]
+  };
+  if(fontSel){
+    Object.keys(FONT_GROUPS).forEach(function(groupName){
+      const og = document.createElement("optgroup");
+      og.label = groupName;
+      FONT_GROUPS[groupName].forEach(function(f){
+        const o = document.createElement("option");
+        o.value = f; o.textContent = f;
+        og.appendChild(o);
+      });
+      fontSel.appendChild(og);
+    });
+    fontSel.value = "Montserrat";
+  }
+  const loadedFonts = {};
+  function ensureFont(family, cb){
+    if(loadedFonts[family]){ cb(); return; }
+    let done = false;
+    const finish = function(){ if(!done){ done = true; loadedFonts[family] = true; cb(); } };
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "https://fonts.googleapis.com/css2?family=" + family.split(" ").join("+") + "&display=swap";
+    link.onload = function(){
+      if(document.fonts && document.fonts.load){ document.fonts.load('16px "' + family + '"').then(finish, finish); }
+      else finish();
+    };
+    link.onerror = finish;    // offline / blocked: stitch in the fallback face rather than hang
+    document.head.appendChild(link);
+    setTimeout(finish, 4000); // never leave the button stuck on a slow font fetch
+  }
+  // Render the typed lines to a transparent PNG; the result runs through exactly
+  // the same pipeline as an uploaded logo (embroidery maps, decals, size caps).
+  function renderTextLogo(text, family, color){
+    const lines = text.split(/\r?\n/).map(function(s){ return s.trim(); }).filter(Boolean).slice(0, 3);
+    if(!lines.length) return null;
+    const base = 170, lh = 1.22, pad = 46;
+    const cv = document.createElement("canvas");
+    let g = cv.getContext("2d");
+    const fontStr = base + 'px "' + family + '", Georgia, serif';
+    g.font = fontStr;
+    let w = 0;
+    lines.forEach(function(l){ w = Math.max(w, g.measureText(l).width); });
+    cv.width  = Math.ceil(Math.min(1600, w + pad * 2));
+    cv.height = Math.ceil(base * lh * lines.length + pad * 2);
+    g = cv.getContext("2d");            // resizing resets the context state
+    g.font = fontStr; g.fillStyle = color;
+    g.textAlign = "center"; g.textBaseline = "middle";
+    lines.forEach(function(l, i){
+      g.fillText(l, cv.width / 2, pad + base * lh * (i + 0.5), cv.width - pad * 2);
+    });
+    return cv.toDataURL("image/png");
+  }
+  if(fontSel) fontSel.addEventListener("change", function(){
+    const family = fontSel.value;
+    ensureFont(family, function(){ if(textInput) textInput.style.fontFamily = '"' + family + '", serif'; });
+  });
+  if(textAddBtn) textAddBtn.addEventListener("click", function(){
+    const text = (textInput.value || "").trim();
+    if(!text){ setStatus("Type some text first, then press Stitch text."); return; }
+    setStatus("");
+    const family = fontSel.value, color = textColor.value;
+    textAddBtn.disabled = true;
+    ensureFont(family, function(){
+      const url = renderTextLogo(text, family, color);
+      textAddBtn.disabled = false;
+      if(!url) return;
+      state.print = url;
+      state.decals = [];                  // fresh design starts with one chest placement
+      state.textLogo = { text: text, font: family, color: color };
+      loadLogo(url);
+      if(!saveState()) setStatus("That design shows now but may not be remembered after you close the tab.");
+    });
+  });
+  // A returning visitor's typed design refills the inputs, ready to tweak.
+  if(state.textLogo && textInput){
+    textInput.value = state.textLogo.text;
+    if(fontSel && [].some.call(fontSel.options, function(o){ return o.value === state.textLogo.font; })) fontSel.value = state.textLogo.font;
+    if(textColor && /^#[0-9a-fA-F]{6}$/.test(state.textLogo.color)) textColor.value = state.textLogo.color;
+  }
   if(removeBtn) removeBtn.addEventListener("click", function(){
     if(selectedIdx < 0 || !state.decals[selectedIdx]) return;
     const m = decalMeshes.splice(selectedIdx, 1)[0]; if(m){ if(m.parent) m.parent.remove(m); m.geometry.dispose(); }
@@ -1877,7 +1996,7 @@ function boot(){
     updateControls(); saveState();
   });
   clearBtn.addEventListener("click", function(){
-    state.print = null; state.decals = []; selectedIdx = -1;
+    state.print = null; state.decals = []; selectedIdx = -1; state.textLogo = null;
     disposeLogoMaps();
     decalMat.map = decalMat.normalMap = decalMat.roughnessMap = null; decalMat.needsUpdate = true;
     clearDecalMeshes();
